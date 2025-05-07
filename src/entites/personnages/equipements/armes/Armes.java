@@ -42,6 +42,9 @@ public abstract class Armes extends Equipements {
     public int getBonusForce() {
         return m_BonusForce;
     }
+    public String getNom() {
+        return m_nom;
+    }
     @Override
     public String toString() {
         return (this.m_nom+" :\n For= +"+this.m_BonusForce+"\n Vit= -"+this.m_MalusVitesse+"\n Attaque= "+this.m_attaques);

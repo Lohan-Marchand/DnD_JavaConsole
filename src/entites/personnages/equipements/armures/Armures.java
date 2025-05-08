@@ -1,28 +1,15 @@
 package entites.personnages.equipements.armures;
 
-public class Armures {
-    private String m_nom;
+import entites.personnages.equipements.Equipements;
+
+public abstract class Armures extends Equipements {
     private int m_CA;
     private int m_MalusVitesse;
 
-    public Armures(String nom,int CA, int MalusVitesse) {
+    public Armures(String nom,int CA, int MalusVitesse,String categorie) {
+        super(nom,categorie);
         this.m_CA = CA;
         this.m_MalusVitesse = MalusVitesse;
-        this.m_nom = nom;
-    }
-    public Armures(String nom,int CA) {
-        this.m_CA = CA;
-        this.m_MalusVitesse = 0;
-        this.m_nom = nom;
-    }
-    public Armures(String nom) {
-        this.m_nom = nom;
-        this.m_MalusVitesse = 0;
-        this.m_CA = 0;
-    }
-    public Armures() {
-        this.m_CA = 0;
-        this.m_MalusVitesse = 0;
     }
 
     public int getCA() {
@@ -33,6 +20,6 @@ public class Armures {
     }
     @Override
     public String toString() {
-        return (this.m_nom+" :\n CA= +"+this.m_CA+"\n Vit= -"+this.m_MalusVitesse);
+        return (this.getNom()+" ("+this.getCategorie()+") :\n CA= +"+this.m_CA+"\n Vit= -"+this.m_MalusVitesse+"\n");
     }
 }

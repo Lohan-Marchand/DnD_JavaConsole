@@ -2,17 +2,21 @@ package entites.personnages.equipements.armures.lourdes;
 
 import entites.personnages.equipements.armures.Armures;
 
-public abstract class Lourdes extends Armures {
-    public Lourdes(String nom, int CA) {
-        super(nom,CA,4);
+public class Lourdes extends Armures {
+    private static final int m_MalusVitesse = 4;
+    private static final String categorie="Armure lourde";
+
+    public Lourdes() {
+        super("Armure lourdes sans nom",10,m_MalusVitesse,categorie);
+    }
+    public Lourdes(String nom,int CA) {
+        super(nom,CA,m_MalusVitesse,categorie);
     }
     public Lourdes(String nom) {
-        super(nom,10,4);
-    }
-    public Lourdes() {
-        super("Armure sans nom",10,4);
+        super(nom,10,m_MalusVitesse,categorie);
     }
     public Lourdes(int CA) {
-        super("Armure sans nom",CA,4);
+        super("Armure lourdes sans nom",CA,m_MalusVitesse,categorie);
     }
+
 }

@@ -6,31 +6,12 @@ public abstract class Armes extends Equipements {
     private Attaques m_attaques;
     private int m_MalusVitesse;
     private int m_BonusForce;
-    private String m_nom;
 
-    public Armes(String nom, Attaques attaques, int MalusVitesse, int BonusForce) {
-        this.m_nom = nom;
+    public Armes(String nom, Attaques attaques, int MalusVitesse, int BonusForce,String categorie) {
+        super(nom,categorie);
         this.m_attaques = attaques;
         this.m_MalusVitesse = MalusVitesse;
         this.m_BonusForce = BonusForce;
-    }
-    public Armes( String nom, Attaques attaques) {
-        this.m_nom = nom;
-        this.m_attaques = attaques;
-        this.m_MalusVitesse = 0;
-        this.m_BonusForce = 0;
-    }
-    public Armes(){
-        this.m_MalusVitesse = 0;
-        this.m_BonusForce = 0;
-        this.m_nom = "";
-        this.m_attaques = new Attaques();
-    }
-    public Armes(String nom){
-        this.m_MalusVitesse = 0;
-        this.m_BonusForce = 0;
-        this.m_nom = nom;
-        this.m_attaques = new Attaques();
     }
 
     public Attaques getAttaques() {
@@ -42,11 +23,8 @@ public abstract class Armes extends Equipements {
     public int getBonusForce() {
         return m_BonusForce;
     }
-    public String getNom() {
-        return m_nom;
-    }
     @Override
     public String toString() {
-        return (this.m_nom+" :\n For= +"+this.m_BonusForce+"\n Vit= -"+this.m_MalusVitesse+"\n Attaque= "+this.m_attaques);
+        return (this.getNom()+" ("+this.getCategorie()+"):\n For= +"+this.m_BonusForce+"\n Vit= -"+this.m_MalusVitesse+"\n Attaque= "+this.m_attaques);
     }
 }

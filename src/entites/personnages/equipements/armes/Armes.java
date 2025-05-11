@@ -13,7 +13,9 @@ public abstract class Armes extends Equipements {
         this.m_MalusVitesse = MalusVitesse;
         this.m_BonusForce = BonusForce;
     }
-
+    public int calculerDegats(){
+        return m_attaques.calculerDegats();
+    }
     public Attaques getAttaques() {
         return m_attaques;
     }
@@ -23,6 +25,18 @@ public abstract class Armes extends Equipements {
     public int getBonusForce() {
         return m_BonusForce;
     }
+
+    @Override
+    public boolean equals(Object object){
+        if(object instanceof Armes){
+            Armes arme = (Armes) object;
+            if (arme.getNom().equals(this.getNom())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return (this.getNom()+" ("+this.getCategorie()+"):\n For= +"+this.m_BonusForce+"\n Vit= -"+this.m_MalusVitesse+"\n Attaque= "+this.m_attaques);

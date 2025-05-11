@@ -1,21 +1,10 @@
 import dice.*;
 import entites.Attaques;
 import entites.monstres.*;
-import entites.monstres.especes.*;
 import entites.personnages.Personnages;
 import entites.personnages.classes.Magiciens;
-import entites.personnages.equipements.*;
-import entites.personnages.equipements.armes.*;
 import entites.personnages.equipements.armes.courantes.*;
-import entites.personnages.equipements.armes.deGuerre.*;
-import entites.personnages.equipements.armes.distance.*;
-import entites.personnages.equipements.armures.*;
-import entites.personnages.equipements.armures.legeres.*;
-import entites.personnages.equipements.armures.lourdes.*;
 import entites.personnages.races.Elfes;
-import entites.personnages.races.Nains;
-
-import java.util.ArrayList;
 
 public class Main {
     public static void main(String args[]) {
@@ -61,30 +50,30 @@ public class Main {
         System.out.println("--------------------------Début du Test---------------------------");
         System.out.println("Dés pour les stats de Jules :");
         System.out.println("Force :");
-        int Force =new D4().rollDice(4);
+        int force =new D4().rollDice(4);
         System.out.println("Dextérité :");
-        int Dexterite =new D4().rollDice(4);
+        int dexterite =new D4().rollDice(4);
         System.out.println("Initiative :");
-        int Initiative =new D4().rollDice(4);
+        int initiative =new D4().rollDice(4);
         System.out.println("Vitesse :");
-        int Vitesse =new D4().rollDice(4);
+        int vitesse =new D4().rollDice(4);
 
-        Personnages Jules = new Personnages("Jules",new Elfes(),new Magiciens(),Force,Dexterite,Initiative,Vitesse);
-        Monstres Lohan = new Monstres("Tieffelin",0,new Attaques("Désintégration",25,new D8(),2),50,15,15,20,8,12);
-        System.out.println(Jules);
+        Personnages jules = new Personnages("Jules",new Elfes(),new Magiciens(), force,dexterite,initiative,vitesse);
+        Monstres lohan = new Monstres("Tieffelin",0,new Attaques("Désintégration",25,new D8(),2),50,15,15,20,8,12);
+        System.out.println(jules);
         System.out.println("-------------------------------------------------------------");
-        System.out.println(Lohan);
+        System.out.println(lohan);
         System.out.println("-------------------------------------------------------------");
-        Jules.equiperArme(new Baton());
-        System.out.println("Jules équipe "+Jules.getArme());
-        System.out.println("PV de Lohan : "+Lohan.getPV());
+        jules.equiperArme(new Baton());
+        System.out.println("Jules équipe "+ jules.getArme());
+        System.out.println("PV de Lohan : "+ lohan.getPV());
         System.out.println("Jules attaque Lohan d20: ");
-        Jules.attaquer(Lohan);
-        System.out.println("PV de Lohan : "+Lohan.getPV());
-        System.out.println("PV de Jules : "+Jules.getPV());
+        jules.attaquer(lohan);
+        System.out.println("PV de Lohan : "+ lohan.getPV());
+        System.out.println("PV de Jules : "+ jules.getPV());
         System.out.println("Lohan attaque Jules d20: ");
-        Lohan.attaquer(Jules);
-        System.out.println("PV de Jules : "+Jules.getPV());
+        lohan.attaquer(jules);
+        System.out.println("PV de Jules : "+ jules.getPV());
         System.out.println("-------------------------Fin-----------------------------");
     }
 }

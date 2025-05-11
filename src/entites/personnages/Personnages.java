@@ -48,17 +48,6 @@ public class Personnages extends Entites {
         m_arme = new Poing();
         m_inventaire = classe.getInventaire();
     }
-    /*public void equiperArme(Armes arme){
-        if(m_inventaire.contains(arme)){
-            m_inventaire.add(m_arme);
-            m_arme = arme;
-            m_inventaire.remove(arme);
-            super.setAttaque(m_arme.getAttaques());
-        }
-        else{
-            System.out.println("Il faut posséder l'arme dans son inventaire pour l'équiper!");
-        }
-    }*/
     public void equiperArme(Armes arme){
        for (Equipements equipements : m_inventaire) {
            if(arme.equals(equipements)){

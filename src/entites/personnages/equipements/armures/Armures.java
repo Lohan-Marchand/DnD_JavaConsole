@@ -1,6 +1,7 @@
 package entites.personnages.equipements.armures;
 
 import entites.personnages.equipements.Equipements;
+import entites.personnages.equipements.armes.Armes;
 
 public abstract class Armures extends Equipements {
     private int m_CA;
@@ -18,6 +19,18 @@ public abstract class Armures extends Equipements {
     public int getMalusVitesse() {
         return m_MalusVitesse;
     }
+
+    @Override
+    public boolean equals(Object object){
+        if(object instanceof Armures){
+            Armures armure = (Armures) object;
+            if (armure.getNom().equals(this.getNom())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return (this.getNom()+" ("+this.getCategorie()+") :\n CA= +"+this.m_CA+"\n Vit= -"+this.m_MalusVitesse+"\n");

@@ -1,7 +1,6 @@
 package entites;
 
 import dice.*;
-import entites.personnages.Personnages;
 
 public abstract class Entites {
     private Attaques m_attaque;
@@ -38,7 +37,7 @@ public abstract class Entites {
         int nbLances = this.getAttaque().getNbDe();
         return deAttaque.rollDice(nbLances);
     }
-    public Boolean AttaqueTouche(int CA){
+    public Boolean attaqueTouche(int CA){
         D20 dice = new D20();
         if(dice.rollDice()<CA){
             return false;
@@ -49,10 +48,12 @@ public abstract class Entites {
     }
 
     public void attaquer(Entites cible){
-        if(this.AttaqueTouche(cible.getCA())){
+        if(this.attaqueTouche(cible.getCA())){
             cible.estBlesse(this.degatsAttaque());
         }
-        else {System.out.println("l'attaque ne touche pas");}
+        else {
+            System.out.println("l'attaque ne touche pas");
+        }
     }
     public void estBlesse(int degats){
         if(degats >= m_PV){

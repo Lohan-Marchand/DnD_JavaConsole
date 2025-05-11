@@ -42,26 +42,27 @@ public class Attaques {
         this.m_de = de;
         this.m_nbDe = nbDe;
     }
+    public int calculerDegats(){
+        Dice de = new Dice(m_de.getVal());
+        return de.rollDice(m_nbDe);
 
+    }
     public String getNom(){
         return m_nom;
     }
-
     public int getPortee(){
         return m_portee;
     }
-
     public Dice getDe(){
         return m_de;
     }
-
     public int getNbDe(){
         return m_nbDe;
     }
 
     @Override
     public String toString(){
-        return m_nom + " :\n" + "Portée : " + m_portee + "\n Dé " + m_de + "\n Nombre de dé : " + m_nbDe + "\n";
+        return m_nom + " :\n\t" + "Portée : " + m_portee + "\n\t Dé " + m_de + "\n\t Nombre de dé : " + m_nbDe + "\n";
     }
 
 }

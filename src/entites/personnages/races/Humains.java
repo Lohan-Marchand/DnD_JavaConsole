@@ -1,0 +1,37 @@
+package entites.personnages.races;
+
+public class Humains extends Races{
+    private final int m_bonusForce;
+    private final int m_bonusDexterite;
+    private final int m_bonusVitesse;
+    private final int m_bonusInitiative;
+    private final int m_bonusPVMax;
+
+    public Humains(){
+        super("Humain");
+        m_bonusForce = 2;
+        m_bonusDexterite = 2;
+        m_bonusVitesse = 2;
+        m_bonusInitiative = 2;
+        m_bonusPVMax = 2;
+    }
+    public int getBonusForce(){
+        return m_bonusForce;
+    }
+    public int getBonusDexterite(){
+        return m_bonusDexterite;
+    }
+    public int getBonusVitesse(){
+        return m_bonusVitesse;
+    }
+    public int getM_bonusInitiative(){
+        return m_bonusInitiative;
+    }
+    public int getBonusPVMax(){
+        return m_bonusPVMax;
+    }
+    @Override
+    public String toString(){
+        return this.getNom()+"= (\n Bonus de force= "+m_bonusForce+"\n Bonus de dextérité= "+m_bonusDexterite+"\n Bonus de vitesse= "+m_bonusVitesse+"\n Bonus d'initiative= "+m_bonusInitiative+"\n m_Bonus de PV= "+m_bonusPVMax+")";
+    }
+}

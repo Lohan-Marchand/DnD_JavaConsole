@@ -1,14 +1,39 @@
 import dice.*;
 import entites.Attaques;
+import entites.Entites;
 import entites.monstres.*;
 import entites.personnages.Personnages;
 import entites.personnages.classes.Magiciens;
 import entites.personnages.equipements.armes.courantes.*;
 import entites.personnages.races.Elfes;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 
 public class Main {
+    public static void lireAttaque(ArrayList<Integer> attaque, Entites attaquant,Entites cible){
+        System.out.println("Lancez le dé 20 (appuyez sur entrer)");
+        Scanner sc = new Scanner(System.in);
+        sc.nextLine();
+        System.out.println("Vous avez fait "+attaque.get(0));
+        if (attaque.get(1)==0){
+            System.out.println(cible.getCA()+"(CA) >"+attaque.get(0)+" : l'attaque ne touche pas");
+        }
+        else {
+            System.out.println(cible.getCA()+"(CA) <"+attaque.get(0)+" : l'attaque touche");
+            System.out.println("Lancez le(s) "+attaque.get(2) +" dé(s) "+attaque.get(3)+" de dégâts (appuyez sur entrer)");
+            sc.nextLine();
+            if(attaque.get(2)>1){
+                for (int i = 0; i < attaque.get(2); i++){
+                    System.out.print("["+attaque.get(i+4)+"]");
+                }
+                System.out.println();
+            }
+            System.out.println("Vous avez fait "+attaque.get(attaque.get(2)+5));
+            System.out.println("l'attaque inflige "+attaque.get(attaque.get(2)+5)+" dégats");
+        }
+    }
     public static void main(String args[]) {
-
        /* Armures Armure1 = new ArmureEcaille();
         System.out.println(Armure1);
 
@@ -47,6 +72,8 @@ public class Main {
         System.out.println(Nain1);
         System.out.println(Personnage1.degatsAttaque());*/
 
+
+
         System.out.println("--------------------------Début du Test---------------------------");
         System.out.println("Dés pour les stats de Jules :");
         System.out.println("Force :");
@@ -59,7 +86,7 @@ public class Main {
         int vitesse =new D4().rollDice(4);
 
         Personnages jules = new Personnages("Jules",new Elfes(),new Magiciens(), force,dexterite,initiative,vitesse);
-        Monstres lohan = new Monstres("Tieffelin",0,new Attaques("Désintégration",25,new D8(),2),50,15,15,20,8,12);
+        Monstres lohan = new Monstres("Tieffelin",0,"7L",new Attaques("Désintégration",25,new D8(),2),50,15,15,20,8,12);
         System.out.println(jules);
         System.out.println("-------------------------------------------------------------");
         System.out.println(lohan);
@@ -67,12 +94,14 @@ public class Main {
         jules.equiperArme(new Baton());
         System.out.println("Jules équipe "+ jules.getArme());
         System.out.println("PV de Lohan : "+ lohan.getPV());
-        System.out.println("Jules attaque Lohan d20: ");
-        jules.attaquer(lohan);
+        System.out.println("Jules attaque Lohan");
+        ArrayList<Integer> attaque1 = jules.attaquer(lohan);
+        lireAttaque(attaque1,jules,lohan);
         System.out.println("PV de Lohan : "+ lohan.getPV());
         System.out.println("PV de Jules : "+ jules.getPV());
-        System.out.println("Lohan attaque Jules d20: ");
-        lohan.attaquer(jules);
+        System.out.println("Lohan attaque Jules");
+        ArrayList<Integer> attaque2 = lohan.attaquer(jules);
+        lireAttaque(attaque2,jules,lohan);
         System.out.println("PV de Jules : "+ jules.getPV());
         System.out.println("-------------------------Fin-----------------------------");
     }

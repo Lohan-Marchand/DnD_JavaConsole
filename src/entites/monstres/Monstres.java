@@ -32,6 +32,10 @@ public class Monstres extends Entites {
     public String getEspece(){
         return m_espece;
     }
+    @Override
+    public String getMatricule(){
+        return getEspece();
+    }
     public int getNum(){
         return m_num;
     }

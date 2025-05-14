@@ -77,6 +77,10 @@ public class Personnages extends Entites {
     public String getNom(){
         return m_nom;
     }
+    @Override
+    public String getMatricule(){
+        return getNom();
+    }
     public Races getRace(){
         return m_race;
     }

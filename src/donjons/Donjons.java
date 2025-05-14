@@ -65,7 +65,6 @@ public class Donjons{
     }
     public ArrayList<Entites> calculerOrdre(){
         ArrayList<Entites> ordre = new ArrayList<Entites>();
-        //Ajouter les entités dans l'ordre décroissant de leur initiative
         for(Map.Entry<Entites, Integer> entry : m_initiatives.entrySet()){
             Entites entite = entry.getKey();
             int initiative = entry.getValue();
@@ -85,6 +84,14 @@ public class Donjons{
             }
         }
         return ordre;
+    }
+    public boolean estLibre(Positions pos){
+        if(m_joueurs.containsKey(pos) || m_ennemis.containsKey(pos) || m_loot.containsKey(pos) || m_obstacles.contains(pos)){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
     public String getNom(){
         return m_nom;

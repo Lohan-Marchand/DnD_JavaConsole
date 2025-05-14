@@ -30,7 +30,7 @@ public class Personnages extends Entites {
         m_arme = new Courante();
         m_armure = new Legeres();
         m_inventaire = m_classe.getInventaire();
-        this.setPseudo(m_nom.substring(0,2));
+        this.setPseudo(m_nom.substring(0,3));
     }
     public Personnages(String nom, Races race, Classes classe, int force4d4, int dexterite4d4, int initiative4d4, ArrayList<Equipements> inventaire, Armes arme, Armures armure, int vitesse4d4){
         super(arme.getAttaques(),classe.getPVMax() + race.getBonusPVMax(),force4d4 +3+ race.getBonusForce(),dexterite4d4 + 3+race.getBonusDexterite(),initiative4d4 +3+ race.getM_bonusInitiative(),0,vitesse4d4 +3+ race.getBonusVitesse());
@@ -41,7 +41,7 @@ public class Personnages extends Entites {
         m_armure = armure;
         m_inventaire = inventaire;
         if(m_nom.length()>3){
-            this.setPseudo(m_nom.substring(0,2));
+            this.setPseudo(m_nom.substring(0,3));
         }
         else{
             this.setPseudo(m_nom);
@@ -55,7 +55,7 @@ public class Personnages extends Entites {
         m_arme = new Poing();
         m_inventaire = classe.getInventaire();
         if(m_nom.length()>3){
-            this.setPseudo(m_nom.substring(0,2));
+            this.setPseudo(m_nom.substring(0,3));
         }
         else{
             this.setPseudo(m_nom);
@@ -102,12 +102,21 @@ public class Personnages extends Entites {
     @Override
     public int getForce(){
         int force=super.getForce();
-        return force+m_arme.getBonusForce();
+        if (this.m_arme!=null){
+            force+=m_arme.getBonusForce();
+        }
+        return force;
     }
     @Override
     public int getVitesse(){
         int vitesse=super.getVitesse();
-        return vitesse - m_arme.getMalusVitesse() - m_armure.getMalusVitesse();
+        if (this.m_armure!=null){
+            vitesse-=m_armure.getMalusVitesse();
+        }
+        if (this.m_arme!=null){
+            vitesse-=m_arme.getMalusVitesse();
+        }
+        return vitesse;
     }
     @Override
     public int getCA(){
@@ -132,6 +141,11 @@ public class Personnages extends Entites {
     public Armures getArmure(){
         return m_armure;
     }
+
+    public String getStats(){
+        return (this.getPseudo()+" "+ this.m_nom+" ["+this.m_race.getNom()+" | "+this.m_classe.getNom() +"] (For= +"+this.getForce()+" | Dex= +"+this.getDexterite()+" | Vit= +"+this.getVitesse()+" | Initiative= +"+this.getInitiative()+")");
+    }
+
     @Override
     public String toString(){
         String stats= super.toString();

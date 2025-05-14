@@ -2,6 +2,8 @@ package entites;
 
 import dice.*;
 
+import java.util.ArrayList;
+
 public abstract class Entites {
     private Attaques m_attaque;
     private int m_PV;
@@ -11,6 +13,7 @@ public abstract class Entites {
     private int m_initiative;
     private int m_CA;
     private int m_vitesse;
+    private String m_pseudo;
 
     public Entites() {
         m_attaque = new Attaques();
@@ -32,14 +35,18 @@ public abstract class Entites {
         m_CA = CA;
         m_vitesse = vitesse;
     }
-    public int degatsAttaque(){
+    public int degatsAttaque(ArrayList<Integer> deroulement){
         Dice deAttaque = this.getAttaque().getDe();
         int nbLances = this.getAttaque().getNbDe();
-        return deAttaque.rollDice(nbLances);
+        deroulement.add(nbLances);
+        deroulement.add(deAttaque.getVal());
+        return deAttaque.rollDice(nbLances,deroulement);
     }
-    public Boolean attaqueTouche(int CA){
+    public Boolean attaqueTouche(int CA,ArrayList<Integer> deroulement){
         D20 dice = new D20();
-        if(dice.rollDice()<CA){
+        int resultDe =dice.rollDice();
+        deroulement.add(resultDe);
+        if(resultDe<CA){
             return false;
         }
         else{
@@ -47,12 +54,18 @@ public abstract class Entites {
         }
     }
 
-    public void attaquer(Entites cible){
-        if(this.attaqueTouche(cible.getCA())){
-            cible.estBlesse(this.degatsAttaque());
+    public ArrayList<Integer> attaquer(Entites cible){
+        ArrayList<Integer> deroulement = new ArrayList<Integer>();
+        if(this.attaqueTouche(cible.getCA(),deroulement)){
+            deroulement.add(1);
+            int degatInflige = this.degatsAttaque(deroulement);
+            deroulement.add(degatInflige);
+            cible.estBlesse(degatInflige);
+            return deroulement;
         }
         else {
-            System.out.println("l'attaque ne touche pas");
+            deroulement.add(0);
+            return deroulement;
         }
     }
     public void estBlesse(int degats){
@@ -96,6 +109,12 @@ public abstract class Entites {
     }
     public void setDexterite(int dexterite) {
         m_dexterite = dexterite;
+    }
+    public void setPseudo(String pseudo) {
+        m_pseudo = pseudo;
+    }
+    public String getPseudo() {
+        return m_pseudo;
     }
     @Override
     public String toString() {

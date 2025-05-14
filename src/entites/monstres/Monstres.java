@@ -13,8 +13,9 @@ public class Monstres extends Entites {
         super();
         m_espece = "Espèce sans nom";
         m_num = 1;
+        this.setPseudo("._.");
     }
-    public Monstres(String espece, int num, Attaques attaque, int PVMax, int force, int dexterite, int initiative, int CA, int vitesse){
+    public Monstres(String espece, int num,String pseudo, Attaques attaque, int PVMax, int force, int dexterite, int initiative, int CA, int vitesse){
         super(attaque,PVMax,force,dexterite,initiative,CA,vitesse);
         m_espece = espece;
         m_num = num;
@@ -28,6 +29,7 @@ public class Monstres extends Entites {
             super.setForce(-100);
             super.setDexterite(-100);
         }
+        this.setPseudo(pseudo);
     }
     public String getEspece(){
         return m_espece;

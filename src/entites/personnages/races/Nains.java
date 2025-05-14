@@ -10,6 +10,9 @@ public class Nains extends Races{
     public int getBonusForce(){
         return m_bonusForce;
     }
+    public String getStats(){
+        return this.getNom()+" (For= +"+m_bonusForce+")";
+    }
     @Override
     public String toString(){
         return this.getNom()+"= (\n Bonus de force= "+m_bonusForce+")";

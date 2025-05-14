@@ -15,6 +15,9 @@ public class Halfelins extends Races{
     public int getBonusVitesse(){
         return m_bonusVitesse;
     }
+    public String getStats(){
+        return this.getNom()+" (Dex= +"+m_bonusDexterite+" | Vit= +"+m_bonusVitesse+")";
+    }
     @Override
     public String toString(){
         return this.getNom()+"= (\n Bonus de dextérité= "+m_bonusDexterite+"\n Bonus de vitesse= "+m_bonusVitesse+")";

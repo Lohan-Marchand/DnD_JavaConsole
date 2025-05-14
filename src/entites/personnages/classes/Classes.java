@@ -23,6 +23,17 @@ public class Classes {
         m_PVMax = pvmax;
         m_inventaire = new ArrayList<>();
     }
+
+    public String getStats(){
+        String stats = m_nom+"(PV Max= "+m_PVMax+" Inventaire= [";
+        for(Equipements e : m_inventaire){
+            stats += e.getNom()+",";
+        }
+        stats=stats.substring(0,stats.length()-1);
+        stats+="])";
+        return stats;
+    }
+
     public String getNom(){
         return m_nom;
     }

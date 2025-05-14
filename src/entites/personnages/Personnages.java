@@ -30,7 +30,7 @@ public class Personnages extends Entites {
         m_arme = new Courante();
         m_armure = new Legeres();
         m_inventaire = m_classe.getInventaire();
-        this.setPseudo(m_nom.substring(0,3));
+        this.setPseudo(m_nom.substring(0,2));
     }
     public Personnages(String nom, Races race, Classes classe, int force4d4, int dexterite4d4, int initiative4d4, ArrayList<Equipements> inventaire, Armes arme, Armures armure, int vitesse4d4){
         super(arme.getAttaques(),classe.getPVMax() + race.getBonusPVMax(),force4d4 +3+ race.getBonusForce(),dexterite4d4 + 3+race.getBonusDexterite(),initiative4d4 +3+ race.getM_bonusInitiative(),0,vitesse4d4 +3+ race.getBonusVitesse());
@@ -40,7 +40,12 @@ public class Personnages extends Entites {
         m_arme = arme;
         m_armure = armure;
         m_inventaire = inventaire;
-        this.setPseudo(m_nom.substring(0,3));
+        if(m_nom.length()>3){
+            this.setPseudo(m_nom.substring(0,2));
+        }
+        else{
+            this.setPseudo(m_nom);
+        }
     }
     public Personnages(String nom, Races race, Classes classe, int force4d4, int dexterite4d4, int initiative4d4, int vitesse4d4){
         super(new Poing().getAttaques(),classe.getPVMax() + race.getBonusPVMax(),force4d4 +3+ race.getBonusForce(),dexterite4d4 + 3+race.getBonusDexterite(),initiative4d4 +3+ race.getM_bonusInitiative(),0,vitesse4d4 +3+ race.getBonusVitesse());
@@ -49,8 +54,12 @@ public class Personnages extends Entites {
         m_classe = classe;
         m_arme = new Poing();
         m_inventaire = classe.getInventaire();
-        this.setPseudo(m_nom.substring(0,3));
-    }
+        if(m_nom.length()>3){
+            this.setPseudo(m_nom.substring(0,2));
+        }
+        else{
+            this.setPseudo(m_nom);
+        }    }
     public void equiperArme(Armes arme){
        for (Equipements equipements : m_inventaire) {
            if(arme.equals(equipements)){

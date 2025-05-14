@@ -5,7 +5,6 @@ public class Humains extends Races{
     private final int m_bonusDexterite;
     private final int m_bonusVitesse;
     private final int m_bonusInitiative;
-    private final int m_bonusPVMax;
 
     public Humains(){
         super("Humain");
@@ -13,7 +12,6 @@ public class Humains extends Races{
         m_bonusDexterite = 2;
         m_bonusVitesse = 2;
         m_bonusInitiative = 2;
-        m_bonusPVMax = 2;
     }
     public int getBonusForce(){
         return m_bonusForce;
@@ -27,11 +25,12 @@ public class Humains extends Races{
     public int getM_bonusInitiative(){
         return m_bonusInitiative;
     }
-    public int getBonusPVMax(){
-        return m_bonusPVMax;
+
+    public String getStats(){
+        return this.getNom()+" (For= +"+m_bonusForce+" | Dex= +"+m_bonusDexterite+" | Vit= +"+m_bonusVitesse+" | Initiative= +"+m_bonusInitiative+")";
     }
     @Override
     public String toString(){
-        return this.getNom()+"= (\n Bonus de force= "+m_bonusForce+"\n Bonus de dextérité= "+m_bonusDexterite+"\n Bonus de vitesse= "+m_bonusVitesse+"\n Bonus d'initiative= "+m_bonusInitiative+"\n m_Bonus de PV= "+m_bonusPVMax+")";
+        return this.getNom()+"= (\n Bonus de force= "+m_bonusForce+"\n Bonus de dextérité= "+m_bonusDexterite+"\n Bonus de vitesse= "+m_bonusVitesse+"\n Bonus d'initiative= "+m_bonusInitiative+")";
     }
 }

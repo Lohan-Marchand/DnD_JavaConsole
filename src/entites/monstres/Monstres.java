@@ -31,8 +31,20 @@ public class Monstres extends Entites {
         }
         this.setPseudo(pseudo);
     }
+
+    public String getStats(){
+        return (this.getPseudo()+" "+ this.getNom()+ " (For= +"+this.getForce()+" | Dex= +"+this.getDexterite()+" | Vit= +"+this.getVitesse()+" | Initiative= +"+this.getInitiative()+")");
+    }
+    public String getNom(){
+        return this.m_espece+" n°"+m_num;
+    }
+
     public String getEspece(){
         return m_espece;
+    }
+    @Override
+    public String getMatricule(){
+        return getEspece();
     }
     public int getNum(){
         return m_num;

@@ -86,12 +86,23 @@ public class Donjons{
         return ordre;
     }
     public boolean estLibre(Positions pos){
-        if(m_joueurs.containsKey(pos) || m_ennemis.containsKey(pos) || m_loot.containsKey(pos) || m_obstacles.contains(pos)){
-            return false;
+        //Parcour les joueurs, puis les ennemis, puis les loot
+        for(Map.Entry<Positions, Personnages> entry : m_joueurs.entrySet()){
+            if(entry.getKey().getX() == pos.getX() && entry.getKey().getY() == pos.getY()){
+                return false;
+            }
         }
-        else{
-            return true;
+        for(Map.Entry<Positions, Monstres> entry : m_ennemis.entrySet()){
+            if(entry.getKey().getX() == pos.getX() && entry.getKey().getY() == pos.getY()){
+                return false;
+            }
         }
+        for(Positions posObstacle : m_obstacles){
+            if(posObstacle.getX() == pos.getX() && posObstacle.getY() == pos.getY()){
+                return false;
+            }
+        }
+        return true;
     }
     public String getNom(){
         return m_nom;

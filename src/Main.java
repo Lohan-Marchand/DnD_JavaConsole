@@ -374,7 +374,7 @@ public class Main {
         return bestiaire;
     }
 
-    public static Donjons creerDonjon(ArrayList<Personnages> joueurs){
+    public static Donjons creerDonjon(ArrayList<Personnages> joueurs,int num){
         Donjons build = new Donjons();
         Scanner sc = new Scanner(System.in);
         boolean Valide=false;
@@ -383,7 +383,7 @@ public class Main {
             System.out.print("\t\t\t___Nouveau donjon___\nVeuillez choisir un nom pour le donjon: ");
             nom = sc.nextLine();
 
-            int hauteur = 0;
+            int hauteur = -1;
             while (hauteur > 25 || hauteur < 15) {
                 System.out.print("Quel est la profondeur du donjon ? (entre 15 et 25) : ");
                 try {
@@ -395,7 +395,7 @@ public class Main {
                     System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
                 }
             }
-            int largeur = 0;
+            int largeur = -1;
             while (largeur > 25 || largeur < 15) {
                 System.out.print("Quel est la largeur du donjon ? (entre 15 et 25) : ");
                 try {
@@ -408,7 +408,7 @@ public class Main {
                 }
             }
             //creer et vérifier
-            build=new Donjons();
+            build=new Donjons(nom,hauteur,largeur,num);
             Valide=(yesNoQuestion("Vous allez Créer :\n\t\t\t____" + build.getNom() +"____\n" +build.getMap() + "\n\n ____Correct ?(y/n)____"));
         }
 
@@ -428,6 +428,7 @@ public class Main {
             PositionMonstre(build,m);
         }
 
+        System.out.println("Placement des Personnages");
         for(Personnages p:joueurs){
             PositionPersonnage(build,p);
         }
@@ -472,39 +473,36 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         boolean Valide=false;
         while (!Valide) {
-            int hauteur = 0;
-            while (hauteur > hauteurDonjon || hauteur < 1) {
+            int hauteur = -1;
+            while (hauteur > hauteurDonjon-1 || hauteur < 0) {
                 System.out.print("Quel est la ligne de "+ monstre.getNom() +" ? : ");
                 try {
                     hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon || hauteur < 1) {
+                    if (hauteur > hauteurDonjon-1 || hauteur < 0) {
                         System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
                     }
                 } catch (Exception e) {
                     System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
                 }
             }
-            int largeur = 0;
-            while (largeur > largeurDonjon || largeur < 1) {
+            int largeur = -1;
+            while (largeur > largeurDonjon-1 || largeur < 0) {
                 System.out.print("Quel est la colonne de "+ monstre.getNom() +" ? : ");
-                try {
-                    largeur = Integer.parseInt(sc.nextLine());
-                    if (largeur > largeurDonjon || largeur < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                String alphaVal=sc.nextLine();
+                largeur = column(alphaVal);
+                if (largeur > largeurDonjon-1 || largeur < -1) {
+                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
             }
-            if (donjon.getEstOccupe().contains(new Positions(hauteur, largeur))) {
+            if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cette case n'est pas disponible");
             }
             else {
-                donjon.addEnnemi(new Positions(hauteur, largeur),monstre);
+                donjon.addEnnemi(new Positions(largeur,hauteur),monstre);
                 Valide = (yesNoQuestion("Vous allez ajouter un monstre tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____"));
             }
             if (!Valide) {
-                donjon.removeEnnemi(monstre);
+                donjon.removeEnnemi(new Positions(largeur,hauteur));
             }
         }
     }
@@ -514,39 +512,36 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         boolean Valide=false;
         while (!Valide) {
-            int hauteur = 0;
-            while (hauteur > hauteurDonjon || hauteur < 1) {
+            int hauteur = -1;
+            while (hauteur > hauteurDonjon-1 || hauteur < 0) {
                 System.out.print("Quel est la ligne de "+ personnage.getNom() +" ? : ");
                 try {
                     hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon || hauteur < 1) {
+                    if (hauteur > hauteurDonjon-1 || hauteur < 0) {
                         System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
                     }
                 } catch (Exception e) {
                     System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
                 }
             }
-            int largeur = 0;
-            while (largeur > largeurDonjon || largeur < 1) {
-                System.out.print("Quel est la colonne de "+ personnage.getNom() +" ? : ");
-                try {
-                    largeur = Integer.parseInt(sc.nextLine());
-                    if (largeur > largeurDonjon || largeur < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+            int largeur = -1;
+            while (largeur > largeurDonjon-1 || largeur < 0) {
+                System.out.print("Quel est la colonne de " + personnage.getNom() + " ? : ");
+                String alphaVal = sc.nextLine();
+                largeur = column(alphaVal);
+                if (largeur > largeurDonjon-1 || largeur < -1) {
+                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
             }
-            if (donjon.getEstOccupe().contains(new Positions(hauteur, largeur))) {
+            if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cette case n'est pas disponible");
             }
             else {
-                donjon.addJoueur(new Positions(hauteur, largeur),personnage);
+                donjon.addJoueur(new Positions(largeur,hauteur),personnage);
                 Valide = (yesNoQuestion("Vous allez ajouter un personnage tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____"));
             }
             if (!Valide) {
-                donjon.removeJoueur(personnage);
+                donjon.removeJoueur(new Positions(largeur,hauteur));
             }
         }
     }
@@ -556,42 +551,54 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         boolean Valide=false;
         while (!Valide) {
-            int hauteur = 0;
-            while (hauteur > hauteurDonjon || hauteur < 1) {
+            int hauteur = -1;
+            while (hauteur > hauteurDonjon-1 || hauteur < 0) {
                 System.out.print("Quel est la ligne de l'obstacle ? : ");
                 try {
                     hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon || hauteur < 1) {
+                    if (hauteur > hauteurDonjon-1 || hauteur < 0) {
                         System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
                     }
                 } catch (Exception e) {
                     System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
                 }
             }
-            int largeur = 0;
-            while (largeur > largeurDonjon || largeur < 1) {
+            int largeur = -1;
+            while (largeur > largeurDonjon-1 || largeur < 0) {
                 System.out.print("Quel est la colonne de l'obstacle ? : ");
-                try {
-                    largeur = Integer.parseInt(sc.nextLine());
-                    if (largeur > largeurDonjon || largeur < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                String alphaVal=sc.nextLine();
+                largeur = column(alphaVal);
+                if (largeur > largeurDonjon-1 || largeur < -1) {
+                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
             }
-            if (donjon.getObstacles().contains(new Positions(hauteur, largeur))) {
+            if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cet obstacle existe déjà");
             } else {
-                donjon.addObstacle(new Positions(hauteur, largeur));
+                donjon.addObstacle(new Positions(largeur, hauteur));
                 if (yesNoQuestion("Vous allez ajouter un obstacle tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____")) {
                     Valide = true;
                 } else {
-                    donjon.removeObstacle(new Positions(hauteur, largeur));
+                    donjon.removeObstacle(new Positions(largeur,hauteur));
                     Valide = !yesNoQuestion("Voulez vous le recréer ?(y/n)");
                 }
             }
         }
+    }
+    public static int column(String alphaVal){
+        try {
+            if(!(alphaVal.length()==1)){
+                System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
+                return -1;
+            }
+            if(!(alphaVal.charAt(0)>90) && !(alphaVal.charAt(0)<65)){
+                return (alphaVal.charAt(0))-17-'0';
+            }
+            System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
+        } catch (Exception e) {
+            System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
+        }
+        return -1;
     }
     public static Equipements selectEquipement(){
         Scanner sc = new Scanner(System.in);
@@ -600,7 +607,7 @@ public class Main {
             boolean type = false;
             int numType = 0;
             while (numType > 2 || numType < 1) {
-                System.out.print("Voulez vous créer :\n1-une arme \n2-une armure");
+                System.out.println("Voulez vous créer :\n1-une arme \n2-une armure");
                 try {
                     numType = Integer.parseInt(sc.nextLine());
                     if (numType > 2 || numType < 1) {
@@ -616,7 +623,7 @@ public class Main {
                     while (type) {
                         int numTypeArme = 0;
                         while (numTypeArme > 4 || numTypeArme < 1) {
-                            System.out.print("\tVoulez vous créer :\n\t1-une arme de guerre au corps à corps \n\t2-une arme courante au corps à corps \n\t3-une arme courante à distance \n\t4-Retour");
+                            System.out.println("\tVoulez vous créer :\n\t1-une arme de guerre au corps à corps \n\t2-une arme courante au corps à corps \n\t3-une arme courante à distance \n\t4-Retour");
                             try {
                                 numTypeArme = Integer.parseInt(sc.nextLine());
                                 if (numTypeArme > 4 || numTypeArme < 1) {
@@ -630,7 +637,7 @@ public class Main {
                             case 1:
                                 int numTypeArmeDeGuerre = 0;
                                 while (numTypeArmeDeGuerre > 3 || numTypeArmeDeGuerre < 1) {
-                                    System.out.print("\tVoulez vous créer :\n\t1-une épée longue \n\t2-une rapière \n\t3-Retour");
+                                    System.out.println("\t\tVoulez vous créer :\n\t\t1-une épée longue \n\t\t2-une rapière \n\t\t3-Retour");
                                     try {
                                         numTypeArmeDeGuerre = Integer.parseInt(sc.nextLine());
                                         if (numTypeArmeDeGuerre > 3 || numTypeArmeDeGuerre < 1) {
@@ -652,7 +659,7 @@ public class Main {
                             case 2:
                                 int numTypeArmeCourante = 0;
                                 while (numTypeArmeCourante > 3 || numTypeArmeCourante < 1) {
-                                    System.out.print("\tVoulez vous créer :\n\t1-un bâton \n\t2-une masse d'arme \n\t3-Retour");
+                                    System.out.println("\t\tVoulez vous créer :\n\t\t1-un bâton \n\t\t2-une masse d'arme \n\t\t3-Retour");
                                     try {
                                         numTypeArmeCourante = Integer.parseInt(sc.nextLine());
                                         if (numTypeArmeCourante > 3 || numTypeArmeCourante < 1) {
@@ -674,7 +681,7 @@ public class Main {
                             case 3:
                                 int numTypeArmeDistance = 0;
                                 while (numTypeArmeDistance > 4 || numTypeArmeDistance < 1) {
-                                    System.out.print("\tVoulez vous créer :\n\t1-une arbalète légère \n\t2-un arc court \n\t3-une fronde \n\t4-Retour");
+                                    System.out.println("\t\tVoulez vous créer :\n\t\t1-une arbalète légère \n\t\t2-un arc court \n\t\t3-une fronde \n\t\t4-Retour");
                                     try {
                                         numTypeArmeDistance = Integer.parseInt(sc.nextLine());
                                         if (numTypeArmeDistance > 4 || numTypeArmeDistance < 1) {
@@ -706,7 +713,7 @@ public class Main {
                     while (type) {
                         int numTypeArmure = 0;
                         while (numTypeArmure > 3 || numTypeArmure < 1) {
-                            System.out.print("\tVoulez vous créer :\n\t1-une armure légère \n\t2-une armure lourde \n\t3-Retour");
+                            System.out.println("\tVoulez vous créer :\n\t1-une armure légère \n\t2-une armure lourde \n\t3-Retour");
                             try {
                                 numTypeArmure = Integer.parseInt(sc.nextLine());
                                 if (numTypeArmure > 3 || numTypeArmure < 1) {
@@ -720,7 +727,7 @@ public class Main {
                             case 1:
                                 int numTypeArmureLegere = 0;
                                 while (numTypeArmureLegere > 3 || numTypeArmureLegere < 1) {
-                                    System.out.print("\tVoulez vous créer :\n\t1-une armure d'écailles \n\t2-une demi-plate \n\t3-Retour");
+                                    System.out.println("\t\tVoulez vous créer :\n\t\t1-une armure d'écailles \n\t\t2-une demi-plate \n\t\t3-Retour");
                                     try {
                                         numTypeArmureLegere = Integer.parseInt(sc.nextLine());
                                         if (numTypeArmureLegere > 3 || numTypeArmureLegere < 1) {
@@ -742,7 +749,7 @@ public class Main {
                             case 2:
                                 int numTypeArmureLourde = 0;
                                 while (numTypeArmureLourde > 3 || numTypeArmureLourde < 1) {
-                                    System.out.print("\tVoulez vous créer :\n\t1-une cote de maille \n\t2-un harnois \n\t3-Retour");
+                                    System.out.println("\t\tVoulez vous créer :\n\t\t1-une cote de maille \n\t\t2-un harnois \n\t\t3-Retour");
                                     try {
                                         numTypeArmureLourde = Integer.parseInt(sc.nextLine());
                                         if (numTypeArmureLourde > 3 || numTypeArmureLourde < 1) {
@@ -777,43 +784,42 @@ public class Main {
         boolean Valide = false;
         boolean ValideEquipement = false;
         while (!ValideEquipement) {
+            Valide=false;
             Equipements build = selectEquipement();
             while (!Valide) {
-                int hauteur = 0;
-                while (hauteur > hauteurDonjon || hauteur < 1) {
+                int hauteur = -1;
+                while (hauteur > hauteurDonjon-1 || hauteur < 0) {
                     System.out.print("Quel est la ligne du loot ? : ");
                     try {
                         hauteur = Integer.parseInt(sc.nextLine());
-                        if (hauteur > hauteurDonjon || hauteur < 1) {
+                        if (hauteur > hauteurDonjon-1 || hauteur < 0) {
                             System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
                         }
                     } catch (Exception e) {
                         System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
                     }
                 }
-                int largeur = 0;
-                while (largeur > largeurDonjon || largeur < 1) {
+                int largeur = -1;
+                while (largeur > largeurDonjon-1 || largeur < 0) {
                     System.out.print("Quel est la colonne du loot ? : ");
-                    try {
-                        largeur = Integer.parseInt(sc.nextLine());
-                        if (largeur > largeurDonjon || largeur < 1) {
-                            System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                        }
-                    } catch (Exception e) {
-                        System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                    String alphaVal=sc.nextLine();
+                    largeur = column(alphaVal);
+                    if (largeur > largeurDonjon-1 || largeur < -1) {
+                        System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                     }
                 }
-                if (donjon.getEstOccupe().contains(new Positions(hauteur, largeur))) {
+                if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                     System.out.println("Cette case n'est pas disponible");
                 } else {
-                    donjon.addLoot(new Positions(hauteur, largeur), build);
+                    donjon.addLoot(new Positions(largeur,hauteur), build);
                     if (yesNoQuestion("Vous allez ajouter un(e) " + build.getNom() + " tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____")) {
                         Valide = true;
+                        ValideEquipement = true;
                     } else {
-                        donjon.removeLoot(build);
+                        donjon.removeLoot(new Positions(largeur,hauteur));
                         int numChoix = 0;
                         while (numChoix > 3 || numChoix < 1) {
-                            System.out.print("Que voulez vous faire ? :\n1-changer la position\n2-changer le loot\n3-annuler la création");
+                            System.out.println("Que voulez vous faire ? :\n1-changer la position\n2-changer le loot\n3-annuler la création");
                             try {
                                 numChoix = Integer.parseInt(sc.nextLine());
                                 if (numChoix > 3 || numChoix < 1) {
@@ -883,10 +889,10 @@ public class Main {
 
         afficherTitre();        //Début du jeu
         ArrayList<Personnages> Joueurs= creerPartie();    //Création des personnages
-        creerDonjon(Joueurs);
+        creerDonjon(Joueurs,1);
 
 
-        ArrayList<Monstres> Bestiaire = creerBestiaire();
+        /*ArrayList<Monstres> Bestiaire = creerBestiaire();
         System.out.println(Joueurs.get(0));
         System.out.println("-------------------------------------------------------------");
         System.out.println(Bestiaire.get(0));
@@ -907,7 +913,7 @@ public class Main {
         ArrayList<Integer> attaque2 = Bestiaire.get(0).attaquer(Joueurs.get(0));
         lireAttaque(attaque2,Bestiaire.get(0),Joueurs.get(0));
         System.out.println("PV de "+Joueurs.get(0).getNom()+" : "+ Joueurs.get(0).getPV());
-        System.out.println("-------------------------Fin-----------------------------");*/
+        System.out.println("-------------------------Fin-----------------------------");
 
         Donjons donjon = new Donjons();
 
@@ -924,7 +930,7 @@ public class Main {
         donjon.updateMap();
         donjon.afficherMap();
 
-        /*System.out.println("\n\n\n");
+        System.out.println("\n\n\n");
         donjon.moveJoueur(personnage1, new Positions(1, 1));
         donjon.updateMap();
         donjon.afficherMap();*/

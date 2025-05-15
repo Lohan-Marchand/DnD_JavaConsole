@@ -43,6 +43,29 @@ public class Donjons{
         }
 
     }
+    public Donjons(String nom, int hauteur, int largeur,int num){
+        m_num = num;
+        m_nom = nom;
+        m_desc = "Description vide";
+        m_hauteur = hauteur;
+        m_largeur = largeur;
+        m_joueurs = new HashMap<Positions, Personnages>();
+        m_ennemis = new HashMap<Positions, Monstres>();
+        m_loot = new HashMap<Positions, Equipements>();
+        m_obstacles = new ArrayList<Positions>();
+        m_initiatives = new HashMap<Entites, Integer>();
+        m_ordre = new ArrayList<Entites>();
+
+        m_map = new String[m_hauteur];
+        m_map[0] = "";   //Lohan: j'ai enlevé le " . "
+        for(int i = 0; i<m_largeur; i++){
+            m_map[0] = m_map[0]+" . ";
+        }
+        for (int i = 1; i<m_hauteur; i++){
+            m_map[i] = m_map[0];
+        }
+    }
+
     public Donjons(int num, String nom, String desc, int haut, int larg, Map<Positions, Equipements> loot, ArrayList<Positions> obstacles, Map<Entites, Integer> initiatives, ArrayList<Entites> ordre){
         m_nom = nom;
         m_desc = desc;
@@ -69,49 +92,63 @@ public class Donjons{
     }
     public void addJoueur(Positions pos, Personnages joueur){
         m_joueurs.put(pos, joueur);
+        updateMap();
     }
     public void addJoueur(Personnages joueur){
         m_joueurs.put(new Positions(0,0), joueur);
+        updateMap();
     }
     public void moveJoueur(Personnages personnage, Positions pos){
         Positions oldPos = this.getPersonnagePosition(personnage);
         m_joueurs.remove(oldPos, personnage);
         m_joueurs.put(pos, personnage);
+        updateMap();
     }
     public void removeJoueur(Positions pos){
         m_joueurs.remove(pos);
+        updateMap();
     }
     public void addEnnemi(Positions pos, Monstres ennemi){
         m_ennemis.put(pos, ennemi);
+        updateMap();
     }
     public void addEnnemi(Monstres ennemi){
         m_ennemis.put(new Positions(0,0), ennemi);
+        updateMap();
     }
     public void moveEnnemi(Monstres ennemi, Positions pos){
         Positions oldPos = this.getEnnemiPosition(ennemi);
         m_ennemis.remove(oldPos, ennemi);
         m_ennemis.put(pos, ennemi);
+        updateMap();
     }
     public void removeEnnemi(Positions pos){
         m_ennemis.remove(pos);
+        updateMap();
     }
     public void addLoot(Positions pos, Equipements loot){
         m_loot.put(pos, loot);
+        updateMap();
     }
     public void addLoot(Equipements loot){
         m_loot.put(new Positions(0,0), loot);
+        updateMap();
     }
     public void removeLoot(Positions pos){
         m_loot.remove(pos);
+        updateMap();
     }
     public void addObstacle(Positions pos){
         m_obstacles.add(pos);
+        updateMap();
     }
     public void removeObstacle(Positions pos){
         m_obstacles.remove(pos);
+        updateMap();
     }
     public void addObstacle(){
         m_obstacles.add(new Positions(0,0));
+        updateMap();
     }
     public ArrayList<Entites> calculerOrdre(){
         ArrayList<Entites> ordre = new ArrayList<Entites>();
@@ -157,7 +194,8 @@ public class Donjons{
     public void afficherMap(){
         String[] displayedMap = new String[m_hauteur+3];
         displayedMap[0] = "     "+" A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z ".substring(0, m_largeur*3 + 3);
-        displayedMap[1] = "   "+" ---------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 5)+" ";
+
+        displayedMap[1] = "   "+" ---------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 3)+" ";
         for(int i = 0; i < m_hauteur; i++){
             if(i<10){
                 displayedMap[i+2] = " "+i+" | "+m_map[i]+ "|";
@@ -166,7 +204,7 @@ public class Donjons{
                 displayedMap[i+2] = i + " | "+m_map[i]+ "|";
             }
         }
-        displayedMap[m_hauteur+2] = "   "+" ---------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 5)+" ";
+        displayedMap[m_hauteur+2] = "   "+" ---------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 3)+" ";
         for(int i = 0; i < displayedMap.length; i++){
             System.out.println(displayedMap[i]);
         }
@@ -235,8 +273,30 @@ public class Donjons{
     public ArrayList<Positions> getObstacles(){
         return m_obstacles;
     }
-    public String[] getMap(){
-        return m_map;
+    public String getMap(){//Lohan : j'ai modifié plein de trucs
+
+
+        String[] displayedMap = new String[m_hauteur+3];
+
+        displayedMap[0] = "     "+" A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z ".substring(0, m_largeur*3 );
+        displayedMap[1] = "   "+" ------------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 2)+" ";
+        for(int i = 0; i < m_hauteur; i++){
+            if(i<10){
+                displayedMap[i+2] = " "+ i +" | "+m_map[i]+ "|";
+            }
+            else{
+                displayedMap[i+2] = i + " | "+m_map[i]+ "|";
+            }
+        }
+
+        displayedMap[m_hauteur+2] = "   "+" ------------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 2)+" ";
+
+        String mapString ="";
+        for(int i = 0; i < displayedMap.length; i++){
+            mapString +=(displayedMap[i] +"\n");
+        }
+        mapString +=("Obstacles: [X], Loot: *");
+        return mapString;
     }
     public Map<Entites, Integer> getInitiatives(){
         return m_initiatives;

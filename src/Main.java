@@ -169,7 +169,7 @@ public class Main {
 
             String answer0 = "InvalidValue";
             while (!answer0.equals("n") && !answer0.equals("y")) {
-                System.out.print("Vous allez Créer " +build.getStats() + " Correcte ?(y/n)");
+                System.out.print("Vous allez Créer " +build.getStats() + " Correct ?(y/n)");
                 answer0 = sc.nextLine();
                 if (!answer0.equals("n") && !answer0.equals("y")) {
                     System.out.println("/!\\Vous devez répondre 'y' ou 'n'/!\\");
@@ -362,7 +362,7 @@ public class Main {
 
             String answer0="InvalidValue";
             while(!answer0.equals("n") && !answer0.equals("y")){
-                System.out.print("Vous allez Créer " +build.getStats() + " Correcte ?(y/n)");
+                System.out.print("Vous allez Créer " +build.getStats() + " Correct ?(y/n)");
                 answer0 = sc.nextLine();
                 if(!answer0.equals("n") && !answer0.equals("y")){
                     System.out.println("/!\\Vous devez répondre 'y' ou 'n'/!\\");

@@ -27,13 +27,11 @@ public class Donjons{
         m_hauteur = 20;
         m_largeur = 20;
     }
-    public Donjons(int num, String nom, String desc, int haut, int larg, Map<Positions, Personnages> joueurs, Map<Positions, Monstres> ennemis, Map<Positions, Equipements> loot, ArrayList<Positions> obstacles, Map<Entites, Integer> initiatives, ArrayList<Entites> ordre){
+    public Donjons(int num, String nom, String desc, int haut, int larg, Map<Positions, Equipements> loot, ArrayList<Positions> obstacles, Map<Entites, Integer> initiatives, ArrayList<Entites> ordre){
         m_nom = nom;
         m_desc = desc;
         m_hauteur = haut;
         m_largeur = larg;
-        m_joueurs = joueurs;
-        m_ennemis = ennemis;
         m_loot = loot;
         m_obstacles = obstacles;
         m_initiatives = initiatives;

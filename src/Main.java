@@ -907,7 +907,27 @@ public class Main {
         ArrayList<Integer> attaque2 = Bestiaire.get(0).attaquer(Joueurs.get(0));
         lireAttaque(attaque2,Bestiaire.get(0),Joueurs.get(0));
         System.out.println("PV de "+Joueurs.get(0).getNom()+" : "+ Joueurs.get(0).getPV());
-        System.out.println("-------------------------Fin-----------------------------");
+        System.out.println("-------------------------Fin-----------------------------");*/
+
+        Donjons donjon = new Donjons();
+
+        Personnages personnage1 =new Personnages();
+        Monstres monstre1 = new Monstres();
+        monstre1.setPseudo("Mst");
+        Equipements equipement1 = new ArmureEcaille();
+        donjon.addJoueur(new Positions(15, 4), personnage1);
+        donjon.addEnnemi(new Positions(2, 12), monstre1);
+        donjon.addLoot(new Positions(8, 8), equipement1);
+        donjon.addObstacle(new Positions(16, 8));
+
+        donjon.getInfos();
+        donjon.updateMap();
+        donjon.afficherMap();
+
+        /*System.out.println("\n\n\n");
+        donjon.moveJoueur(personnage1, new Positions(1, 1));
+        donjon.updateMap();
+        donjon.afficherMap();*/
 
     }
 }

@@ -17,6 +17,7 @@ public class Donjons{
     private Map<Positions, Monstres> m_ennemis;
     private Map<Positions, Equipements> m_loot;
     private ArrayList<Positions> m_obstacles;
+    public String[] m_map;
     private Map<Entites, Integer> m_initiatives;
     private ArrayList<Entites> m_ordre;
 
@@ -26,13 +27,42 @@ public class Donjons{
         m_desc = "Description vide";
         m_hauteur = 20;
         m_largeur = 20;
+        m_joueurs = new HashMap<Positions, Personnages>();
+        m_ennemis = new HashMap<Positions, Monstres>();
+        m_loot = new HashMap<Positions, Equipements>();
+        m_obstacles = new ArrayList<Positions>();
+        m_initiatives = new HashMap<Entites, Integer>();
+        m_ordre = new ArrayList<Entites>();
+        m_map = new String[m_hauteur];
+        m_map[0] = " . ";
+        for(int i = 0; i<m_largeur; i++){
+            m_map[0] = m_map[0]+" . ";
+        }
+        for (int i = 1; i<m_hauteur; i++){
+            m_map[i] = m_map[0];
+        }
+
     }
     public Donjons(int num, String nom, String desc, int haut, int larg, Map<Positions, Equipements> loot, ArrayList<Positions> obstacles, Map<Entites, Integer> initiatives, ArrayList<Entites> ordre){
         m_nom = nom;
         m_desc = desc;
         m_hauteur = haut;
         m_largeur = larg;
+        m_joueurs = new HashMap<Positions, Personnages>();
+        m_ennemis = new HashMap<Positions, Monstres>();
+        m_loot = new HashMap<Positions, Equipements>();
+        m_obstacles = new ArrayList<Positions>();
+        m_initiatives = new HashMap<Entites, Integer>();
+        m_ordre = new ArrayList<Entites>();
         m_loot = loot;
+        m_map = new String[m_hauteur];
+        m_map[0] = " . ";
+        for(int i = 0; i<m_largeur; i++){
+            m_map[0] = m_map[0]+" . ";
+        }
+        for (int i = 1; i<m_hauteur; i++){
+            m_map[i] = m_map[0];
+        }
         m_obstacles = obstacles;
         m_initiatives = initiatives;
         m_ordre = ordre;
@@ -43,11 +73,27 @@ public class Donjons{
     public void addJoueur(Personnages joueur){
         m_joueurs.put(new Positions(0,0), joueur);
     }
+    public void moveJoueur(Personnages personnage, Positions pos){
+        Positions oldPos = this.getPersonnagePosition(personnage);
+        m_joueurs.remove(oldPos, personnage);
+        m_joueurs.put(pos, personnage);
+    }
+    public void removeJoueur(Positions pos){
+        m_joueurs.remove(pos);
+    }
     public void addEnnemi(Positions pos, Monstres ennemi){
         m_ennemis.put(pos, ennemi);
     }
     public void addEnnemi(Monstres ennemi){
         m_ennemis.put(new Positions(0,0), ennemi);
+    }
+    public void moveEnnemi(Monstres ennemi, Positions pos){
+        Positions oldPos = this.getEnnemiPosition(ennemi);
+        m_ennemis.remove(oldPos, ennemi);
+        m_ennemis.put(pos, ennemi);
+    }
+    public void removeEnnemi(Positions pos){
+        m_ennemis.remove(pos);
     }
     public void addLoot(Positions pos, Equipements loot){
         m_loot.put(pos, loot);
@@ -55,8 +101,14 @@ public class Donjons{
     public void addLoot(Equipements loot){
         m_loot.put(new Positions(0,0), loot);
     }
+    public void removeLoot(Positions pos){
+        m_loot.remove(pos);
+    }
     public void addObstacle(Positions pos){
         m_obstacles.add(pos);
+    }
+    public void removeObstacle(Positions pos){
+        m_obstacles.remove(pos);
     }
     public void addObstacle(){
         m_obstacles.add(new Positions(0,0));
@@ -102,11 +154,52 @@ public class Donjons{
         }
         return true;
     }
+    public void afficherMap(){
+        String[] displayedMap = new String[m_hauteur+3];
+        displayedMap[0] = "     "+" A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z ".substring(0, m_largeur*3 + 3);
+        displayedMap[1] = "   "+" ---------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 5)+" ";
+        for(int i = 0; i < m_hauteur; i++){
+            if(i<10){
+                displayedMap[i+2] = " "+i+" | "+m_map[i]+ "|";
+            }
+            else{
+                displayedMap[i+2] = i + " | "+m_map[i]+ "|";
+            }
+        }
+        displayedMap[m_hauteur+2] = "   "+" ---------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 5)+" ";
+        for(int i = 0; i < displayedMap.length; i++){
+            System.out.println(displayedMap[i]);
+        }
+        System.out.println("Obstacles: [X], Loot: *");
+    }
+    public void updateMap(){
+        for(int i = 0; i < m_hauteur; i++){
+            m_map[i] = " . ";
+            for(int j = 0; j < m_largeur; j++){
+                m_map[i] = m_map[i]+" . ";
+            }
+        }
+        for(Map.Entry<Positions, Personnages> entry : m_joueurs.entrySet()){
+            m_map[entry.getKey().getY()] = m_map[entry.getKey().getY()].substring(0,entry.getKey().getX()*3)+entry.getValue().getPseudo()+m_map[entry.getKey().getY()].substring(entry.getKey().getX()*3+3);
+        }
+        for(Map.Entry<Positions, Monstres> entry : m_ennemis.entrySet()){
+            m_map[entry.getKey().getY()] = m_map[entry.getKey().getY()].substring(0,entry.getKey().getX()*3)+entry.getValue().getPseudo()+m_map[entry.getKey().getY()].substring(entry.getKey().getX()*3+3);
+        }
+        for(Map.Entry<Positions, Equipements> entry : m_loot.entrySet()){
+            m_map[entry.getKey().getY()] = m_map[entry.getKey().getY()].substring(0,entry.getKey().getX()*3)+" * "+m_map[entry.getKey().getY()].substring(entry.getKey().getX()*3+3);
+        }
+        for(Positions pos : m_obstacles){
+            m_map[pos.getY()] = m_map[pos.getY()].substring(0,pos.getX()*3)+"[X]"+m_map[pos.getY()].substring(pos.getX()*3+3);
+        }
+    }
     public String getNom(){
         return m_nom;
     }
     public String getDesc(){
         return m_desc;
+    }
+    public void setDesc(String newDesc){
+        m_desc = newDesc;
     }
     public int getHauteur(){
         return m_hauteur;
@@ -117,6 +210,22 @@ public class Donjons{
     public Map<Positions, Personnages> getJoueurs(){
         return m_joueurs;
     }
+    public Positions getPersonnagePosition(Personnages personnage){
+        for(Map.Entry<Positions, Personnages> entry : m_joueurs.entrySet()){
+            if(entry.getValue().equals(personnage)){
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+    public Positions getEnnemiPosition(Monstres ennemi){
+        for(Map.Entry<Positions, Monstres> entry : m_ennemis.entrySet()){
+            if(entry.getValue().equals(ennemi)){
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
     public Map<Positions, Monstres> getEnnemis(){
         return m_ennemis;
     }
@@ -125,6 +234,9 @@ public class Donjons{
     }
     public ArrayList<Positions> getObstacles(){
         return m_obstacles;
+    }
+    public String[] getMap(){
+        return m_map;
     }
     public Map<Entites, Integer> getInitiatives(){
         return m_initiatives;

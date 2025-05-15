@@ -198,6 +198,9 @@ public class Donjons{
     public String getDesc(){
         return m_desc;
     }
+    public void setDesc(String newDesc){
+        m_desc = newDesc;
+    }
     public int getHauteur(){
         return m_hauteur;
     }

@@ -474,11 +474,11 @@ public class Main {
         boolean Valide=false;
         while (!Valide) {
             int hauteur = -1;
-            while (hauteur > hauteurDonjon-1 || hauteur < 0) {
+            while (hauteur > hauteurDonjon || hauteur < 1) {
                 System.out.print("Quel est la ligne de "+ monstre.getNom() +" ? : ");
                 try {
                     hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon-1 || hauteur < 0) {
+                    if (hauteur > hauteurDonjon || hauteur < 1) {
                         System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
                     }
                 } catch (Exception e) {
@@ -494,15 +494,15 @@ public class Main {
                     System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
             }
-            if (!donjon.estLibre(new Positions(largeur,hauteur))) {
+            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
                 System.out.println("Cette case n'est pas disponible");
             }
             else {
-                donjon.addEnnemi(new Positions(largeur,hauteur),monstre);
+                donjon.addEnnemi(new Positions(largeur,hauteur-1),monstre);
                 Valide = (yesNoQuestion("Vous allez ajouter un monstre tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____"));
             }
             if (!Valide) {
-                donjon.removeEnnemi(new Positions(largeur,hauteur));
+                donjon.removeEnnemi(new Positions(largeur,hauteur-1));
             }
         }
     }
@@ -513,11 +513,11 @@ public class Main {
         boolean Valide=false;
         while (!Valide) {
             int hauteur = -1;
-            while (hauteur > hauteurDonjon-1 || hauteur < 0) {
+            while (hauteur > hauteurDonjon || hauteur < 1) {
                 System.out.print("Quel est la ligne de "+ personnage.getNom() +" ? : ");
                 try {
                     hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon-1 || hauteur < 0) {
+                    if (hauteur > hauteurDonjon || hauteur < 1) {
                         System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
                     }
                 } catch (Exception e) {
@@ -533,15 +533,15 @@ public class Main {
                     System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
             }
-            if (!donjon.estLibre(new Positions(largeur,hauteur))) {
+            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
                 System.out.println("Cette case n'est pas disponible");
             }
             else {
-                donjon.addJoueur(new Positions(largeur,hauteur),personnage);
+                donjon.addJoueur(new Positions(largeur,hauteur-1),personnage);
                 Valide = (yesNoQuestion("Vous allez ajouter un personnage tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____"));
             }
             if (!Valide) {
-                donjon.removeJoueur(new Positions(largeur,hauteur));
+                donjon.removeJoueur(new Positions(largeur,hauteur-1));
             }
         }
     }
@@ -552,11 +552,11 @@ public class Main {
         boolean Valide=false;
         while (!Valide) {
             int hauteur = -1;
-            while (hauteur > hauteurDonjon-1 || hauteur < 0) {
+            while (hauteur > hauteurDonjon || hauteur < 1) {
                 System.out.print("Quel est la ligne de l'obstacle ? : ");
                 try {
                     hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon-1 || hauteur < 0) {
+                    if (hauteur > hauteurDonjon || hauteur < 1) {
                         System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
                     }
                 } catch (Exception e) {
@@ -572,14 +572,14 @@ public class Main {
                     System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
             }
-            if (!donjon.estLibre(new Positions(largeur,hauteur))) {
+            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
                 System.out.println("Cet obstacle existe déjà");
             } else {
-                donjon.addObstacle(new Positions(largeur, hauteur));
+                donjon.addObstacle(new Positions(largeur,hauteur-1));
                 if (yesNoQuestion("Vous allez ajouter un obstacle tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____")) {
                     Valide = true;
                 } else {
-                    donjon.removeObstacle(new Positions(largeur,hauteur));
+                    donjon.removeObstacle(new Positions(largeur,hauteur-1));
                     Valide = !yesNoQuestion("Voulez vous le recréer ?(y/n)");
                 }
             }
@@ -788,11 +788,11 @@ public class Main {
             Equipements build = selectEquipement();
             while (!Valide) {
                 int hauteur = -1;
-                while (hauteur > hauteurDonjon-1 || hauteur < 0) {
+                while (hauteur > hauteurDonjon || hauteur < 1) {
                     System.out.print("Quel est la ligne du loot ? : ");
                     try {
                         hauteur = Integer.parseInt(sc.nextLine());
-                        if (hauteur > hauteurDonjon-1 || hauteur < 0) {
+                        if (hauteur > hauteurDonjon || hauteur < 1) {
                             System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
                         }
                     } catch (Exception e) {
@@ -808,15 +808,15 @@ public class Main {
                         System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                     }
                 }
-                if (!donjon.estLibre(new Positions(largeur,hauteur))) {
+                if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
                     System.out.println("Cette case n'est pas disponible");
                 } else {
-                    donjon.addLoot(new Positions(largeur,hauteur), build);
+                    donjon.addLoot(new Positions(largeur,hauteur-1), build);
                     if (yesNoQuestion("Vous allez ajouter un(e) " + build.getNom() + " tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____")) {
                         Valide = true;
                         ValideEquipement = true;
                     } else {
-                        donjon.removeLoot(new Positions(largeur,hauteur));
+                        donjon.removeLoot(new Positions(largeur,hauteur-1));
                         int numChoix = 0;
                         while (numChoix > 3 || numChoix < 1) {
                             System.out.println("Que voulez vous faire ? :\n1-changer la position\n2-changer le loot\n3-annuler la création");

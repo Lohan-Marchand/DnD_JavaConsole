@@ -105,7 +105,7 @@ public class Donjons{
         updateMap();
     }
     public void removeJoueur(Positions pos){
-        m_joueurs.remove(pos);
+        m_joueurs.remove(pos, m_joueurs.get(pos));
         updateMap();
     }
     public void addEnnemi(Positions pos, Monstres ennemi){
@@ -123,7 +123,7 @@ public class Donjons{
         updateMap();
     }
     public void removeEnnemi(Positions pos){
-        m_ennemis.remove(pos);
+        m_ennemis.remove(pos, m_ennemis.get(pos));
         updateMap();
     }
     public void addLoot(Positions pos, Equipements loot){
@@ -135,19 +135,19 @@ public class Donjons{
         updateMap();
     }
     public void removeLoot(Positions pos){
-        m_loot.remove(pos);
+        m_loot.remove(pos, m_loot.get(pos));
         updateMap();
     }
     public void addObstacle(Positions pos){
         m_obstacles.add(pos);
         updateMap();
     }
-    public void removeObstacle(Positions pos){
-        m_obstacles.remove(pos);
-        updateMap();
-    }
     public void addObstacle(){
         m_obstacles.add(new Positions(0,0));
+        updateMap();
+    }
+    public void removeObstacle(Positions pos){
+        m_obstacles.remove(pos);
         updateMap();
     }
     public ArrayList<Entites> calculerOrdre(){
@@ -193,18 +193,18 @@ public class Donjons{
     }
     public void afficherMap(){
         String[] displayedMap = new String[m_hauteur+3];
-        displayedMap[0] = "     "+" A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z ".substring(0, m_largeur*3 + 3);
+        //displayedMap[0] = "     "+" A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z ".substring(0, m_largeur*3 + 3);
 
-        displayedMap[1] = "   "+"+-------------------------------------------------------------------------------+".substring(0, m_largeur*3 + 6)+" ";
+        //displayedMap[1] = "   "+"+-------------------------------------------------------------------------------+".substring(0, m_largeur*3 + 6)+" ";
         for(int i = 0; i < m_hauteur; i++){
             if(i<10){
-                displayedMap[i+2] = " "+i+" | "+m_map[i]+ "|";
+                displayedMap[i+2] = /*" "+i+" | "+*/m_map[i]/*+ "|"*/;
             }
             else{
-                displayedMap[i+2] = i + " | "+m_map[i]+ "|";
+                displayedMap[i+2] = /*i + " | "+*/m_map[i]/*+ "|"*/;
             }
         }
-        displayedMap[m_hauteur+2] = "   "+"+-------------------------------------------------------------------------------+".substring(0, m_largeur*3 + 6)+" ";
+        //displayedMap[m_hauteur+2] = "   "+"+-------------------------------------------------------------------------------+".substring(0, m_largeur*3 + 6)+" ";
         for(int i = 0; i < displayedMap.length; i++){
             System.out.println(displayedMap[i]);
         }
@@ -212,13 +212,13 @@ public class Donjons{
     }
     public void updateMap(){
         for(int i = 0; i < m_hauteur; i++){
-            m_map[i] = " . ";
+            m_map[i] = "";
             for(int j = 0; j < m_largeur; j++){
                 m_map[i] = m_map[i]+" . ";
             }
         }
         for(Map.Entry<Positions, Personnages> entry : m_joueurs.entrySet()){
-            m_map[entry.getKey().getY()] = m_map[entry.getKey().getY()].substring(0,entry.getKey().getX()*3)+entry.getValue().getPseudo()+m_map[entry.getKey().getY()].substring(entry.getKey().getX()*3+3);
+            m_map[entry.getKey().getY()-1] = m_map[entry.getKey().getY()].substring(0,entry.getKey().getX()*3)+entry.getValue().getPseudo()+m_map[entry.getKey().getY()].substring(entry.getKey().getX()*3+2);
         }
         for(Map.Entry<Positions, Monstres> entry : m_ennemis.entrySet()){
             String pseudo = "";
@@ -234,13 +234,13 @@ public class Donjons{
                     pseudo = entry.getValue().getPseudo();
                     break;
             }
-            m_map[entry.getKey().getY()] = m_map[entry.getKey().getY()].substring(0,entry.getKey().getX()*3)+pseudo+m_map[entry.getKey().getY()].substring(entry.getKey().getX()*3+3);
+            m_map[entry.getKey().getY()-1] = m_map[entry.getKey().getY()-1].substring(0,entry.getKey().getX()*3)+pseudo+m_map[entry.getKey().getY()-1].substring(entry.getKey().getX()*3+2);
         }
         for(Map.Entry<Positions, Equipements> entry : m_loot.entrySet()){
-            m_map[entry.getKey().getY()] = m_map[entry.getKey().getY()].substring(0,entry.getKey().getX()*3)+" * "+m_map[entry.getKey().getY()].substring(entry.getKey().getX()*3+3);
+            m_map[entry.getKey().getY()-1] = m_map[entry.getKey().getY()-1].substring(0,entry.getKey().getX()*3)+" * "+m_map[entry.getKey().getY()-1].substring(entry.getKey().getX()*3+2);
         }
         for(Positions pos : m_obstacles){
-            m_map[pos.getY()] = m_map[pos.getY()].substring(0,pos.getX()*3)+"[X]"+m_map[pos.getY()].substring(pos.getX()*3+3);
+            m_map[pos.getY()-1] = m_map[pos.getY()-1].substring(0,pos.getX()*3)+"[X]"+m_map[pos.getY()-1].substring(pos.getX()*3+3);
         }
     }
     public String getNom(){
@@ -292,7 +292,7 @@ public class Donjons{
         String[] displayedMap = new String[m_hauteur+3];
 
         displayedMap[0] = "     "+" A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z ".substring(0, m_largeur*3 );
-        displayedMap[1] = "   "+" ------------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 2)+" ";
+        displayedMap[1] = "   "+"+------------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 2)+"+"+" ";
         for(int i = 0; i < m_hauteur; i++){
             if(i<9){
                 displayedMap[i+2] = " "+ (i+1) +" | "+m_map[i]+ "|";
@@ -302,7 +302,7 @@ public class Donjons{
             }
         }
 
-        displayedMap[m_hauteur+2] = "   "+" ------------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 2)+" ";
+        displayedMap[m_hauteur+2] = "   "+"+------------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 2)+"+"+" ";
 
         String mapString ="";
         for(int i = 0; i < displayedMap.length; i++){

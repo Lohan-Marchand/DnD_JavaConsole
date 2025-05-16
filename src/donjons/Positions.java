@@ -1,5 +1,7 @@
 package donjons;
 
+import java.util.Objects;
+
 public class Positions {
     private int m_x;
     private int m_y;
@@ -25,5 +27,16 @@ public class Positions {
     @Override
     public String toString(){
         return "("+m_x+";"+m_y+")";
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Positions)) return false;
+        Positions other = (Positions) o;
+        return m_x == other.m_x && m_y == other.m_y;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(m_x, m_y);
     }
 }

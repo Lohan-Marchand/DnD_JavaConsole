@@ -192,23 +192,6 @@ public class Donjons{
         return true;
     }
     public void afficherMap(){
-        /*String[] displayedMap = new String[m_hauteur+3];
-        //displayedMap[0] = "     "+" A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z ".substring(0, m_largeur*3 + 3);
-
-        //displayedMap[1] = "   "+"+-------------------------------------------------------------------------------+".substring(0, m_largeur*3 + 6)+" ";
-        for(int i = 0; i < m_hauteur; i++){
-            if(i<10){
-                            displayedMap[i+2] = " "+i+" | "+m_map[i]+ "|";
-            }
-            else{
-                displayedMap[i+2] = i + " | "+m_map[i]+ "|";
-            }
-        }
-        displayedMap[m_hauteur+2] = "   "+"+-------------------------------------------------------------------------------+".substring(0, m_largeur*3 + 6)+" ";
-        for(int i = 0; i < displayedMap.length; i++){
-            System.out.println(displayedMap[i]);
-        }
-        System.out.println("Obstacles: [X]\t Loot: *");*/
         System.out.println(getMap());
     }
     public void updateMap(){

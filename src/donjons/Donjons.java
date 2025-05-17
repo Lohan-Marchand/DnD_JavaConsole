@@ -170,6 +170,8 @@ public class Donjons{
                 }
             }
         }
+        //seule modif VVVVV
+        m_ordre = ordre;
         return ordre;
     }
     public boolean estLibre(Positions pos){

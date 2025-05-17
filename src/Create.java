@@ -22,6 +22,7 @@ import entites.personnages.equipements.armures.legeres.ArmureEcaille;
 import entites.personnages.equipements.armures.legeres.DemiPlate;
 import entites.personnages.equipements.armures.lourdes.CoteMaille;
 import entites.personnages.equipements.armures.lourdes.Harnois;
+import entites.personnages.equipements.armures.lourdes.Lourdes;
 import entites.personnages.races.*;
 
 import java.util.ArrayList;
@@ -48,12 +49,12 @@ public final class Create {
         ArrayList<Personnages> Joueurs = new ArrayList<>();
         for(int i=1;i<=nbJoueurs;i++){
             System.out.println("Création du personnage du joueur "+i+": ");
-            Personnages newPerso=creerPersonnage();
+            Personnages newPerso=creerPersonnage(Joueurs);
             Joueurs.add(newPerso);
         }
         return Joueurs;
     }
-    public static Personnages creerPersonnage(){
+    public static Personnages creerPersonnage(ArrayList<Personnages> Partie){
         Scanner sc = new Scanner(System.in);
         Personnages build =new Personnages();
         String nom="";
@@ -74,9 +75,32 @@ public final class Create {
             initiative=0;
             classe=new Classes();
             race=new Races();
+            boolean nomValide=false;
 
-            System.out.print("\t\t\t___Nouveau personnage___\nVeuillez choisir un nom : ");
-            nom = sc.nextLine();
+            System.out.println("\t\t\t___Nouveau personnage___");
+            while(!nomValide){
+                nomValide=true;
+                System.out.print("Veuillez choisir un nom : ");
+                nom = sc.nextLine();
+                if(nom.contains("n°")){
+                    nomValide=false;
+                    System.out.println("Un nom ne peut pas contenir \"n°\" ");
+                }
+                else if(nom.strip().equals("")){
+                    nomValide=false;
+                    System.out.println("Un nom d'espèce ne peut pas être vide ou fait uniquement d'espace");
+                }
+                else{
+                    Personnages testNom=new Personnages(nom,race,classe,force,dexterite,vitesse,initiative);
+                    if(Partie.contains(testNom)){
+                        nomValide=false;
+                        System.out.println("Ce nom n'est pas disponible !");
+                    }
+                }
+            }
+
+
+
             int numRace = 0;
             while (numRace > 4 || numRace < 1) {
                 System.out.print("Veuillez choisir une race parmi :\n1-" + new Elfes().getStats() + "\n2-" + new Halfelins().getStats() + "\n3-" + new Humains().getStats() + "\n4-" + new Nains().getStats() + "\nChoix :");
@@ -217,7 +241,7 @@ public final class Create {
         }
         return new Attaques(nom,portee, new Dice(valDice),nbDice);
     }
-    public static Monstres creerMonstre(ArrayList<Monstres> bestiaire){
+    public static Monstres creerMonstre(ArrayList<Monstres> bestiaire,ArrayList<Personnages> Partie){
         Scanner sc = new Scanner(System.in);
         Monstres build = new Monstres();
         String espece="";
@@ -245,8 +269,29 @@ public final class Create {
             attaque = new Attaques();
 
 
-            System.out.print("\t\t\t___Nouveau monstre___\nVeuillez nommer son espèce : ");
-            espece = sc.nextLine();
+            System.out.println("\t\t\t___Nouveau monstre___");
+            boolean nomValide=false;
+            while(!nomValide){
+                nomValide=true;
+                System.out.print("Veuillez nommer l'espèce du monstre : ");
+                espece = sc.nextLine();
+                if(espece.contains("n°")){
+                    nomValide=false;
+                    System.out.println("Un nom d'espèce ne peut pas contenir \"n°\" ");
+                }
+                else if(espece.strip().equals("")){
+                    nomValide=false;
+                    System.out.println("Un nom d'espèce ne peut pas être vide ou fait uniquement d'espace");
+                }
+                else{
+                    Personnages testNom=new Personnages(espece,new Races(),new Classes(),0,0,0,0);
+                    if(Partie.contains(testNom)){
+                        nomValide=false;
+                        System.out.println("Ce nom d'espèce n'est pas disponible !");
+                    }
+                }
+            }
+
             num=1;
             for(Monstres monstre : bestiaire){
                 if(monstre.getEspece().equals(espece)){
@@ -348,13 +393,12 @@ public final class Create {
         bestiaire.add(build);
         return build;
     }
-    public static ArrayList<Monstres> creerBestiaire() {
+    public static ArrayList<Monstres> creerBestiaire(ArrayList<Personnages> Partie) {
         boolean ajout = true;
         ArrayList<Monstres> bestiaire = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        ajout=yesNoQuestion("Voulez vous générer des monstres ?(y/n)");
         while (ajout) {
-            creerMonstre(bestiaire);
+            creerMonstre(bestiaire,Partie);
             ajout=yesNoQuestion("Ajouter un monstre ?(y/n)");
         }
         return bestiaire;
@@ -579,14 +623,14 @@ public final class Create {
                     System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
             }
-            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
+            if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cet obstacle existe déjà");
             } else {
-                donjon.addObstacle(new Positions(largeur,hauteur-1));
+                donjon.addObstacle(new Positions(largeur,hauteur));
                 if (yesNoQuestion("Vous allez ajouter un obstacle tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____")) {
                     Valide = true;
                 } else {
-                    donjon.removeObstacle(new Positions(largeur,hauteur-1));
+                    donjon.removeObstacle(new Positions(largeur,hauteur));
                     Valide = !yesNoQuestion("Voulez vous le recréer ?(y/n)");
                 }
             }
@@ -619,15 +663,15 @@ public final class Create {
                     System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
             }
-            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
+            if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cette case n'est pas disponible");
             }
             else {
-                donjon.addEnnemi(new Positions(largeur,hauteur-1),monstre);
+                donjon.addEnnemi(new Positions(largeur,hauteur),monstre);
                 Valide = (yesNoQuestion("Vous allez ajouter un monstre tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____"));
             }
             if (!Valide) {
-                donjon.removeEnnemi(new Positions(largeur,hauteur-1));
+                donjon.removeEnnemi(new Positions(largeur,hauteur));
             }
         }
     }
@@ -658,15 +702,15 @@ public final class Create {
                     System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
             }
-            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
+            if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cette case n'est pas disponible");
             }
             else {
-                donjon.addJoueur(new Positions(largeur,hauteur-1),personnage);
+                donjon.addJoueur(new Positions(largeur,hauteur),personnage);
                 Valide = (yesNoQuestion("Vous allez ajouter un personnage tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____"));
             }
             if (!Valide) {
-                donjon.removeJoueur(new Positions(largeur,hauteur-1));
+                donjon.removeJoueur(new Positions(largeur,hauteur));
             }
         }
     }
@@ -701,15 +745,15 @@ public final class Create {
                         System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                     }
                 }
-                if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
+                if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                     System.out.println("Cette case n'est pas disponible");
                 } else {
-                    donjon.addLoot(new Positions(largeur,hauteur-1), build);
+                    donjon.addLoot(new Positions(largeur,hauteur), build);
                     if (yesNoQuestion("Vous allez ajouter un(e) " + build.getNom() + " tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____")) {
                         Valide = true;
                         ValideEquipement = true;
                     } else {
-                        donjon.removeLoot(new Positions(largeur,hauteur-1));
+                        donjon.removeLoot(new Positions(largeur,hauteur));
                         int numChoix = 0;
                         while (numChoix > 3 || numChoix < 1) {
                             System.out.println("Que voulez vous faire ? :\n1-changer la position\n2-changer le loot\n3-annuler la création");
@@ -804,7 +848,7 @@ public final class Create {
                 Valide=false;
             }
         }
-        ArrayList<Monstres> Bestiaire = creerBestiaire();
+        ArrayList<Monstres> Bestiaire = creerBestiaire(joueurs);
         for(Monstres m:Bestiaire){
             PositionMonstre(build,m);
         }
@@ -878,6 +922,18 @@ public final class Create {
     }
 
     public static void choixArme(Personnages p){
+
+        int nbArme=0;
+        for(Equipements e :p.getInventaire()){
+            if(e.getCategorie().substring(0,4).equals(new Courante().getCategorie().substring(0,4))){
+                nbArme++;
+            }
+        }
+        if(nbArme==0){
+            System.out.println("Vous n'avez pas d'arme dans votre inventaire");
+            return;
+        }
+
         Scanner sc=new Scanner(System.in);
         int numArme = 0;
         int i=1;
@@ -907,6 +963,17 @@ public final class Create {
     }
 
     public static void choixArmure(Personnages p){
+
+        int nbArmures=0;
+        for(Equipements e :p.getInventaire()){
+            if(e.getCategorie().substring(0,6).equals(new Lourdes().getCategorie().substring(0,6))){
+                nbArmures++;
+            }
+        }
+        if(nbArmures==0){
+            System.out.println("Vous n'avez pas d'armure dans votre inventaire");
+            return;
+        }
         Scanner sc=new Scanner(System.in);
         int numArmure = 0;
         int i=1;
@@ -916,7 +983,7 @@ public final class Create {
             i=1;
             choixArmure =new HashMap<>();
             for(Equipements e :p.getInventaire()){
-                if(e.getCategorie().substring(0,6).equals(new Courante().getCategorie().substring(0,6))){
+                if(e.getCategorie().substring(0,6).equals(new Lourdes().getCategorie().substring(0,6))){
                     System.out.println(i+"-"+e.getNom());
                     choixArmure.put(i,(Armures)e);
                     i++;
@@ -934,4 +1001,36 @@ public final class Create {
         }
         p.equiperArmure(choixArmure.get(numArmure));
     }
+    public static void commentaire(Personnages p){
+        Scanner sc = new Scanner(System.in);
+        if(p!=null && Create.yesNoQuestion("Voulez vous (joueur de "+ p.getNom() +") commenter l'action (y/n):")){
+            String commentaireJoueur="";
+            System.out.println("Écrivez votre commentaire (entrer la ligne \"Fin\" pour finir) :");
+            boolean endCommentaire =false;
+            while(!endCommentaire){
+                String addLine=sc.nextLine();
+                if(addLine.equals("Fin")){
+                    endCommentaire =true;
+                }
+                else{
+                    commentaireJoueur+=addLine+"\n";
+                }
+            }
+        }
+        if(Create.yesNoQuestion("Le mj veut-il commenter l'action (y/n):")){
+            String commentaireMJ="";
+            System.out.println("Écrivez votre commentaire (entrer la ligne \"Fin\" pour finir) :");
+            boolean endCommentaire =false;
+            while(!endCommentaire){
+                String addLine=sc.nextLine();
+                if(addLine.equals("Fin")){
+                    endCommentaire =true;
+                }
+                else{
+                    commentaireMJ+=addLine+"\n";
+                }
+            }
+        }
+    }
+
 }

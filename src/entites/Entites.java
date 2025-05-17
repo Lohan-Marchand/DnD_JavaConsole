@@ -125,4 +125,12 @@ public abstract class Entites {
     public String toString() {
         return ("PV Max= "+m_PVMax+"\n PV= "+m_PV+"\n Force= "+m_force+"\n Dexterite= "+m_dexterite+"\n Initiative= "+m_initiative+"\n Vitesse= "+m_vitesse+"\n CA= "+m_CA+"\n Attaque :"+this.getAttaque());
     }
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Entites ){
+            Entites e = (Entites) o;
+            return e.getMatricule().equals(this.getMatricule());
+        }
+        return false;
+    }
 }

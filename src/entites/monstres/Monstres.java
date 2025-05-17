@@ -33,7 +33,7 @@ public class Monstres extends Entites {
     }
 
     public String getStats(){
-        return (this.getPseudo()+" "+ this.getNom()+ " (For= +"+this.getForce()+" | Dex= +"+this.getDexterite()+" | Vit= +"+this.getVitesse()+" | Initiative= +"+this.getInitiative()+")");
+        return (this.getPseudo()+" "+ this.getNom()+ " (For= +"+this.getForce()+" | Dex= +"+this.getDexterite()+" | Vit= +"+this.getVitesse()+" | Initiative= +"+this.getInitiative()+" | Classe d'armure= +"+this.getCA()+")");
     }
     public String getNom(){
         return this.m_espece+" n°"+m_num;
@@ -44,7 +44,7 @@ public class Monstres extends Entites {
     }
     @Override
     public String getMatricule(){
-        return getEspece();
+        return this.getNom();
     }
     public int getNum(){
         return m_num;
@@ -53,5 +53,13 @@ public class Monstres extends Entites {
     public String toString(){
         String stats= super.toString();
         return (m_espece+" "+m_num+"\n"+ stats);
+    }
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Monstres ){
+            Monstres m = (Monstres) o;
+            return m.getNom().equals(this.getNom());
+        }
+        return false;
     }
 }

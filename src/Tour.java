@@ -32,6 +32,7 @@ public class Tour {
         }
     }
 
+
     public static void lireAttaque(ArrayList<Integer> attaque, Entites attaquant,Entites cible){
         System.out.println("Lancez le dé 20 (appuyez sur entrer)");
         Scanner sc = new Scanner(System.in);
@@ -61,15 +62,70 @@ public class Tour {
         int i=1;
         HashMap<Integer, Monstres> choixCible = new HashMap<>();
         while (numCible > i || numCible < 1) {
-            System.out.println("Quelle monstre voulez vous attaquer ?");
+            System.out.println("Quel monstre voulez vous attaquer ?");
             i=1;
             choixCible =new HashMap<>();
             for(Monstres m : m_donjons.getEnnemis().values() ){
-                System.out.println(i+"-"+m.getNom());
-                choixCible.put(i,(Monstres) m);
-                i++;
+                int distanceX =(m_donjons.getPersonnagePosition(m_joueur).getX())-(m_donjons.getEnnemiPosition(m).getX()) ;
+                if(distanceX <0){
+                    distanceX *=-1;
+                }
+                int distanceY =(m_donjons.getPersonnagePosition(m_joueur).getY())-(m_donjons.getEnnemiPosition(m).getY()) ;
+                if(distanceY <0){
+                    distanceY *=-1;
+                }
+                int distance= distanceX + distanceY;
+                if(distance<= m_joueur.getAttaque().getPortee() ){
+                    System.out.println(i+"-"+m.getNom());
+                    choixCible.put(i,(Monstres) m);
+                    i++;
+                }
             }
             i--;
+            if(i==0){
+                return null;
+            }
+            try {
+                numCible = Integer.parseInt(sc.nextLine());
+                if (numCible > i || numCible < 1) {
+                    System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                }
+            } catch (Exception e) {
+                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+            }
+        }
+        return choixCible.get(numCible);
+    }
+
+    public Personnages choixCiblePersonnage(){
+        Scanner sc=new Scanner(System.in);
+        int numCible = 0;
+        int i=1;
+        HashMap<Integer, Personnages> choixCible = new HashMap<>();
+        while (numCible > i || numCible < 1) {
+            System.out.println("Quel personnage voulez vous attaquer ?");
+            i=1;
+            choixCible =new HashMap<>();
+            for(Personnages p : m_donjons.getJoueurs().values() ){
+                int distanceX =(m_donjons.getEnnemiPosition(m_monstre).getX()) -(m_donjons.getPersonnagePosition(p).getX()) ;
+                if(distanceX <0){
+                    distanceX *=-1;
+                }
+                int distanceY =(m_donjons.getEnnemiPosition(m_monstre).getY()) -(m_donjons.getPersonnagePosition(p).getY()) ;
+                if(distanceY <0){
+                    distanceY *=-1;
+                }
+                int distance= distanceX + distanceY;
+                if(distance<= m_monstre.getAttaque().getPortee() ){
+                    System.out.println(i+"-"+p.getNom());
+                    choixCible.put(i,(Personnages) p);
+                    i++;
+                }
+            }
+            i--;
+            if(i==0){
+                return null;
+            }
             try {
                 numCible = Integer.parseInt(sc.nextLine());
                 if (numCible > i || numCible < 1) {
@@ -163,7 +219,7 @@ public class Tour {
                     System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
             }
-            if (!m_donjons.estLibre(new Positions(largeur,hauteur-1))) {
+            if (!m_donjons.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cette case n'est pas disponible");
             }
             else{
@@ -178,8 +234,8 @@ public class Tour {
                 int distance=deplaceX+deplaceY;
                 if(distance<=distanceMax){
                     Positions oldPos=m_donjons.getPersonnagePosition(m_joueur);
-                    m_donjons.moveJoueur(m_joueur,new Positions(largeur,hauteur-1));
-                    if(Create.yesNoQuestion("Vous allez ajouter un personnage tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")){
+                    m_donjons.moveJoueur(m_joueur,new Positions(largeur,hauteur));
+                    if(Create.yesNoQuestion("Vous allez vous déplacer tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")){
                         return true;
                     }
                     else{
@@ -196,67 +252,184 @@ public class Tour {
         }
     }
 
-    private int tourJoueur(){
+    private boolean deplacerMonstre(){
+        int hauteurDonjon=m_donjons.getHauteur();
+        int largeurDonjon=m_donjons.getLargeur();
+        int distanceMax=m_monstre.getVitesse()/3;
+        System.out.println(m_monstre.getNom()+" peut se déplacer de "+distanceMax+" cases.");
         Scanner sc=new Scanner(System.in);
-        m_donjons.afficherParTour();
-
-        //while m_action!=0
-
-        int numAction = 0;
-        int nbAction = 3;
-        while (numAction > nbAction || numAction < 1) {
-            System.out.println("Il vous reste "+ this.m_actions +"action(s) \nQue voulez vous faire ? :\n1-changer l'équipement \n2-se déplacer \n3-attaquer un monstre");
-            if(m_donjons.getLoot().containsKey(m_donjons.getPersonnagePosition(m_joueur))){
-                System.out.println("4-ramasser "+m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur)).getNom());
-                nbAction=4;
+        while(true){
+            int hauteur = -1;
+            while (hauteur > hauteurDonjon || hauteur < 1) {
+                System.out.print("À quelle ligne déplacer "+ m_monstre.getNom() +" ? : ");
+                try {
+                    hauteur = Integer.parseInt(sc.nextLine());
+                    if (hauteur > hauteurDonjon || hauteur < 1) {
+                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                    }
+                } catch (Exception e) {
+                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                }
+            }
+            int largeur = -1;
+            while (largeur > largeurDonjon-1 || largeur < 0) {
+                System.out.print("À quelle colonne déplacer " + m_monstre.getNom() + " ? : ");
+                String alphaVal = sc.nextLine();
+                largeur = Create.column(alphaVal);
+                if (largeur > largeurDonjon-1 || largeur < -1) {
+                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
+                }
+            }
+            if (!m_donjons.estLibre(new Positions(largeur,hauteur))) {
+                System.out.println("Cette case n'est pas disponible");
             }
             else{
-                nbAction = 3;
-            }
-            try {
-                numAction = Integer.parseInt(sc.nextLine());
-                if (numAction > nbAction || numAction < 1) {
-                    System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                int deplaceX=(m_donjons.getEnnemiPosition(m_monstre).getX()) - largeur;
+                if(deplaceX<0){
+                    deplaceX*=-1;
                 }
-            } catch (Exception e) {
-                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-            }
-        }
-        switch (numAction) {
-            case 1:
-                if(changeEquipement()){
-                    m_actions--;
+                int deplaceY=(m_donjons.getEnnemiPosition(m_monstre).getY()) - hauteur;
+                if(deplaceY<0){
+                    deplaceY*=-1;
                 }
-                break;
-            case 2:
-                if(deplacerJoueur()){
-                    m_actions--;
-                }
-                break;
-            case 3:
-                Monstres cible=choixCibleMonstre();
-                ArrayList<Integer> attaque = m_joueur.attaquer(cible);
-                lireAttaque(attaque,m_joueur,cible);
-                m_actions--;
-                if(cible.getPV()==0){
-                    System.out.println(cible.getNom()+" est mort");
-                    m_donjons.removeEnnemi(m_donjons.getEnnemiPosition(cible));
-                    if(m_donjons.getEnnemis().isEmpty()){;
-                        return reussiDonjon;
+                int distance=deplaceX+deplaceY;
+                if(distance<=distanceMax){
+                    Positions oldPos=m_donjons.getEnnemiPosition(m_monstre);
+                    m_donjons.moveEnnemi(m_monstre,new Positions(largeur,hauteur));
+                    if(Create.yesNoQuestion("Vous allez déplacer"+ m_monstre.getNom() +"tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")){
+                        return true;
+                    }
+                    else{
+                        m_donjons.moveEnnemi(m_monstre,oldPos);
+                        if(!(Create.yesNoQuestion("Voulez vous changer la position ?(y/n)"))){
+                            return false;
+                        }
                     }
                 }
-                break;
-            case 4:
-                Equipements item=m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur));
-                if(Create.yesNoQuestion("Voulez vous ramasser "+item)){
-                    m_joueur.getInventaire().add(item);
-                    m_donjons.removeLoot(m_donjons.getPersonnagePosition(m_joueur));
-                    m_actions--;
+                else{
+                    System.out.println("/!\\La case visée est trop loin/!\\");
                 }
+            }
+        }
+    }
+
+    private int tourJoueur(){
+        Scanner sc=new Scanner(System.in);
+
+        while(m_actions!=0) {
+            //à modifier!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // m_donjons.afficherParTour();
+            m_donjons.afficherMap();
+
+            int numAction = 0;
+            int nbAction = 3;
+            while (numAction > nbAction || numAction < 1) {
+                System.out.println("Il vous reste " + this.m_actions + " action(s) \nQue voulez vous faire ? :\n1-changer l'équipement \n2-se déplacer \n3-attaquer un monstre");
+                if (m_donjons.getLoot().containsKey(m_donjons.getPersonnagePosition(m_joueur))) {
+                    System.out.println("4-ramasser " + m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur)).getNom());
+                    nbAction = 4;
+                } else {
+                    nbAction = 3;
+                }
+                try {
+                    numAction = Integer.parseInt(sc.nextLine());
+                    if (numAction > nbAction || numAction < 1) {
+                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                    }
+                } catch (Exception e) {
+                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                }
+            }
+            switch (numAction) {
+                case 1:
+                    if (changeEquipement()) {
+                        m_actions--;
+                        Create.commentaire(m_joueur);
+                    }
+                    break;
+                case 2:
+                    if (deplacerJoueur()) {
+                        m_actions--;
+                        Create.commentaire(m_joueur);
+                    }
+                    break;
+                case 3:
+                    Monstres cible = choixCibleMonstre();
+                    if(cible!=null){
+                        ArrayList<Integer> attaque = m_joueur.attaquer(cible);
+                        lireAttaque(attaque, m_joueur, cible);
+                        if (cible.getPV() == 0) {
+                            System.out.println(cible.getNom() + " est mort");
+                            m_donjons.removeEnnemi(m_donjons.getEnnemiPosition(cible));
+                            if (m_donjons.getEnnemis().isEmpty()) {
+                                ;
+                                return reussiDonjon;
+                            }
+                        }
+                        m_actions--;
+                        Create.commentaire(m_joueur);
+                    }
+                    else{
+                        System.out.println("Il n'y as pas de monstres à porté");
+                    }
+                    break;
+                case 4:
+                    Equipements item = m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur));
+                    if (Create.yesNoQuestion("Voulez vous ramasser " + item+" (y/n) : ")) {
+                        m_joueur.getInventaire().add(item);
+                        m_donjons.removeLoot(m_donjons.getPersonnagePosition(m_joueur));
+                        m_actions--;
+                        Create.commentaire(m_joueur);
+                    }
+            }
         }
         return continuDonjon;
     }
     public int tourMonstre(){
+        Scanner sc=new Scanner(System.in);
+
+        while(m_actions!=0) {
+            //à modifier!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // m_donjons.afficherParTour();
+            m_donjons.afficherMap();
+            int numAction = 0;
+            int nbAction = 2;
+            while (numAction > nbAction || numAction < 1) {
+                System.out.println("Il reste " + this.m_actions + " action(s) \nQue fait "+m_monstre.getNom() +" ? :\n1-se déplacer \n2-attaquer un joueur");
+                try {
+                    numAction = Integer.parseInt(sc.nextLine());
+                    if (numAction > nbAction || numAction < 1) {
+                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                    }
+                } catch (Exception e) {
+                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                }
+            }
+            switch (numAction) {
+                case 1:
+                    if (deplacerMonstre()) {
+                        m_actions--;
+                        Create.commentaire(m_joueur);
+                    }
+                    break;
+                case 2:
+                    Personnages cible = choixCiblePersonnage();
+                    if(cible!=null){
+                        ArrayList<Integer> attaque = m_monstre.attaquer(cible);
+                        lireAttaque(attaque, m_monstre, cible);
+                        if (cible.getPV() == 0) {
+                            System.out.println(cible.getNom() + " est mort");
+                            return echecDonjon;
+                        }
+                        m_actions--;
+                        Create.commentaire(m_joueur);
+                    }
+                    else{
+                        System.out.println("Il n'y as pas de joueurs à porté");
+                    }
+                    break;
+            }
+        }
         return continuDonjon;
     }
 }

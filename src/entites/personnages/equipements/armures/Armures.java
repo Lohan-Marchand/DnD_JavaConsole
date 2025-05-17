@@ -34,6 +34,6 @@ public abstract class Armures extends Equipements {
 
     @Override
     public String toString() {
-        return (this.getNom()+" ("+this.getCategorie()+") :\n CA= +"+this.m_CA+"\n Vit= -"+this.m_MalusVitesse+"\n");
+        return (this.getNom()+" ("+this.getCategorie()+") {CA= +"+this.m_CA+" | Vit= -"+this.m_MalusVitesse+"}");
     }
 }

@@ -27,8 +27,8 @@ public class Personnages extends Entites {
         m_nom = "Personnage sans nom";
         m_race = new Races();
         m_classe = new Classes();
-        m_arme = new Courante();
-        m_armure = new Legeres();
+        m_arme = new Poing();
+        m_armure = new PasArmure();
         m_inventaire = m_classe.getInventaire();
         this.setPseudo(m_nom.substring(0,3));
     }
@@ -53,6 +53,7 @@ public class Personnages extends Entites {
         m_race = race;
         m_classe = classe;
         m_arme = new Poing();
+        m_armure = new PasArmure();
         m_inventaire = classe.getInventaire();
         if(m_nom.length()>3){
             this.setPseudo(m_nom.substring(0,3));
@@ -130,6 +131,10 @@ public class Personnages extends Entites {
     @Override
     public Attaques getAttaque(){
         return m_arme.getAttaques();
+    }
+    @Override
+    public boolean estJouable(){
+        return true;
     }
 
     public ArrayList<Equipements> getInventaire(){

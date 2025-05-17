@@ -62,7 +62,7 @@ public class Attaques {
 
     @Override
     public String toString(){
-        return m_nom + " :\n\t" + "Portée : " + m_portee + "\n\t Dé " + m_de + "\n\t Nombre de dé : " + m_nbDe + "\n";
+        return m_nom + " [Portée : " + m_portee + "| " + m_de.getVal() + "d" + m_nbDe + "de dégâts]";
     }
 
 }

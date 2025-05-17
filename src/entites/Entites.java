@@ -118,6 +118,9 @@ public abstract class Entites {
     public String getPseudo() {
         return m_pseudo;
     }
+    public boolean estJouable(){
+        return false;
+    }
     @Override
     public String toString() {
         return ("PV Max= "+m_PVMax+"\n PV= "+m_PV+"\n Force= "+m_force+"\n Dexterite= "+m_dexterite+"\n Initiative= "+m_initiative+"\n Vitesse= "+m_vitesse+"\n CA= "+m_CA+"\n Attaque :"+this.getAttaque());

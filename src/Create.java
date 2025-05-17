@@ -1,3 +1,4 @@
+import dice.D20;
 import dice.D4;
 import dice.Dice;
 import donjons.Donjons;
@@ -7,13 +8,16 @@ import entites.monstres.Monstres;
 import entites.personnages.Personnages;
 import entites.personnages.classes.*;
 import entites.personnages.equipements.Equipements;
+import entites.personnages.equipements.armes.Armes;
 import entites.personnages.equipements.armes.courantes.Baton;
+import entites.personnages.equipements.armes.courantes.Courante;
 import entites.personnages.equipements.armes.courantes.MasseArme;
 import entites.personnages.equipements.armes.deGuerre.EpeeLongue;
 import entites.personnages.equipements.armes.deGuerre.Rapiere;
 import entites.personnages.equipements.armes.distance.ArbaleteLegere;
 import entites.personnages.equipements.armes.distance.ArcCourt;
 import entites.personnages.equipements.armes.distance.Fronde;
+import entites.personnages.equipements.armures.Armures;
 import entites.personnages.equipements.armures.legeres.ArmureEcaille;
 import entites.personnages.equipements.armures.legeres.DemiPlate;
 import entites.personnages.equipements.armures.lourdes.CoteMaille;
@@ -21,9 +25,10 @@ import entites.personnages.equipements.armures.lourdes.Harnois;
 import entites.personnages.races.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
-public class Create {
+public final class Create {
     private Create(){}
     public static ArrayList<Personnages> creerPartie(){
         int nbJoueurs=0;
@@ -300,7 +305,7 @@ public class Create {
             error=true;
             while(error){
                 error=false;
-                System.out.print("Veuillez choisir la valeur de initiative :");
+                System.out.print("Veuillez choisir la valeur du bonus d'initiative :");
                 try{
                     initiative = Integer.parseInt(sc.nextLine());
                 }
@@ -353,233 +358,6 @@ public class Create {
             ajout=yesNoQuestion("Ajouter un monstre ?(y/n)");
         }
         return bestiaire;
-    }
-
-    public static Donjons creerDonjon(ArrayList<Personnages> joueurs, int num){
-        Donjons build = new Donjons();
-        Scanner sc = new Scanner(System.in);
-        boolean Valide=false;
-        while (!Valide) {
-            String nom="";
-            System.out.print("\t\t\t___Nouveau donjon___\nVeuillez choisir un nom pour le donjon: ");
-            nom = sc.nextLine();
-
-            int hauteur = -1;
-            while (hauteur > 25 || hauteur < 15) {
-                System.out.print("Quel est la profondeur du donjon ? (entre 15 et 25) : ");
-                try {
-                    hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > 25 || hauteur < 15) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
-            int largeur = -1;
-            while (largeur > 25 || largeur < 15) {
-                System.out.print("Quel est la largeur du donjon ? (entre 15 et 25) : ");
-                try {
-                    largeur = Integer.parseInt(sc.nextLine());
-                    if (largeur > 25 || largeur < 15) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
-            //creer et vérifier
-            build=new Donjons(nom,hauteur,largeur,num);
-            Valide=(yesNoQuestion("Vous allez Créer :\n\t\t\t____" + build.getNom() +"____\n" +build.getMap() + "\n\n ____Correct ?(y/n)____"));
-        }
-
-
-        //Ajout des Obstacles
-        Valide=true;
-        while(Valide){
-            if(yesNoQuestion("Voulez vous ajouter un obstacle ?(y/n)")){
-                creerObstacle(build);
-            }
-            else{
-                Valide=false;
-            }
-        }
-        ArrayList<Monstres> Bestiaire = creerBestiaire();
-        for(Monstres m:Bestiaire){
-            PositionMonstre(build,m);
-        }
-
-        System.out.println("Placement des Personnages");
-        for(Personnages p:joueurs){
-            PositionPersonnage(build,p);
-        }
-
-        Valide=true;
-        while(Valide){
-            if(yesNoQuestion("Voulez vous ajouter un équipement ?(y/n)")){
-                PositionEquipement(build);
-            }
-            else{
-                Valide=false;
-            }
-        }
-
-
-        Valide=false;
-        String description="";
-        while (!Valide) {
-            System.out.println("Veuillez entrer la description du donjon (entrer la ligne \"Fin description\" pour finir) :");
-            boolean endDesc=false;
-            description="";
-            while(!endDesc){
-                String addLine=sc.nextLine();
-                if(addLine.equals("Fin description")){
-                    endDesc=true;
-                }
-                else{
-                    description+=addLine+"\n";
-                }
-            }
-            Valide=yesNoQuestion("Votre description : \n" + description + "\n Confirmer ?(y/n)");
-        }
-        build.setDesc(description);
-
-        return build;
-    }
-
-
-    public static void PositionMonstre(Donjons donjon,Monstres monstre){
-        int hauteurDonjon= donjon.getHauteur();
-        int largeurDonjon= donjon.getLargeur();
-        Scanner sc = new Scanner(System.in);
-        boolean Valide=false;
-        while (!Valide) {
-            int hauteur = -1;
-            while (hauteur > hauteurDonjon || hauteur < 1) {
-                System.out.print("Quel est la ligne de "+ monstre.getNom() +" ? : ");
-                try {
-                    hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon || hauteur < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
-            int largeur = -1;
-            while (largeur > largeurDonjon-1 || largeur < 0) {
-                System.out.print("Quel est la colonne de "+ monstre.getNom() +" ? : ");
-                String alphaVal=sc.nextLine();
-                largeur = column(alphaVal);
-                if (largeur > largeurDonjon-1 || largeur < -1) {
-                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
-                }
-            }
-            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
-                System.out.println("Cette case n'est pas disponible");
-            }
-            else {
-                donjon.addEnnemi(new Positions(largeur,hauteur-1),monstre);
-                Valide = (yesNoQuestion("Vous allez ajouter un monstre tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____"));
-            }
-            if (!Valide) {
-                donjon.removeEnnemi(new Positions(largeur,hauteur-1));
-            }
-        }
-    }
-    public static void PositionPersonnage(Donjons donjon,Personnages personnage){
-        int hauteurDonjon= donjon.getHauteur();
-        int largeurDonjon= donjon.getLargeur();
-        Scanner sc = new Scanner(System.in);
-        boolean Valide=false;
-        while (!Valide) {
-            int hauteur = -1;
-            while (hauteur > hauteurDonjon || hauteur < 1) {
-                System.out.print("Quel est la ligne de "+ personnage.getNom() +" ? : ");
-                try {
-                    hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon || hauteur < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
-            int largeur = -1;
-            while (largeur > largeurDonjon-1 || largeur < 0) {
-                System.out.print("Quel est la colonne de " + personnage.getNom() + " ? : ");
-                String alphaVal = sc.nextLine();
-                largeur = column(alphaVal);
-                if (largeur > largeurDonjon-1 || largeur < -1) {
-                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
-                }
-            }
-            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
-                System.out.println("Cette case n'est pas disponible");
-            }
-            else {
-                donjon.addJoueur(new Positions(largeur,hauteur-1),personnage);
-                Valide = (yesNoQuestion("Vous allez ajouter un personnage tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____"));
-            }
-            if (!Valide) {
-                donjon.removeJoueur(new Positions(largeur,hauteur-1));
-            }
-        }
-    }
-    public static void creerObstacle(Donjons donjon){
-        int hauteurDonjon= donjon.getHauteur();
-        int largeurDonjon= donjon.getLargeur();
-        Scanner sc = new Scanner(System.in);
-        boolean Valide=false;
-        while (!Valide) {
-            int hauteur = -1;
-            while (hauteur > hauteurDonjon || hauteur < 1) {
-                System.out.print("Quel est la ligne de l'obstacle ? : ");
-                try {
-                    hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon || hauteur < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
-            int largeur = -1;
-            while (largeur > largeurDonjon-1 || largeur < 0) {
-                System.out.print("Quel est la colonne de l'obstacle ? : ");
-                String alphaVal=sc.nextLine();
-                largeur = column(alphaVal);
-                if (largeur > largeurDonjon-1 || largeur < -1) {
-                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
-                }
-            }
-            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
-                System.out.println("Cet obstacle existe déjà");
-            } else {
-                donjon.addObstacle(new Positions(largeur,hauteur-1));
-                if (yesNoQuestion("Vous allez ajouter un obstacle tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____")) {
-                    Valide = true;
-                } else {
-                    donjon.removeObstacle(new Positions(largeur,hauteur-1));
-                    Valide = !yesNoQuestion("Voulez vous le recréer ?(y/n)");
-                }
-            }
-        }
-    }
-    public static int column(String alphaVal){
-        try {
-            if(!(alphaVal.length()==1)){
-                System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
-                return -1;
-            }
-            if(!(alphaVal.charAt(0)>90) && !(alphaVal.charAt(0)<65)){
-                return (alphaVal.charAt(0))-17-'0';
-            }
-            System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
-        } catch (Exception e) {
-            System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
-        }
-        return -1;
     }
     public static Equipements selectEquipement(){
         Scanner sc = new Scanner(System.in);
@@ -758,6 +536,140 @@ public class Create {
             }
         }
     }
+
+    public static int column(String alphaVal){
+        try {
+            if(!(alphaVal.length()==1)){
+                System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
+                return -1;
+            }
+            if(!(alphaVal.charAt(0)>90) && !(alphaVal.charAt(0)<65)){
+                return (alphaVal.charAt(0))-17-'0';
+            }
+            System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
+        } catch (Exception e) {
+            System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
+        }
+        return -1;
+    }
+    public static void creerObstacle(Donjons donjon){
+        int hauteurDonjon= donjon.getHauteur();
+        int largeurDonjon= donjon.getLargeur();
+        Scanner sc = new Scanner(System.in);
+        boolean Valide=false;
+        while (!Valide) {
+            int hauteur = -1;
+            while (hauteur > hauteurDonjon || hauteur < 1) {
+                System.out.print("Quel est la ligne de l'obstacle ? : ");
+                try {
+                    hauteur = Integer.parseInt(sc.nextLine());
+                    if (hauteur > hauteurDonjon || hauteur < 1) {
+                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                    }
+                } catch (Exception e) {
+                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                }
+            }
+            int largeur = -1;
+            while (largeur > largeurDonjon-1 || largeur < 0) {
+                System.out.print("Quel est la colonne de l'obstacle ? : ");
+                String alphaVal=sc.nextLine();
+                largeur = column(alphaVal);
+                if (largeur > largeurDonjon-1 || largeur < -1) {
+                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
+                }
+            }
+            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
+                System.out.println("Cet obstacle existe déjà");
+            } else {
+                donjon.addObstacle(new Positions(largeur,hauteur-1));
+                if (yesNoQuestion("Vous allez ajouter un obstacle tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____")) {
+                    Valide = true;
+                } else {
+                    donjon.removeObstacle(new Positions(largeur,hauteur-1));
+                    Valide = !yesNoQuestion("Voulez vous le recréer ?(y/n)");
+                }
+            }
+        }
+    }
+    public static void PositionMonstre(Donjons donjon,Monstres monstre){
+        int hauteurDonjon= donjon.getHauteur();
+        int largeurDonjon= donjon.getLargeur();
+        Scanner sc = new Scanner(System.in);
+        boolean Valide=false;
+        while (!Valide) {
+            int hauteur = -1;
+            while (hauteur > hauteurDonjon || hauteur < 1) {
+                System.out.print("Quel est la ligne de "+ monstre.getNom() +" ? : ");
+                try {
+                    hauteur = Integer.parseInt(sc.nextLine());
+                    if (hauteur > hauteurDonjon || hauteur < 1) {
+                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                    }
+                } catch (Exception e) {
+                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                }
+            }
+            int largeur = -1;
+            while (largeur > largeurDonjon-1 || largeur < 0) {
+                System.out.print("Quel est la colonne de "+ monstre.getNom() +" ? : ");
+                String alphaVal=sc.nextLine();
+                largeur = column(alphaVal);
+                if (largeur > largeurDonjon-1 || largeur < -1) {
+                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
+                }
+            }
+            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
+                System.out.println("Cette case n'est pas disponible");
+            }
+            else {
+                donjon.addEnnemi(new Positions(largeur,hauteur-1),monstre);
+                Valide = (yesNoQuestion("Vous allez ajouter un monstre tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____"));
+            }
+            if (!Valide) {
+                donjon.removeEnnemi(new Positions(largeur,hauteur-1));
+            }
+        }
+    }
+    public static void PositionPersonnage(Donjons donjon,Personnages personnage){
+        int hauteurDonjon= donjon.getHauteur();
+        int largeurDonjon= donjon.getLargeur();
+        Scanner sc = new Scanner(System.in);
+        boolean Valide=false;
+        while (!Valide) {
+            int hauteur = -1;
+            while (hauteur > hauteurDonjon || hauteur < 1) {
+                System.out.print("Quel est la ligne de "+ personnage.getNom() +" ? : ");
+                try {
+                    hauteur = Integer.parseInt(sc.nextLine());
+                    if (hauteur > hauteurDonjon || hauteur < 1) {
+                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                    }
+                } catch (Exception e) {
+                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                }
+            }
+            int largeur = -1;
+            while (largeur > largeurDonjon-1 || largeur < 0) {
+                System.out.print("Quel est la colonne de " + personnage.getNom() + " ? : ");
+                String alphaVal = sc.nextLine();
+                largeur = column(alphaVal);
+                if (largeur > largeurDonjon-1 || largeur < -1) {
+                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
+                }
+            }
+            if (!donjon.estLibre(new Positions(largeur,hauteur-1))) {
+                System.out.println("Cette case n'est pas disponible");
+            }
+            else {
+                donjon.addJoueur(new Positions(largeur,hauteur-1),personnage);
+                Valide = (yesNoQuestion("Vous allez ajouter un personnage tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____"));
+            }
+            if (!Valide) {
+                donjon.removeJoueur(new Positions(largeur,hauteur-1));
+            }
+        }
+    }
     public static void PositionEquipement(Donjons donjon) {
         Scanner sc = new Scanner(System.in);
         int hauteurDonjon = donjon.getHauteur();
@@ -840,5 +752,186 @@ public class Create {
                 return (answer0.equals("y"));
             }
         }
+    }
+
+    public static Donjons creerDonjon(ArrayList<Personnages> joueurs, int num){
+        System.out.println("\t\t\t_________Pour le MJ__________\n");
+        Donjons build = new Donjons();
+        Scanner sc = new Scanner(System.in);
+        boolean Valide=false;
+        while (!Valide) {
+            String nom="";
+            System.out.print("\t\t\t___Nouveau donjon___\nVeuillez choisir un nom pour le donjon: ");
+            nom = sc.nextLine();
+
+            int hauteur = -1;
+            while (hauteur > 25 || hauteur < 15) {
+                System.out.print("Quel est la profondeur du donjon ? (entre 15 et 25) : ");
+                try {
+                    hauteur = Integer.parseInt(sc.nextLine());
+                    if (hauteur > 25 || hauteur < 15) {
+                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                    }
+                } catch (Exception e) {
+                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                }
+            }
+            int largeur = -1;
+            while (largeur > 25 || largeur < 15) {
+                System.out.print("Quel est la largeur du donjon ? (entre 15 et 25) : ");
+                try {
+                    largeur = Integer.parseInt(sc.nextLine());
+                    if (largeur > 25 || largeur < 15) {
+                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                    }
+                } catch (Exception e) {
+                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                }
+            }
+            //creer et vérifier
+            build=new Donjons(nom,hauteur,largeur,num);
+            Valide=(yesNoQuestion("Vous allez Créer :\n\t\t\t____" + build.getNom() +"____\n" +build.getMap() + "\n\n ____Correct ?(y/n)____"));
+        }
+
+
+        //Ajout des Obstacles
+        Valide=true;
+        while(Valide){
+            if(yesNoQuestion("Voulez vous ajouter un obstacle ?(y/n)")){
+                creerObstacle(build);
+            }
+            else{
+                Valide=false;
+            }
+        }
+        ArrayList<Monstres> Bestiaire = creerBestiaire();
+        for(Monstres m:Bestiaire){
+            PositionMonstre(build,m);
+        }
+
+        System.out.println("Placement des Personnages");
+        for(Personnages p:joueurs){
+            PositionPersonnage(build,p);
+        }
+
+        Valide=true;
+        while(Valide){
+            if(yesNoQuestion("Voulez vous ajouter un équipement ?(y/n)")){
+                PositionEquipement(build);
+            }
+            else{
+                Valide=false;
+            }
+        }
+
+
+        Valide=false;
+        String description="";
+        while (!Valide) {
+            System.out.println("Veuillez entrer la description du donjon (entrer la ligne \"Fin description\" pour finir) :");
+            boolean endDesc=false;
+            description="";
+            while(!endDesc){
+                String addLine=sc.nextLine();
+                if(addLine.equals("Fin description")){
+                    endDesc=true;
+                }
+                else{
+                    description+=addLine+"\n";
+                }
+            }
+            Valide=yesNoQuestion("Votre description : \n" + description + "\n Confirmer ?(y/n)");
+        }
+        build.setDesc(description);
+
+        System.out.println("\t\t\t_________Jets d'initiatives__________\n");
+
+
+        for(Monstres m:Bestiaire){
+            System.out.print("Lancer un dé 20 pour l'initiative de "+m.getNom()+" (appuyez sur entrer)");
+            sc.nextLine();
+            int initiativeDice =new D20().rollDice();
+            System.out.println("Vous avez fais "+initiativeDice);
+            int initiative= initiativeDice+ m.getInitiative();
+            System.out.println("Initiative de "+m.getNom() +" : " +initiative+" (" +initiativeDice+"+" +m.getInitiative()+" Bonus d'initiative)");
+            build.getInitiatives().put(m,initiative);
+        }
+
+        System.out.println("\t\t\t_________Pour les joueurs__________\n");
+
+
+        for(Personnages p:joueurs){
+            System.out.print("Lancer un dé 20 pour l'initiative de "+p.getNom()+" (appuyez sur entrer)");
+            sc.nextLine();
+            int initiativeDice =new D20().rollDice();
+            System.out.println("Vous avez fais "+initiativeDice);
+            int initiative= initiativeDice+ p.getInitiative();
+            System.out.println("Initiative de "+p.getNom() +" : " +initiative+" (" +initiativeDice+"+" +p.getInitiative()+" Bonus d'initiative de la race)");
+            build.getInitiatives().put(p,initiative);
+
+            choixArme(p);
+            choixArmure(p);
+
+        }
+        build.calculerOrdre();
+        return build;
+    }
+
+    public static void choixArme(Personnages p){
+        Scanner sc=new Scanner(System.in);
+        int numArme = 0;
+        int i=1;
+        HashMap<Integer, Armes> choixArme= new HashMap<>();
+        while (numArme > i || numArme < 1) {
+            System.out.println("Quelle arme voulez vous équiper ?");
+            i=1;
+            choixArme=new HashMap<>();
+            for(Equipements e :p.getInventaire()){
+                if(e.getCategorie().substring(0,4).equals(new Courante().getCategorie().substring(0,4))){
+                    System.out.println(i+"-"+e.getNom());
+                    choixArme.put(i,(Armes)e);
+                    i++;
+                }
+            }
+            i--;
+            try {
+                numArme = Integer.parseInt(sc.nextLine());
+                if (numArme > i || numArme < 1) {
+                    System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                }
+            } catch (Exception e) {
+                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+            }
+        }
+        p.equiperArme(choixArme.get(numArme));
+    }
+
+    public static void choixArmure(Personnages p){
+        Scanner sc=new Scanner(System.in);
+        int numArmure = 0;
+        int i=1;
+        HashMap<Integer, Armures> choixArmure = new HashMap<>();
+        while (numArmure > i || numArmure < 1) {
+            System.out.println("Quelle armure voulez vous équiper ?");
+            i=1;
+            choixArmure =new HashMap<>();
+            for(Equipements e :p.getInventaire()){
+                if(e.getCategorie().substring(0,6).equals(new Courante().getCategorie().substring(0,6))){
+                    System.out.println(i+"-"+e.getNom());
+                    choixArmure.put(i,(Armures)e);
+                    i++;
+                }
+            }
+            i--;
+            try {
+                numArmure = Integer.parseInt(sc.nextLine());
+                if (numArmure > i || numArmure < 1) {
+                    System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                }
+            } catch (Exception e) {
+                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+            }
+        }
+        p.equiperArmure(choixArmure.get(numArmure));
     }
 }

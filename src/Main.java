@@ -45,35 +45,22 @@ public class Main {
 
     }
 
-    public static void lireAttaque(ArrayList<Integer> attaque, Entites attaquant,Entites cible){
-        System.out.println("Lancez le dé 20 (appuyez sur entrer)");
-        Scanner sc = new Scanner(System.in);
-        sc.nextLine();
-        System.out.println("Vous avez fait "+attaque.get(0));
-        if (attaque.get(1)==0){
-            System.out.println(cible.getCA()+"(CA) >"+attaque.get(0)+" : l'attaque ne touche pas");
-        }
-        else {
-            System.out.println(cible.getCA()+"(CA) <"+attaque.get(0)+" : l'attaque touche");
-            System.out.println("Lancez le(s) "+attaque.get(2) +" dé(s) "+attaque.get(3)+" de dégâts (appuyez sur entrer)");
-            sc.nextLine();
-            if(attaque.get(2)>1){
-                for (int i = 0; i < attaque.get(2); i++){
-                    System.out.print("["+attaque.get(i+4)+"]");
-                }
-                System.out.println();
-            }
-            System.out.println("Vous avez fait "+attaque.get(attaque.get(2)+5));
-            System.out.println("l'attaque inflige "+attaque.get(attaque.get(2)+5)+" dégats");
-        }
-    }
-
 
     public static void main(String args[]) {
-
+        final int continuDonjon=-1;
+        final int reussiDonjon=0;
+        final int echecDonjon=1;
         afficherTitre();        //Début du jeu
         ArrayList<Personnages> Joueurs= Create.creerPartie();    //Création des personnages
-        Create.creerDonjon(Joueurs,1);
+        for(int i=1; i<4; i++){
+            Donjons donjon= Create.creerDonjon(Joueurs,i);
+            int enCours=continuDonjon;
+            while(enCours==continuDonjon){
+                Tour tour=new Tour(donjon.getOrdre().getFirst() ,donjon);
+                enCours=tour.joueTour();
+                donjon.next();
+            }
+        }
 
 
         /*ArrayList<Monstres> Bestiaire = creerBestiaire();

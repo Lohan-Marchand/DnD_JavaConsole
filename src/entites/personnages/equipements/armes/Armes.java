@@ -39,6 +39,6 @@ public abstract class Armes extends Equipements {
 
     @Override
     public String toString() {
-        return (this.getNom()+" ("+this.getCategorie()+"):\n For= +"+this.m_BonusForce+"\n Vit= -"+this.m_MalusVitesse+"\n Attaque= "+this.m_attaques);
+        return (this.getNom()+" ("+this.getCategorie()+"){For= +"+this.m_BonusForce+" | Vit= -"+this.m_MalusVitesse+" | Attaque: "+this.m_attaques+"}");
     }
 }

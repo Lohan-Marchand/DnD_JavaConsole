@@ -170,10 +170,24 @@ public class Donjons{
                 }
             }
         }
+        m_ordre = ordre;
         return ordre;
     }
+    public ArrayList<Entites> tourSuivant(){
+        Entites entite = m_ordre.getFirst();
+        m_ordre.removeFirst();
+        m_ordre.add(entite);
+        return m_ordre;
+    }
+    public void afficherTour(){
+        afficherMap();
+        Entites joueur = m_ordre.getFirst();
+        System.out.println("\n---Tour de "+joueur+"---");
+        if(joueur.estJouable() && lootPresent(getPersonnagePosition((Personnages) joueur))) {
+            System.out.println("Information : Un équipement est à proximité. Vous pouvez le ramasser.");
+        }
+    }
     public boolean estLibre(Positions pos){
-        //Parcour les joueurs, puis les ennemis, puis les loot
         for(Map.Entry<Positions, Personnages> entry : m_joueurs.entrySet()){
             if(entry.getKey().getX() == pos.getX() && entry.getKey().getY() == pos.getY()){
                 return false;
@@ -190,6 +204,20 @@ public class Donjons{
             }
         }
         return true;
+    }
+    public Boolean lootPresent(Positions p){
+        if(m_loot.isEmpty()){
+            return false;
+        }
+        else{
+            for(Map.Entry<Positions, Equipements> entry : m_loot.entrySet()){
+                if(entry.getKey().getX() == p.getX() && entry.getKey().getY() == p.getY()){
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
     public void afficherMap(){
         System.out.println(getMap());

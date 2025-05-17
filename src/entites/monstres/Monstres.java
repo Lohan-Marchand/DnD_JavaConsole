@@ -44,7 +44,11 @@ public class Monstres extends Entites {
     }
     @Override
     public String getMatricule(){
+<<<<<<< Updated upstream
         return this.getNom();
+=======
+        return getEspece() + " "+ getNum();
+>>>>>>> Stashed changes
     }
     public int getNum(){
         return m_num;

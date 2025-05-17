@@ -64,7 +64,8 @@ public class Main {
                 Tour tour=new Tour(donjon.getOrdre().getFirst() ,donjon);
                 enCours=tour.joueTour();
                 //à modifier!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                //donjon.next();
+                donjon.tourSuivant();
+                donjon.afficherTour();
             }
             if(enCours==echecDonjon){
                 i=4;

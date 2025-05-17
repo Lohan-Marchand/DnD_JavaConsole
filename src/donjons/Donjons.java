@@ -151,7 +151,10 @@ public class Donjons{
         updateMap();
     }
     public ArrayList<Entites> calculerOrdre(){
-        ArrayList<Entites> ordre = new ArrayList<Entites>();
+        if(m_initiatives.isEmpty()){
+            return null;
+        }
+        ArrayList<Entites> ordre = new ArrayList<>();
         for(Map.Entry<Entites, Integer> entry : m_initiatives.entrySet()){
             Entites entite = entry.getKey();
             int initiative = entry.getValue();
@@ -160,7 +163,7 @@ public class Donjons{
             }
             else{
                 for(int i = 0; i < ordre.size(); i++){
-                    if(initiative > m_initiatives.get(ordre.get(i))){
+                    if(initiative > ordre.get(i).getInitiative()){
                         ordre.add(i, entite);
                         break;
                     }

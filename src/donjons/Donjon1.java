@@ -1,5 +1,7 @@
 package donjons;
 
+import dice.Dice;
+import entites.Attaques;
 import entites.monstres.Monstres;
 import entites.personnages.Personnages;
 import entites.personnages.equipements.Equipements;
@@ -353,11 +355,11 @@ public class Donjon1 extends Donjons {
         addLoot(new Positions(1, 23), new ArmureEcaille());
         addLoot(new Positions(12, 22), new DemiPlate());
 
-        addEnnemi(new Positions(1, 2), new Monstres());
-        addEnnemi(new Positions(16, 2), new Monstres());
-        addEnnemi(new Positions(17, 18), new Monstres());
-        addEnnemi(new Positions(21, 18), new Monstres());
-        addEnnemi(new Positions(1, 24), new Monstres());
+        addEnnemi(new Positions(1, 2), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(16, 2), new Monstres("Serpent de feu", 2,"~2~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(17, 18), new Monstres("Serpent de feu", 3,"~3~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(21, 18), new Monstres("Serpent de feu", 4,"~4~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(1, 24), new Monstres("Serpent de feu", 5,"~5~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
 
         updateMap();
     }

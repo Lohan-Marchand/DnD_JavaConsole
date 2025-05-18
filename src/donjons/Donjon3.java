@@ -1,5 +1,7 @@
 package donjons;
 
+import dice.Dice;
+import entites.Attaques;
 import entites.monstres.Monstres;
 import entites.personnages.Personnages;
 import entites.personnages.equipements.Equipements;
@@ -101,16 +103,16 @@ public class Donjon3 extends Donjons {
         addLoot(new Positions(22, 2), new ArmureEcaille());
         addLoot(new Positions(21, 13), new DemiPlate());
 
-        addEnnemi(new Positions(2,12), new Monstres());
-        addEnnemi(new Positions(2,13), new Monstres());
-        addEnnemi(new Positions(21,12), new Monstres());
-        addEnnemi(new Positions(21,13), new Monstres());
-        addEnnemi(new Positions(11,3), new Monstres());
-        addEnnemi(new Positions(11,22), new Monstres());
-        addEnnemi(new Positions(6,7), new Monstres());
-        addEnnemi(new Positions(6,18), new Monstres());
-        addEnnemi(new Positions(17,7), new Monstres());
-        addEnnemi(new Positions(17,18), new Monstres());
+        addEnnemi(new Positions(2,12), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(2,13), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(21,12), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(21,13), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(11,3), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(11,22), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(6,7), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(6,18), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(17,7), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(17,18), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
 
         updateMap();
     }
@@ -214,16 +216,16 @@ public class Donjon3 extends Donjons {
         addLoot(new Positions(22, 2), new ArmureEcaille());
         addLoot(new Positions(21, 13), new DemiPlate());
 
-        addEnnemi(new Positions(2,12), new Monstres());
-        addEnnemi(new Positions(2,13), new Monstres());
-        addEnnemi(new Positions(21,12), new Monstres());
-        addEnnemi(new Positions(21,13), new Monstres());
-        addEnnemi(new Positions(11,3), new Monstres());
-        addEnnemi(new Positions(11,22), new Monstres());
-        addEnnemi(new Positions(6,7), new Monstres());
-        addEnnemi(new Positions(6,18), new Monstres());
-        addEnnemi(new Positions(17,7), new Monstres());
-        addEnnemi(new Positions(17,18), new Monstres());
+        addEnnemi(new Positions(2,12), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(2,13), new Monstres("Serpent de feu", 2,"~2~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(21,12), new Monstres("Serpent de feu", 3,"~3~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(21,13), new Monstres("Serpent de feu", 4,"~4~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(11,3), new Monstres("Serpent de feu", 5,"~5~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(11,22), new Monstres("Serpent de feu", 6,"~6~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(6,7), new Monstres("Serpent de feu", 7,"~7~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(6,18), new Monstres("Serpent de feu", 8,"~8~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(17,7), new Monstres("Serpent de feu", 9,"~9~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(17,18), new Monstres("Serpent de feu", 10,"~10", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
 
         updateMap();
     }

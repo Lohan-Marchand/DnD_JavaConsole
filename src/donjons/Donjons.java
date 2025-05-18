@@ -150,29 +150,12 @@ public class Donjons{
         m_obstacles.remove(pos);
         updateMap();
     }
-    public ArrayList<Entites> calculerOrdre(){
-        if(m_initiatives.isEmpty()){
+    public ArrayList<Entites> calculerOrdre() {
+        if (m_initiatives.isEmpty()) {
             return null;
         }
-        ArrayList<Entites> ordre = new ArrayList<>();
-        for(Map.Entry<Entites, Integer> entry : m_initiatives.entrySet()){
-            Entites entite = entry.getKey();
-            int initiative = entry.getValue();
-            if(ordre.isEmpty()){
-                ordre.add(entite);
-            }
-            else{
-                for(int i = 0; i < ordre.size(); i++){
-                    if(initiative > ordre.get(i).getInitiative()){
-                        ordre.add(i, entite);
-                        break;
-                    }
-                    else if(i == ordre.size()-1){
-                        ordre.add(entite);
-                    }
-                }
-            }
-        }
+        ArrayList<Entites> ordre = new ArrayList<>(m_initiatives.keySet());
+        ordre.sort((a, b) -> Integer.compare(m_initiatives.get(b), m_initiatives.get(a)));
         m_ordre = ordre;
         return ordre;
     }

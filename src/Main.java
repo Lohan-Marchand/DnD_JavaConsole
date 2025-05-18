@@ -1,3 +1,6 @@
+import donjons.Donjon1;
+import donjons.Donjon2;
+import donjons.Donjon3;
 import donjons.Donjons;
 import entites.personnages.Personnages;
 
@@ -168,6 +171,7 @@ public class Main {
                     System.out.println("____________________________________________________________________\n\t\tTous les monstres du donjon ont été éliminés\n\t\t\t\tVous atteignez le donjon suivant\n____________________________________________________________________");
                 }
             }
+
         }
     }
 }

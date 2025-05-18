@@ -76,9 +76,7 @@ public abstract class Entites {
             m_PV = m_PV - degats;
         }
     }
-    public String getMatricule(){
-        return "";
-    }
+    public abstract String getMatricule();
     public int getPVMax(){
         return m_PVMax;
     }

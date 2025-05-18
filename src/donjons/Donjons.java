@@ -169,7 +169,7 @@ public class Donjons{
         System.out.println("Tour "+m_ordre.getFirst().getMatricule()+":");
         for(int i = 0; i < m_ordre.size(); i++){
             if(i == 0){
-                System.out.println("-> "+m_ordre.get(i).getMatricule());
+                System.out.println("-> "+m_ordre.get(i).getPseudo()+"\t"+m_ordre.get(i).getMatricule());
             }
             else{
                 System.out.println("   "+m_ordre.get(i).getMatricule());
@@ -177,6 +177,18 @@ public class Donjons{
         }
         System.out.println("\n");
         afficherMap();
+        System.out.println("\n");
+        System.out.println(m_ordre.getFirst().getMatricule());
+        System.out.println("\tVie: "+m_ordre.getFirst().getPV()+"/"+m_ordre.getFirst().getPVMax());
+        if(m_ordre.getFirst() instanceof Personnages) {
+            System.out.println("\tArmure: " + ((Personnages) m_ordre.getFirst()).getArmure());
+            System.out.println("\tInventaire: " + ((Personnages) m_ordre.getFirst()).getInventaire());
+        }
+        System.out.println("\tForce: " + m_ordre.getFirst().getForce());
+        System.out.println("\tDextérité: " + m_ordre.getFirst().getDexterite());
+        System.out.println("\tVitesse: " + m_ordre.getFirst().getVitesse());
+        System.out.println("\n");
+
 
     }
     public boolean estLibre(Positions pos){

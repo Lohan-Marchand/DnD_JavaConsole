@@ -1,6 +1,7 @@
 import dice.D20;
 import dice.D4;
 import dice.Dice;
+import donjons.*;
 import donjons.Donjons;
 import donjons.Positions;
 import entites.Attaques;
@@ -798,12 +799,61 @@ public final class Create {
         }
     }
 
+    public static Donjons donjonParDefaut(Donjons build,ArrayList<Personnages> joueurs){
+        Scanner sc = new Scanner(System.in);
+        while(true) {
+            int numDonjon = 0;
+            while (numDonjon > 4 || numDonjon < 1) {
+                System.out.print("Quel donjon voulez vous ? :\n1-Donjon par défaut 1\n2-Donjon par défaut 2\n3-Donjon par défaut 3\n4-Créer mon propre donjon");
+                try {
+                    numDonjon = Integer.parseInt(sc.nextLine());
+                    if (numDonjon > 4 || numDonjon < 1) {
+                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                    }
+                } catch (Exception e) {
+                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+                }
+            }
+            switch (numDonjon) {
+                case 1:
+                    build = new Donjon1(joueurs);
+                    build.afficherMap();
+                    if (yesNoQuestion("Voulez vous utiliser ce donjon ? (y/n)")) {
+                        return build;
+                    }
+                    break;
+                case 2:
+                    build = new Donjon2(joueurs);
+                    build.afficherMap();
+                    if (yesNoQuestion("Voulez vous utiliser ce donjon ? (y/n)")) {
+                        return build;
+                    }
+                    break;
+                case 3:
+                    build = new Donjon3(joueurs);
+                    build.afficherMap();
+                    if (yesNoQuestion("Voulez vous utiliser ce donjon ? (y/n)")) {
+                        return build;
+                    }
+                    break;
+                case 4:
+                    return null;
+            }
+        }
+    }
+
     public static Donjons creerDonjon(ArrayList<Personnages> joueurs, int num){
-        System.out.println("\t\t\t_________Pour le MJ__________\n");
+        System.out.println("\n\t\t\t_________Pour le MJ__________\n");
         Donjons build = new Donjons();
         Scanner sc = new Scanner(System.in);
         boolean Valide=false;
         while (!Valide) {
+            build =donjonParDefaut(build,joueurs);
+            if(build !=null) {
+                build.afficherMap();
+                return build;
+            }
+            build = new Donjons();
             String nom="";
             System.out.print("\t\t\t___Nouveau donjon___\nVeuillez choisir un nom pour le donjon: ");
             nom = sc.nextLine();
@@ -887,37 +937,6 @@ public final class Create {
             Valide=yesNoQuestion("Votre description : \n" + description + "\n Confirmer ?(y/n)");
         }
         build.setDesc(description);
-
-        System.out.println("\t\t\t_________Jets d'initiatives__________\n");
-
-
-        for(Monstres m:Bestiaire){
-            System.out.print("Lancer un dé 20 pour l'initiative de "+m.getNom()+" (appuyez sur entrer)");
-            sc.nextLine();
-            int initiativeDice =new D20().rollDice();
-            System.out.println("Vous avez fais "+initiativeDice);
-            int initiative= initiativeDice+ m.getInitiative();
-            System.out.println("Initiative de "+m.getNom() +" : " +initiative+" (" +initiativeDice+"+" +m.getInitiative()+" Bonus d'initiative)");
-            build.getInitiatives().put(m,initiative);
-        }
-
-        System.out.println("\t\t\t_________Pour les joueurs__________\n");
-
-
-        for(Personnages p:joueurs){
-            System.out.print("Lancer un dé 20 pour l'initiative de "+p.getNom()+" (appuyez sur entrer)");
-            sc.nextLine();
-            int initiativeDice =new D20().rollDice();
-            System.out.println("Vous avez fais "+initiativeDice);
-            int initiative= initiativeDice+ p.getInitiative();
-            System.out.println("Initiative de "+p.getNom() +" : " +initiative+" (" +initiativeDice+"+" +p.getInitiative()+" Bonus d'initiative de la race)");
-            build.getInitiatives().put(p,initiative);
-
-            choixArme(p);
-            choixArmure(p);
-
-        }
-        build.calculerOrdre();
         return build;
     }
 
@@ -1031,6 +1050,40 @@ public final class Create {
                 }
             }
         }
+    }
+    public static void debutDonjon(Donjons build){
+        Scanner sc=new Scanner(System.in);
+
+        System.out.println("\t\t\t_________Jets d'initiatives__________\n");
+
+
+        for(Monstres m:build.getEnnemis().values()){
+            System.out.print("Lancer un dé 20 pour l'initiative de "+m.getNom()+" (appuyez sur entrer)");
+            sc.nextLine();
+            int initiativeDice =new D20().rollDice();
+            System.out.println("Vous avez fais "+initiativeDice);
+            int initiative= initiativeDice+ m.getInitiative();
+            System.out.println("Initiative de "+m.getNom() +" : " +initiative+" (" +initiativeDice+"+" +m.getInitiative()+" Bonus d'initiative)");
+            build.getInitiatives().put(m,initiative);
+        }
+
+        System.out.println("\t\t\t_________Pour les joueurs__________\n");
+
+
+        for(Personnages p:build.getJoueurs().values()){
+            System.out.print("Lancer un dé 20 pour l'initiative de "+p.getNom()+" (appuyez sur entrer)");
+            sc.nextLine();
+            int initiativeDice =new D20().rollDice();
+            System.out.println("Vous avez fais "+initiativeDice);
+            int initiative= initiativeDice+ p.getInitiative();
+            System.out.println("Initiative de "+p.getNom() +" : " +initiative+" (" +initiativeDice+"+" +p.getInitiative()+" Bonus d'initiative de la race)");
+            build.getInitiatives().put(p,initiative);
+
+            choixArme(p);
+            choixArmure(p);
+
+        }
+        build.calculerOrdre();
     }
 
 }

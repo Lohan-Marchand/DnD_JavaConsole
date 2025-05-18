@@ -143,9 +143,9 @@ public class Main {
         ArrayList<Personnages> Joueurs= Create.creerPartie();    //Création des personnages
         for(int i=1; i<4; i++){
             Donjons donjon= Create.creerDonjon(Joueurs,i);
-
             System.out.println( donjon(i)+donjon.getDesc());
             donjon.afficherMap();
+            Create.debutDonjon(donjon);
             System.out.print("____Appuyez sur entrer pour débuter le donjon____\n");
             Scanner sc = new Scanner(System.in);
             sc.nextLine();
@@ -163,6 +163,7 @@ public class Main {
                 System.out.println("____________________________________________________________________\n\t\tL'un des membres de l'équipe est mort.\n\t\t\t\tVous avez échoué!!!"+ gameOver() +"\n____________________________________________________________________");
             } else if (enCours==reussiDonjon) {
                 if(i==3){
+
                     System.out.println("____________________________________________________________________\n\t\tTous les monstres du donjon ont été éliminés\n____________________________________________________________________");
                     System.out.println("_______________________________________________________________\n\t\tVous avez terminé la partie\n\t\t\t\tMerci d'avoir joué à"+ titre() +"\n____________________________________________________________________");
                     //On n'afficherait pas le titre du jeu comme au début ou un autre truc du genre pour que ce soit bien visible ?

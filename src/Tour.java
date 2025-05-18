@@ -169,7 +169,12 @@ public class Tour {
                 case 1:
                     Armes oldArme = m_joueur.getArme();
                     Create.choixArme(m_joueur);
-                    if (Create.yesNoQuestion("Vous allez équiper " + m_joueur.getArme() + ". Correct ?(y/n)")) {
+                    if(m_joueur.getArme().equals(oldArme)){
+                        if (!Create.yesNoQuestion("Voulez vous équiper autre chose ?(y/n)")) {
+                            return false;
+                        }
+                    }
+                    else if (Create.yesNoQuestion("Vous allez équiper " + m_joueur.getArme() + ". Correct ?(y/n)")) {
                         return true;
                     } else if (Create.yesNoQuestion("Voulez vous équiper autre chose ?(y/n)")) {
                         m_joueur.equiperArme(oldArme);
@@ -177,10 +182,16 @@ public class Tour {
                         m_joueur.equiperArme(oldArme);
                         return false;
                     }
+                    break;
                 case 2:
                     Armures oldArmure = m_joueur.getArmure();
                     Create.choixArmure(m_joueur);
-                    if (Create.yesNoQuestion("Vous allez équiper " + m_joueur.getArmure() + ". Correct ?(y/n)")) {
+                    if(m_joueur.getArmure().equals(oldArmure)){
+                        if (!Create.yesNoQuestion("Voulez vous équiper autre chose ?(y/n)")) {
+                            return false;
+                        }
+                    }
+                    else if (Create.yesNoQuestion("Vous allez équiper " + m_joueur.getArmure() + ". Correct ?(y/n)")) {
                         return true;
                     } else if (Create.yesNoQuestion("Voulez vous équiper autre chose ?(y/n)")) {
                         m_joueur.equiperArmure(oldArmure);
@@ -188,6 +199,7 @@ public class Tour {
                         m_joueur.equiperArmure(oldArmure);
                         return false;
                     }
+                    break;
             }
         }
     }

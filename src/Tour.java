@@ -52,7 +52,8 @@ public class Tour {
                 System.out.println();
             }
             System.out.println("Vous avez fait "+attaque.get(attaque.get(2)+5));
-            System.out.println("l'attaque inflige "+attaque.get(attaque.get(2)+5)+" dégats");
+            System.out.println( attaquant.getMatricule()+" inflige "+attaque.get(attaque.get(2)+5)+" dégats à "+cible.getMatricule());
+            System.out.println("Il lui reste "+cible.getPV()+" PV.");
         }
     }
 

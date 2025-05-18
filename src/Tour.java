@@ -380,6 +380,8 @@ public class Tour {
                     }
                     else{
                         System.out.println("Il n'y as pas de monstres à porté");
+                        System.out.print("____Appuyez sur entrer____\n");
+                        sc.nextLine();
                     }
                     break;
                 case 4:
@@ -433,6 +435,8 @@ public class Tour {
                     }
                     else{
                         System.out.println("Il n'y as pas de joueurs à porté");
+                        System.out.print("____Appuyez sur entrer____\n");
+                        sc.nextLine();
                     }
                     break;
             }

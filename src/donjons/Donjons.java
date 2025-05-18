@@ -185,7 +185,7 @@ public class Donjons{
     public void afficherTour(){
         afficherMap();
         Entites joueur = m_ordre.getFirst();
-        System.out.println("\n---Tour de "+joueur+"---");
+        System.out.println("\n---Tour de "+joueur.getMatricule()+"---");
         if(joueur.estJouable() && lootPresent(getPersonnagePosition((Personnages) joueur))) {
             System.out.println("Information : Un équipement est à proximité. Vous pouvez le ramasser.");
         }

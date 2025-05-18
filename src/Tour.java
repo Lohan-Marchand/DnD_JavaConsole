@@ -220,15 +220,11 @@ public class Tour {
                 }
             }
             if (m_donjons.getPersonnagePosition(m_joueur).getX() == largeur && m_donjons.getPersonnagePosition(m_joueur).getY() == hauteur) {
-                if (Create.yesNoQuestion("Vous n'allez pas déplacer" + m_joueur.getNom() + ". Il restera tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")) {
-                    return true;
-                } else {
-                    if (!(Create.yesNoQuestion("Voulez vous changer la position ?(y/n)"))) {
-                        return false;
-                    }
+                if (Create.yesNoQuestion(m_joueur.getNom() + " restera à la même place (n'utilise pas une action)\n\n ____Correct ?(y/n)____")) {
+                    return false;
                 }
             }
-            if (!m_donjons.estLibre(new Positions(largeur,hauteur))) {
+            else if (!m_donjons.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cette case n'est pas disponible");
             }
             else{
@@ -290,15 +286,11 @@ public class Tour {
                 }
             }
             if (m_donjons.getEnnemiPosition(m_monstre).getX() == largeur && m_donjons.getEnnemiPosition(m_monstre).getY() == hauteur) {
-                if (Create.yesNoQuestion("Vous n'allez pas déplacer" + m_monstre.getNom() + ". Il restera tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")) {
-                    return true;
-                } else {
-                    if (!(Create.yesNoQuestion("Voulez vous changer la position ?(y/n)"))) {
-                        return false;
-                    }
+                if (Create.yesNoQuestion( m_monstre.getNom() + " restera à la même place (n'utilise pas une action) \n\n ____Correct ?(y/n)____")) {
+                    return false;
                 }
             }
-            if (!m_donjons.estLibre(new Positions(largeur,hauteur))) {
+            else if (!m_donjons.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cette case n'est pas disponible");
             }
             else{
@@ -335,9 +327,7 @@ public class Tour {
         Scanner sc=new Scanner(System.in);
 
         while(m_actions!=0) {
-            //à modifier!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // m_donjons.afficherParTour();
-            m_donjons.afficherMap();
+            m_donjons.afficherTour();
 
             int numAction = 0;
             int nbAction = 3;
@@ -407,9 +397,7 @@ public class Tour {
         Scanner sc=new Scanner(System.in);
 
         while(m_actions!=0) {
-            //à modifier!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // m_donjons.afficherParTour();
-            m_donjons.afficherMap();
+            m_donjons.afficherTour();
             int numAction = 0;
             int nbAction = 2;
             while (numAction > nbAction || numAction < 1) {

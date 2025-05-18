@@ -57,7 +57,9 @@ public class Main {
 
             System.out.println("Donjon n°1 : \n"+donjon.getDesc());
             donjon.afficherMap();
-            System.out.print("____Appuyez sur entrer pour débuter le donjon____");
+            System.out.print("____Appuyez sur entrer pour débuter le donjon____\n");
+            Scanner sc = new Scanner(System.in);
+            sc.nextLine();
 
             int enCours=continuDonjon;
             while(enCours==continuDonjon){
@@ -71,6 +73,11 @@ public class Main {
                 i=4;
                 System.out.println("____________________________________________________________________\n\t\tL'un des membres de l'équipe est mort.\n\t\t\t\tVous avez échoué!!!\n____________________________________________________________________");
             } else if (enCours==reussiDonjon) {
+                if(i==3){
+                    System.out.println("____________________________________________________________________\n\t\tTous les monstres du donjon ont été éliminés\n____________________________________________________________________");
+                    System.out.println("_______________________________________________________________\n\t\tVous avez terminé la partie\n\t\t\t\tMerci d'avoir joué!\n____________________________________________________________________");
+                    //On n'afficherait pas le titre du jeu comme au début ou un autre truc du genre pour que ce soit bien visible ?
+                }
                 System.out.println("____________________________________________________________________\n\t\tTous les monstres du donjon ont été éliminés\n\t\t\t\tVous atteignez le donjon suivant\n____________________________________________________________________");
             }
         }

@@ -219,6 +219,15 @@ public class Tour {
                     System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
             }
+            if (m_donjons.getPersonnagePosition(m_joueur).getX() == largeur && m_donjons.getPersonnagePosition(m_joueur).getY() == hauteur) {
+                if (Create.yesNoQuestion("Vous n'allez pas déplacer" + m_joueur.getNom() + ". Il restera tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")) {
+                    return true;
+                } else {
+                    if (!(Create.yesNoQuestion("Voulez vous changer la position ?(y/n)"))) {
+                        return false;
+                    }
+                }
+            }
             if (!m_donjons.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cette case n'est pas disponible");
             }
@@ -278,6 +287,15 @@ public class Tour {
                 largeur = Create.column(alphaVal);
                 if (largeur > largeurDonjon-1 || largeur < -1) {
                     System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
+                }
+            }
+            if (m_donjons.getEnnemiPosition(m_monstre).getX() == largeur && m_donjons.getEnnemiPosition(m_monstre).getY() == hauteur) {
+                if (Create.yesNoQuestion("Vous n'allez pas déplacer" + m_monstre.getNom() + ". Il restera tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")) {
+                    return true;
+                } else {
+                    if (!(Create.yesNoQuestion("Voulez vous changer la position ?(y/n)"))) {
+                        return false;
+                    }
                 }
             }
             if (!m_donjons.estLibre(new Positions(largeur,hauteur))) {

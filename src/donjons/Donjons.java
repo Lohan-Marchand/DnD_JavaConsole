@@ -166,12 +166,17 @@ public class Donjons{
         return m_ordre;
     }
     public void afficherTour(){
-        afficherMap();
-        Entites joueur = m_ordre.getFirst();
-        System.out.println("\n---Tour de "+joueur.getMatricule()+"---");
-        if(joueur.estJouable() && lootPresent(getPersonnagePosition((Personnages) joueur))) {
-            System.out.println("Information : Un équipement est à proximité. Vous pouvez le ramasser.");
+        System.out.println("Tour "+m_ordre.getFirst().getMatricule()+":");
+        for(int i = 0; i < m_ordre.size(); i++){
+            if(i == 0){
+                System.out.println("-> "+m_ordre.get(i).getMatricule());
+            }
+            else{
+                System.out.println("   "+m_ordre.get(i).getMatricule());
+            }
         }
+        System.out.println("\n");
+
     }
     public boolean estLibre(Positions pos){
         for(Map.Entry<Positions, Personnages> entry : m_joueurs.entrySet()){

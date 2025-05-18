@@ -804,7 +804,7 @@ public final class Create {
         while(true) {
             int numDonjon = 0;
             while (numDonjon > 4 || numDonjon < 1) {
-                System.out.print("Quel donjon voulez vous ? :\n1-Donjon par défaut 1\n2-Donjon par défaut 2\n3-Donjon par défaut 3\n4-Créer mon propre donjon");
+                System.out.print("Quel donjon voulez vous ? :\n1-Donjon par défaut 1\n2-Donjon par défaut 2\n3-Donjon par défaut 3\n4-Créer mon propre donjon\n");
                 try {
                     numDonjon = Integer.parseInt(sc.nextLine());
                     if (numDonjon > 4 || numDonjon < 1) {

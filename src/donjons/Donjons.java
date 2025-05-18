@@ -176,6 +176,7 @@ public class Donjons{
             }
         }
         System.out.println("\n");
+        afficherMap();
 
     }
     public boolean estLibre(Positions pos){

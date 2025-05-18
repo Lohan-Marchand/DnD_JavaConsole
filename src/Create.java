@@ -850,7 +850,6 @@ public final class Create {
         while (!Valide) {
             build =donjonParDefaut(build,joueurs);
             if(build !=null) {
-                build.afficherMap();
                 return build;
             }
             build = new Donjons();

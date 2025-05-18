@@ -146,17 +146,18 @@ public class Main {
             System.out.println( donjon(i)+donjon.getDesc());
             donjon.afficherMap();
             Create.debutDonjon(donjon);
-            System.out.print("____Appuyez sur entrer pour débuter le donjon____\n");
             Scanner sc = new Scanner(System.in);
+            System.out.print("____Appuyez sur entrer pour débuter le donjon____\n");
             sc.nextLine();
 
             int enCours=continuDonjon;
             while(enCours==continuDonjon){
                 Tour tour=new Tour(donjon.getOrdre().getFirst() ,donjon);
+                System.out.println("____________________________________________________________________\n\t\tTour de "+ donjon.getOrdre().getFirst().getMatricule() +"\n____________________________________________________________________");
+                System.out.print("____Appuyez sur entrer____\n");
+                sc.nextLine();
                 enCours=tour.joueTour();
-                //à modifier!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 donjon.tourSuivant();
-                donjon.afficherTour();
             }
             if(enCours==echecDonjon){
                 i=4;

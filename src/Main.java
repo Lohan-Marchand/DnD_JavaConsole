@@ -166,7 +166,7 @@ public class Main {
                 if(i==3){
 
                     System.out.println("____________________________________________________________________\n\t\tTous les monstres du donjon ont été éliminés\n____________________________________________________________________");
-                    System.out.println("_______________________________________________________________\n\t\tVous avez terminé la partie\n\t\t\t\tMerci d'avoir joué à"+ titre() +"\n____________________________________________________________________");
+                    System.out.println("_______________________________________________________________\n\t\tVous avez terminé la partie\n\t\t\t\tMerci d'avoir joué à\n"+ titre() +"\n____________________________________________________________________");
                     //On n'afficherait pas le titre du jeu comme au début ou un autre truc du genre pour que ce soit bien visible ?
                 }
                 else{

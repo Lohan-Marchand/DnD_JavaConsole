@@ -343,15 +343,16 @@ public class Tour {
             m_donjons.afficherTour();
 
             int numAction = 0;
-            int nbAction = 3;
+            int nbAction = 4;
             while (numAction > nbAction || numAction < 1) {
                 System.out.println("Il vous reste " + this.m_actions + " action(s) \nQue voulez vous faire ? :\n1-changer l'équipement \n2-se déplacer \n3-attaquer un monstre");
                 if (m_donjons.getLoot().containsKey(m_donjons.getPersonnagePosition(m_joueur))) {
                     System.out.println("4-ramasser " + m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur)).getNom());
-                    nbAction = 4;
+                    nbAction = 5;
                 } else {
-                    nbAction = 3;
+                    nbAction = 4;
                 }
+                System.out.println(nbAction +"-passer le reste du tour");
                 try {
                     numAction = Integer.parseInt(sc.nextLine());
                     if (numAction > nbAction || numAction < 1) {
@@ -397,13 +398,21 @@ public class Tour {
                     }
                     break;
                 case 4:
-                    Equipements item = m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur));
-                    if (Create.yesNoQuestion("Voulez vous ramasser " + item+" (y/n) : ")) {
-                        m_joueur.getInventaire().add(item);
-                        m_donjons.removeLoot(m_donjons.getPersonnagePosition(m_joueur));
-                        m_actions--;
-                        Create.commentaire(m_joueur);
+                    if(nbAction==5) {
+                        Equipements item = m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur));
+                        if (Create.yesNoQuestion("Voulez vous ramasser " + item + " (y/n) : ")) {
+                            m_joueur.getInventaire().add(item);
+                            m_donjons.removeLoot(m_donjons.getPersonnagePosition(m_joueur));
+                            m_actions--;
+                            Create.commentaire(m_joueur);
+                            break;
+                        }
                     }
+                case 5:
+                    if (Create.yesNoQuestion("Voulez vous vraiment passer vos "+ m_actions +" actions restantes (y/n) : ")) {
+                        m_actions=0;
+                    }
+                    break;
             }
         }
         return continuDonjon;
@@ -414,9 +423,9 @@ public class Tour {
         while(m_actions!=0) {
             m_donjons.afficherTour();
             int numAction = 0;
-            int nbAction = 2;
+            int nbAction = 3;
             while (numAction > nbAction || numAction < 1) {
-                System.out.println("Il reste " + this.m_actions + " action(s) \nQue fait "+m_monstre.getNom() +" ? :\n1-se déplacer \n2-attaquer un joueur");
+                System.out.println("Il reste " + this.m_actions + " action(s) \nQue fait "+m_monstre.getNom() +" ? :\n1-se déplacer \n2-attaquer un joueur\n3-passer le reste du tour");
                 try {
                     numAction = Integer.parseInt(sc.nextLine());
                     if (numAction > nbAction || numAction < 1) {
@@ -449,6 +458,11 @@ public class Tour {
                         System.out.println("Il n'y as pas de joueurs à porté");
                         System.out.print("____Appuyez sur entrer____\n");
                         sc.nextLine();
+                    }
+                    break;
+                case 3:
+                    if (Create.yesNoQuestion("Voulez vous vraiment passer vos "+ m_actions +" actions restantes (y/n) : ")) {
+                        m_actions=0;
                     }
                     break;
             }

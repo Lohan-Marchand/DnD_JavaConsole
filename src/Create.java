@@ -13,6 +13,7 @@ import entites.personnages.equipements.armes.Armes;
 import entites.personnages.equipements.armes.courantes.Baton;
 import entites.personnages.equipements.armes.courantes.Courante;
 import entites.personnages.equipements.armes.courantes.MasseArme;
+import entites.personnages.equipements.armes.deGuerre.Epee2Main;
 import entites.personnages.equipements.armes.deGuerre.EpeeLongue;
 import entites.personnages.equipements.armes.deGuerre.Rapiere;
 import entites.personnages.equipements.armes.distance.ArbaleteLegere;
@@ -35,18 +36,7 @@ public final class Create {
     public static ArrayList<Personnages> creerPartie(){
         int nbJoueurs=0;
         Scanner sc = new Scanner(System.in);
-        while(nbJoueurs>10 || nbJoueurs<1){
-            System.out.print("Combien y a-t-il de Joueurs (sans compter le MJ) entre 1 et 10 : ");
-            try{
-                nbJoueurs = Integer.parseInt(sc.nextLine());
-                if(nbJoueurs>10 || nbJoueurs<1){
-                    System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                }
-            }
-            catch(Exception e){
-                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-            }
-        }
+        nbJoueurs=selectNombre("Combien y a-t-il de joueurs (sans compter le MJ)",1,10);
         ArrayList<Personnages> Joueurs = new ArrayList<>();
         for(int i=1;i<=nbJoueurs;i++){
             System.out.println("Création du personnage du joueur "+i+": ");
@@ -103,17 +93,7 @@ public final class Create {
 
 
             int numRace = 0;
-            while (numRace > 4 || numRace < 1) {
-                System.out.print("Veuillez choisir une race parmi :\n1-" + new Elfes().getStats() + "\n2-" + new Halfelins().getStats() + "\n3-" + new Humains().getStats() + "\n4-" + new Nains().getStats() + "\nChoix :");
-                try {
-                    numRace = Integer.parseInt(sc.nextLine());
-                    if (numRace > 4 || numRace < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            numRace=selectNombre("Veuillez choisir une race parmi :\n1-" + new Elfes().getStats() + "\n2-" + new Halfelins().getStats() + "\n3-" + new Humains().getStats() + "\n4-" + new Nains().getStats()+"\n",1,4);
             switch (numRace) {
                 case 1:
                     race = new Elfes();
@@ -129,17 +109,7 @@ public final class Create {
                     break;
             }
             int numClasse = 0;
-            while (numClasse > 4 || numClasse < 1) {
-                System.out.print("Veuillez choisir une classe parmi :\n1-" + new Clercs().getStats() + "\n2-" + new Guerriers().getStats() + "\n3-" + new Magiciens().getStats() + "\n4-" + new Roublards().getStats() + "\nChoix :");
-                try {
-                    numClasse = Integer.parseInt(sc.nextLine());
-                    if (numClasse > 4 || numClasse < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            numClasse=selectNombre("Veuillez choisir une classe parmi :\n1-" + new Clercs().getStats() + "\n2-" + new Guerriers().getStats() + "\n3-" + new Magiciens().getStats() + "\n4-" + new Roublards().getStats() + "\n",1,4);
             switch (numClasse) {
                 case 1:
                     classe = new Clercs();
@@ -202,44 +172,12 @@ public final class Create {
         System.out.print("Veuillez nommer l'attaque : ");
         nom = sc.nextLine();
 
-        while(portee<1){
-            System.out.print("Veuillez choisir la portée de l'attaque :");
-            try{
-                portee = Integer.parseInt(sc.nextLine());
-                if(portee<1){
-                    System.out.println("/!\\La valeur entrée doit être supérieur à 0/!\\");
-                }
-            }
-            catch(Exception e){
-                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-            }
-        }
+        portee=selectNombre("Veuillez choisir la portée de l'attaque",1,20);
 
-        while(valDice<1){
-            System.out.print("Veuillez choisir la valeur du/des dé(s) à lancer par attaque :");
-            try{
-                valDice = Integer.parseInt(sc.nextLine());
-                if(valDice<1){
-                    System.out.println("/!\\La valeur entrée doit être supérieur à 0/!\\");
-                }
-            }
-            catch(Exception e){
-                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-            }
-        }
+        valDice=selectNombre("Veuillez choisir la valeur du/des dé(s) à lancer par attaque",1,100);
 
-        while(nbDice<1){
-            System.out.print("Veuillez choisir le nombre de dé "+valDice+" à lancer par attaque :");
-            try{
-                nbDice = Integer.parseInt(sc.nextLine());
-                if(nbDice<1){
-                    System.out.println("/!\\La valeur entrée doit être supérieur à 0/!\\");
-                }
-            }
-            catch(Exception e){
-                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-            }
-        }
+        nbDice=selectNombre("Veuillez choisir le nombre de dé \"+valDice+\" à lancer par attaque",1,20);
+
         return new Attaques(nom,portee, new Dice(valDice),nbDice);
     }
     public static Monstres creerMonstre(ArrayList<Monstres> bestiaire,ArrayList<Personnages> Partie){
@@ -307,83 +245,24 @@ public final class Create {
                     System.out.println("/!\\La valeur entrée contenir entre 1 et 3 caractères/!\\");
                 }
             }
-            boolean error=true;
-            while(error){
-                error=false;
-                System.out.print("Veuillez choisir les PV maximum :");
-                try{
-                    PvMax = Integer.parseInt(sc.nextLine());
-                }
-                catch(Exception e){
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                    error=true;
-                }
-            }
+            PvMax=selectNombre("Veuillez choisir les PV maximum :",1,20);
+
 
             attaque= creerAttaque();
 
             if(attaque.getPortee()==1) {
-                error = true;
-                while (error) {
-                    error = false;
-                    System.out.print("Veuillez choisir la valeur de force :");
-                    try {
-                        force = Integer.parseInt(sc.nextLine());
-                    } catch (Exception e) {
-                        System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                        error = true;
-                    }
-                }
+                force=selectNombre("Veuillez choisir la valeur de force",1,20);
             }
             else {
-                error = true;
-                while (error) {
-                    error = false;
-                    System.out.print("Veuillez choisir la valeur de dexterite :");
-                    try {
-                        dexterite = Integer.parseInt(sc.nextLine());
-                    } catch (Exception e) {
-                        System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                        error = true;
-                    }
-                }
+                dexterite=selectNombre("Veuillez choisir la valeur de dextérité",1,20);
+
             }
-            error=true;
-            while(error){
-                error=false;
-                System.out.print("Veuillez choisir la valeur du bonus d'initiative :");
-                try{
-                    initiative = Integer.parseInt(sc.nextLine());
-                }
-                catch(Exception e){
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                    error=true;
-                }
-            }
-            error=true;
-            while(error){
-                error=false;
-                System.out.print("Veuillez choisir la valeur de vitesse :");
-                try{
-                    vitesse = Integer.parseInt(sc.nextLine());
-                }
-                catch(Exception e){
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                    error=true;
-                }
-            }
-            error=true;
-            while(error){
-                error=false;
-                System.out.print("Veuillez choisir la classe d'armure :");
-                try{
-                    CA = Integer.parseInt(sc.nextLine());
-                }
-                catch(Exception e){
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                    error=true;
-                }
-            }
+            initiative=selectNombre("Veuillez choisir le bonus d'initiative",1,20);
+
+            vitesse=selectNombre("Veuillez choisir la valeur de vitesse",1,20);
+
+            CA=selectNombre("Veuillez choisir le classe d'armure",1,20);
+
 
 
             //Confirmation de Création
@@ -410,69 +289,31 @@ public final class Create {
         while (true) {
             boolean type = false;
             int numType = 0;
-            while (numType > 2 || numType < 1) {
-                System.out.println("Voulez vous créer :\n1-une arme \n2-une armure");
-                try {
-                    numType = Integer.parseInt(sc.nextLine());
-                    if (numType > 2 || numType < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            numType=selectNombre("Voulez vous créer : \n1-une arme \n2-une armure",1,2);
             switch (numType) {
                 case 1:
                     type = true;
                     while (type) {
                         int numTypeArme = 0;
-                        while (numTypeArme > 4 || numTypeArme < 1) {
-                            System.out.println("\tVoulez vous créer :\n\t1-une arme de guerre au corps à corps \n\t2-une arme courante au corps à corps \n\t3-une arme courante à distance \n\t4-Retour");
-                            try {
-                                numTypeArme = Integer.parseInt(sc.nextLine());
-                                if (numTypeArme > 4 || numTypeArme < 1) {
-                                    System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                                }
-                            } catch (Exception e) {
-                                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                            }
-                        }
+                        numTypeArme=selectNombre("\tVoulez vous créer :\n\t1-une arme de guerre au corps à corps \n\t2-une arme courante au corps à corps \n\t3-une arme courante à distance \n\t4-Retour",1,4);
                         switch (numTypeArme) {
                             case 1:
                                 int numTypeArmeDeGuerre = 0;
-                                while (numTypeArmeDeGuerre > 3 || numTypeArmeDeGuerre < 1) {
-                                    System.out.println("\t\tVoulez vous créer :\n\t\t1-une épée longue \n\t\t2-une rapière \n\t\t3-Retour");
-                                    try {
-                                        numTypeArmeDeGuerre = Integer.parseInt(sc.nextLine());
-                                        if (numTypeArmeDeGuerre > 3 || numTypeArmeDeGuerre < 1) {
-                                            System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                                        }
-                                    } catch (Exception e) {
-                                        System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                                    }
-                                }
+                                numTypeArmeDeGuerre=selectNombre("\t\tVoulez vous créer :\n\t\t1-une épée longue \n\t\t2-une rapière \n\t\t3-une épée à deux mains \n\t\t4-Retour",1,4);
                                 switch (numTypeArmeDeGuerre) {
                                     case 1:
                                         return new EpeeLongue();
                                     case 2:
                                         return new Rapiere();
                                     case 3:
+                                        return new Epee2Main();
+                                    case 4:
                                         break;
                                 }
                                 break;
                             case 2:
                                 int numTypeArmeCourante = 0;
-                                while (numTypeArmeCourante > 3 || numTypeArmeCourante < 1) {
-                                    System.out.println("\t\tVoulez vous créer :\n\t\t1-un bâton \n\t\t2-une masse d'arme \n\t\t3-Retour");
-                                    try {
-                                        numTypeArmeCourante = Integer.parseInt(sc.nextLine());
-                                        if (numTypeArmeCourante > 3 || numTypeArmeCourante < 1) {
-                                            System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                                        }
-                                    } catch (Exception e) {
-                                        System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                                    }
-                                }
+                                numTypeArmeCourante=selectNombre("\t\tVoulez vous créer :\n\t\t1-un bâton \n\t\t2-une masse d'arme \n\t\t3-Retour",1,3);
                                 switch (numTypeArmeCourante) {
                                     case 1:
                                         return new Baton();
@@ -484,17 +325,7 @@ public final class Create {
                                 break;
                             case 3:
                                 int numTypeArmeDistance = 0;
-                                while (numTypeArmeDistance > 4 || numTypeArmeDistance < 1) {
-                                    System.out.println("\t\tVoulez vous créer :\n\t\t1-une arbalète légère \n\t\t2-un arc court \n\t\t3-une fronde \n\t\t4-Retour");
-                                    try {
-                                        numTypeArmeDistance = Integer.parseInt(sc.nextLine());
-                                        if (numTypeArmeDistance > 4 || numTypeArmeDistance < 1) {
-                                            System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                                        }
-                                    } catch (Exception e) {
-                                        System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                                    }
-                                }
+                                numTypeArmeDistance=selectNombre("\t\tVoulez vous créer :\n\t\t1-une arbalète légère \n\t\t2-un arc court \n\t\t3-une fronde \n\t\t4-Retour",1,4);
                                 switch (numTypeArmeDistance) {
                                     case 1:
                                         return new ArbaleteLegere();
@@ -516,31 +347,11 @@ public final class Create {
                     type = true;
                     while (type) {
                         int numTypeArmure = 0;
-                        while (numTypeArmure > 3 || numTypeArmure < 1) {
-                            System.out.println("\tVoulez vous créer :\n\t1-une armure légère \n\t2-une armure lourde \n\t3-Retour");
-                            try {
-                                numTypeArmure = Integer.parseInt(sc.nextLine());
-                                if (numTypeArmure > 3 || numTypeArmure < 1) {
-                                    System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                                }
-                            } catch (Exception e) {
-                                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                            }
-                        }
+                        numTypeArmure=selectNombre("\tVoulez vous créer :\n\t1-une armure légère \n\t2-une armure lourde \n\t3-Retour",1,3);
                         switch (numTypeArmure) {
                             case 1:
                                 int numTypeArmureLegere = 0;
-                                while (numTypeArmureLegere > 3 || numTypeArmureLegere < 1) {
-                                    System.out.println("\t\tVoulez vous créer :\n\t\t1-une armure d'écailles \n\t\t2-une demi-plate \n\t\t3-Retour");
-                                    try {
-                                        numTypeArmureLegere = Integer.parseInt(sc.nextLine());
-                                        if (numTypeArmureLegere > 3 || numTypeArmureLegere < 1) {
-                                            System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                                        }
-                                    } catch (Exception e) {
-                                        System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                                    }
-                                }
+                                numTypeArmureLegere=selectNombre("\t\tVoulez vous créer :\n\t\t1-une armure d'écailles \n\t\t2-une demi-plate \n\t\t3-Retour",1,3);
                                 switch (numTypeArmureLegere) {
                                     case 1:
                                         return new ArmureEcaille();
@@ -552,17 +363,7 @@ public final class Create {
                                 break;
                             case 2:
                                 int numTypeArmureLourde = 0;
-                                while (numTypeArmureLourde > 3 || numTypeArmureLourde < 1) {
-                                    System.out.println("\t\tVoulez vous créer :\n\t\t1-une cote de maille \n\t\t2-un harnois \n\t\t3-Retour");
-                                    try {
-                                        numTypeArmureLourde = Integer.parseInt(sc.nextLine());
-                                        if (numTypeArmureLourde > 3 || numTypeArmureLourde < 1) {
-                                            System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                                        }
-                                    } catch (Exception e) {
-                                        System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                                    }
-                                }
+                                numTypeArmureLourde=selectNombre("\t\tVoulez vous créer :\n\t\t1-une cote de maille \n\t\t2-un harnois \n\t\t3-Retour",1,3);
                                 switch (numTypeArmureLourde) {
                                     case 1:
                                         return new CoteMaille();
@@ -604,17 +405,7 @@ public final class Create {
         boolean Valide=false;
         while (!Valide) {
             int hauteur = -1;
-            while (hauteur > hauteurDonjon || hauteur < 1) {
-                System.out.print("Quel est la ligne de l'obstacle ? : ");
-                try {
-                    hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon || hauteur < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            hauteur=selectNombre("Quel est la ligne de l'obstacle ? : ",1,hauteur);
             int largeur = -1;
             while (largeur > largeurDonjon-1 || largeur < 0) {
                 System.out.print("Quel est la colonne de l'obstacle ? : ");
@@ -644,17 +435,8 @@ public final class Create {
         boolean Valide=false;
         while (!Valide) {
             int hauteur = -1;
-            while (hauteur > hauteurDonjon || hauteur < 1) {
-                System.out.print("Quel est la ligne de "+ monstre.getNom() +" ? : ");
-                try {
-                    hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon || hauteur < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            hauteur=selectNombre("Quel est la ligne de "+ monstre.getNom()+" ? : ",1,hauteur);
+
             int largeur = -1;
             while (largeur > largeurDonjon-1 || largeur < 0) {
                 System.out.print("Quel est la colonne de "+ monstre.getNom() +" ? : ");
@@ -683,17 +465,8 @@ public final class Create {
         boolean Valide=false;
         while (!Valide) {
             int hauteur = -1;
-            while (hauteur > hauteurDonjon || hauteur < 1) {
-                System.out.print("Quel est la ligne de "+ personnage.getNom() +" ? : ");
-                try {
-                    hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon || hauteur < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            hauteur=selectNombre("Quel est la ligne de "+ personnage.getNom()+" ? : ",1,hauteur);
+
             int largeur = -1;
             while (largeur > largeurDonjon-1 || largeur < 0) {
                 System.out.print("Quel est la colonne de " + personnage.getNom() + " ? : ");
@@ -726,17 +499,8 @@ public final class Create {
             Equipements build = selectEquipement();
             while (!Valide) {
                 int hauteur = -1;
-                while (hauteur > hauteurDonjon || hauteur < 1) {
-                    System.out.print("Quel est la ligne du loot ? : ");
-                    try {
-                        hauteur = Integer.parseInt(sc.nextLine());
-                        if (hauteur > hauteurDonjon || hauteur < 1) {
-                            System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                        }
-                    } catch (Exception e) {
-                        System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                    }
-                }
+                hauteur=selectNombre("Quel est la ligne du loot ? : ",1,hauteur);
+
                 int largeur = -1;
                 while (largeur > largeurDonjon-1 || largeur < 0) {
                     System.out.print("Quel est la colonne du loot ? : ");
@@ -756,17 +520,7 @@ public final class Create {
                     } else {
                         donjon.removeLoot(new Positions(largeur,hauteur));
                         int numChoix = 0;
-                        while (numChoix > 3 || numChoix < 1) {
-                            System.out.println("Que voulez vous faire ? :\n1-changer la position\n2-changer le loot\n3-annuler la création");
-                            try {
-                                numChoix = Integer.parseInt(sc.nextLine());
-                                if (numChoix > 3 || numChoix < 1) {
-                                    System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                                }
-                            } catch (Exception e) {
-                                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                            }
-                        }
+                        numChoix=selectNombre("Que voulez vous faire ? :\n1-changer la position\n2-changer le loot\n3-annuler la création",1,3);
                         switch (numChoix) {
                             case 1:
                                 break;
@@ -803,17 +557,7 @@ public final class Create {
         Scanner sc = new Scanner(System.in);
         while(true) {
             int numDonjon = 0;
-            while (numDonjon > 4 || numDonjon < 1) {
-                System.out.print("Quel donjon voulez vous ? :\n1-Donjon par défaut 1\n2-Donjon par défaut 2\n3-Donjon par défaut 3\n4-Créer mon propre donjon\n");
-                try {
-                    numDonjon = Integer.parseInt(sc.nextLine());
-                    if (numDonjon > 4 || numDonjon < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            numDonjon=selectNombre("Quel donjon voulez vous ? :\n1-Donjon par défaut 1\n2-Donjon par défaut 2\n3-Donjon par défaut 3\n4-Créer mon propre donjon\n",1,4);
             switch (numDonjon) {
                 case 1:
                     build = new Donjon1(joueurs);
@@ -858,30 +602,9 @@ public final class Create {
             nom = sc.nextLine();
 
             int hauteur = -1;
-            while (hauteur > 25 || hauteur < 15) {
-                System.out.print("Quel est la profondeur du donjon ? (entre 15 et 25) : ");
-                try {
-                    hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > 25 || hauteur < 15) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            hauteur=selectNombre("Quel est la profondeur du donjon ?",15,25);
             int largeur = -1;
-            while (largeur > 25 || largeur < 15) {
-                System.out.print("Quel est la largeur du donjon ? (entre 15 et 25) : ");
-                try {
-                    largeur = Integer.parseInt(sc.nextLine());
-                    if (largeur > 25 || largeur < 15) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
-            //creer et vérifier
+            largeur=selectNombre("Quel est la largeur du donjon ?",15,25);
             build=new Donjons(nom,hauteur,largeur,num);
             Valide=(yesNoQuestion("Vous allez Créer :\n\t\t\t____" + build.getNom() +"____\n" +build.getMap() + "\n\n ____Correct ?(y/n)____"));
         }
@@ -921,12 +644,12 @@ public final class Create {
         Valide=false;
         String description="";
         while (!Valide) {
-            System.out.println("Veuillez entrer la description du donjon (entrer la ligne \"Fin description\" pour finir) :");
+            System.out.println("Veuillez entrer la description du donjon (entrer la ligne \"Fin\" pour finir) :");
             boolean endDesc=false;
             description="";
             while(!endDesc){
                 String addLine=sc.nextLine();
-                if(addLine.equals("Fin description")){
+                if(addLine.equals("Fin")){
                     endDesc=true;
                 }
                 else{
@@ -962,12 +685,12 @@ public final class Create {
             choixArme=new HashMap<>();
             for(Equipements e :p.getInventaire()){
                 if(e.getCategorie().substring(0,4).equals(new Courante().getCategorie().substring(0,4))){
-                    System.out.println(i+"-"+e.getNom());
+                    System.out.println(i+"-"+e);
                     choixArme.put(i,(Armes)e);
                     i++;
                 }
             }
-            i--;
+            System.out.println(i+"-ne pas changer d'arme ("+p.getArme()+")");
             try {
                 numArme = Integer.parseInt(sc.nextLine());
                 if (numArme > i || numArme < 1) {
@@ -977,7 +700,9 @@ public final class Create {
                 System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
             }
         }
-        p.equiperArme(choixArme.get(numArme));
+        if(numArme!=i) {
+            p.equiperArme(choixArme.get(numArme));
+        }
     }
 
     public static void choixArmure(Personnages p){
@@ -1002,12 +727,12 @@ public final class Create {
             choixArmure =new HashMap<>();
             for(Equipements e :p.getInventaire()){
                 if(e.getCategorie().substring(0,6).equals(new Lourdes().getCategorie().substring(0,6))){
-                    System.out.println(i+"-"+e.getNom());
+                    System.out.println(i+"-"+e);
                     choixArmure.put(i,(Armures)e);
                     i++;
                 }
             }
-            i--;
+            System.out.println(i+"-ne pas changer d'armure ("+p.getArmure()+")");
             try {
                 numArmure = Integer.parseInt(sc.nextLine());
                 if (numArmure > i || numArmure < 1) {
@@ -1017,7 +742,9 @@ public final class Create {
                 System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
             }
         }
-        p.equiperArmure(choixArmure.get(numArmure));
+        if(numArmure!=i) {
+            p.equiperArmure(choixArmure.get(numArmure));
+        }
     }
     public static void commentaire(Personnages p){
         Scanner sc = new Scanner(System.in);
@@ -1083,6 +810,24 @@ public final class Create {
 
         }
         build.calculerOrdre();
+    }
+
+    public static int selectNombre(String question,int min,int max){
+        int choix=min-1;
+        Scanner sc=new Scanner(System.in);
+        while(choix<min || choix>max ){
+            System.out.print(question+" (entre "+min+" et "+max+"): ");
+            try{
+                choix = Integer.parseInt(sc.nextLine());
+                if(choix<min || choix>max){
+                    System.out.println("/!\\La valeur entrée doit être comprises entre "+ min +" et "+ max +"/!\\");
+                }
+            }
+            catch(Exception e){
+                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+            }
+        }
+        return choix;
     }
 
 }

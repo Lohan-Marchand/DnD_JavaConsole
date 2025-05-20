@@ -166,13 +166,14 @@ public class Donjons{
         return m_ordre;
     }
     public void afficherTour(){
-        System.out.println("Tour "+m_ordre.getFirst().getMatricule()+":");
-        for(int i = 0; i < m_ordre.size(); i++){
-            if(i == 0){
-                System.out.println("-> "+m_ordre.get(i).getPseudo()+"\t"+m_ordre.get(i).getMatricule());
-            }
-            else{
-                System.out.println("   "+m_ordre.get(i).getMatricule());
+        //System.out.println("Tour "+m_ordre.getFirst().getMatricule()+":");
+        ArrayList<Entites> ordreInit = new ArrayList<>(m_ordre);
+        ordreInit.sort((a, b) -> Integer.compare(m_initiatives.get(b), m_initiatives.get(a)));
+        for (Entites entite : ordreInit) {
+            if (entite.equals(m_ordre.getFirst())) {
+                System.out.print(" -> " + entite.getPseudo() + entite.getMatricule()+ "\n");
+            } else {
+                System.out.print("    " + entite.getPseudo() + entite.getMatricule()+ "\n");
             }
         }
         System.out.println("\n");
@@ -181,6 +182,7 @@ public class Donjons{
         System.out.println(m_ordre.getFirst().getMatricule());
         System.out.println("\tVie: "+m_ordre.getFirst().getPV()+"/"+m_ordre.getFirst().getPVMax());
         if(m_ordre.getFirst() instanceof Personnages) {
+            System.out.println("\tArme: " + ((Personnages) m_ordre.getFirst()).getArme());
             System.out.println("\tArmure: " + ((Personnages) m_ordre.getFirst()).getArmure());
             System.out.println("\tInventaire: " + ((Personnages) m_ordre.getFirst()).getInventaire());
         }
@@ -318,20 +320,21 @@ public class Donjons{
     public String getMap(){//Lohan : j'ai modifié plein de trucs
 
 
-        String[] displayedMap = new String[m_hauteur+3];
+        String[] displayedMap = new String[m_hauteur+4];
 
         displayedMap[0] = "     "+" A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z ".substring(0, m_largeur*3 );
         displayedMap[1] = "   "+"+------------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 2)+"+"+" ";
         for(int i = 0; i < m_hauteur; i++){
             if(i<9){
-                displayedMap[i+2] = " "+ (i+1) +" | "+m_map[i]+ "|";
+                displayedMap[i+2] = " "+ (i+1) +" | "+m_map[i]+ "| "+ (i+1);
             }
             else{
-                displayedMap[i+2] = (i+1) + " | "+m_map[i]+ "|";
+                displayedMap[i+2] = (i+1) + " | "+m_map[i]+ "| "+ (i+1);
             }
         }
 
         displayedMap[m_hauteur+2] = "   "+"+------------------------------------------------------------------------------- ".substring(0, m_largeur*3 + 2)+"+"+" ";
+        displayedMap[m_hauteur+3] = "     "+" A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z ".substring(0, m_largeur*3 );
 
         String mapString ="";
         for(int i = 0; i < displayedMap.length; i++){

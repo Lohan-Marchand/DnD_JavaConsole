@@ -26,7 +26,6 @@ public class Sorts {
 
     //Je sais pas trop comment faire pour celle-ci dcp chaque sort la surcharge
     public void lancerSort(){
-        //Je sais pas quoi mettre ici, elle est surchargée dans les sous-classes
         System.out.println("lancerSort n'est pas implémenté pour ce sort.");
     }
     @Override

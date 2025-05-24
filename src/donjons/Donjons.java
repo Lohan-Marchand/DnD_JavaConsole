@@ -171,9 +171,9 @@ public class Donjons{
         ordreInit.sort((a, b) -> Integer.compare(m_initiatives.get(b), m_initiatives.get(a)));
         for (Entites entite : ordreInit) {
             if (entite.equals(m_ordre.getFirst())) {
-                System.out.print(" -> " + entite.getPseudo() + entite.getMatricule()+ "\n");
+                System.out.print(" -> " + entite.getPseudo() + " "+ entite.getMatricule()+ "\n");
             } else {
-                System.out.print("    " + entite.getPseudo() + entite.getMatricule()+ "\n");
+                System.out.print("    " + entite.getPseudo() + " "+ entite.getMatricule()+ "\n");
             }
         }
         System.out.println("\n");
@@ -224,6 +224,39 @@ public class Donjons{
             return false;
         }
 
+    }
+    public void echangerPositionsEntites(Entites cible1, Entites cible2){
+        Positions pos1 = null;
+        Positions pos2 = null;
+
+        for(Map.Entry<Positions, Personnages> entry : m_joueurs.entrySet()){
+            if(entry.getValue().equals(cible1)){
+                pos1 = entry.getKey();
+            }
+            if(entry.getValue().equals(cible2)){
+                pos2 = entry.getKey();
+            }
+        }
+        for(Map.Entry<Positions, Monstres> entry : m_ennemis.entrySet()){
+            if(entry.getValue().equals(cible1)){
+                pos1 = entry.getKey();
+            }
+            if(entry.getValue().equals(cible2)){
+                pos2 = entry.getKey();
+            }
+        }
+
+        if(pos1 != null && pos2 != null){
+            if(m_joueurs.containsKey(pos1) && m_joueurs.containsKey(pos2)){
+                m_joueurs.put(pos1, (Personnages) cible2);
+                m_joueurs.put(pos2, (Personnages) cible1);
+            }
+            else if(m_ennemis.containsKey(pos1) && m_ennemis.containsKey(pos2)){
+                m_ennemis.put(pos1, (Monstres) cible2);
+                m_ennemis.put(pos2, (Monstres) cible1);
+            }
+            updateMap();
+        }
     }
     public void afficherMap(){
         System.out.println(getMap());

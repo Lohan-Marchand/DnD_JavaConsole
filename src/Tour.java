@@ -336,6 +336,43 @@ public class Tour {
         }
     }
 
+    private void interventionMJ(){
+        /*int numAction = 0;
+        int nbAction = 3;
+        numAction =Create.selectNombre("Il reste " + this.m_actions + " action(s) \nQue fait "+m_monstre.getNom() +" ? :\n1-se déplacer \n2-attaquer un joueur\n3-passer le reste du tour",1,nbAction);
+        switch (numAction) {
+            case 1:
+                if (deplacerMonstre()) {
+                    m_actions--;
+                    Create.commentaire(m_joueur);
+                }
+                break;
+            case 2:
+                Personnages cible = choixCiblePersonnage();
+                if(cible!=null){
+                    ArrayList<Integer> attaque = m_monstre.attaquer(cible);
+                    lireAttaque(attaque, m_monstre, cible);
+                    if (cible.getPV() == 0) {
+                        System.out.println(cible.getNom() + " est mort");
+                        return echecDonjon;
+                    }
+                    m_actions--;
+                    Create.commentaire(m_joueur);
+                }
+                else{
+                    System.out.println("Il n'y as pas de joueurs à porté");
+                    System.out.print("____Appuyez sur entrer____\n");
+                    sc.nextLine();
+                }
+                break;
+            case 3:
+                if (Create.yesNoQuestion("Voulez vous vraiment passer vos "+ m_actions +" actions restantes (y/n) : ")) {
+                    m_actions=0;
+                }
+                break;
+        }*/
+    }
+
     private int tourJoueur(){
         Scanner sc=new Scanner(System.in);
 
@@ -344,24 +381,13 @@ public class Tour {
 
             int numAction = 0;
             int nbAction = 4;
-            while (numAction > nbAction || numAction < 1) {
-                System.out.println("Il vous reste " + this.m_actions + " action(s) \nQue voulez vous faire ? :\n1-changer l'équipement \n2-se déplacer \n3-attaquer un monstre");
-                if (m_donjons.getLoot().containsKey(m_donjons.getPersonnagePosition(m_joueur))) {
-                    System.out.println("4-ramasser " + m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur)).getNom());
-                    nbAction = 5;
-                } else {
-                    nbAction = 4;
-                }
-                System.out.println(nbAction +"-passer le reste du tour");
-                try {
-                    numAction = Integer.parseInt(sc.nextLine());
-                    if (numAction > nbAction || numAction < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
+            String actionPlus="";
+            if (m_donjons.getLoot().containsKey(m_donjons.getPersonnagePosition(m_joueur))) {
+                actionPlus=("\n4-ramasser " + m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur)).getNom());
+                nbAction = 5;
             }
+            actionPlus +="\n"+nbAction +"-passer le reste du tour";
+            numAction =Create.selectNombre("Il vous reste " + this.m_actions + " action(s) \nQue voulez vous faire ? :\n1-changer l'équipement \n2-se déplacer \n3-attaquer un monstre"+actionPlus+"\n",1,nbAction);
             switch (numAction) {
                 case 1:
                     if (changeEquipement()) {
@@ -414,6 +440,7 @@ public class Tour {
                     }
                     break;
             }
+            interventionMJ();
         }
         return continuDonjon;
     }
@@ -424,17 +451,7 @@ public class Tour {
             m_donjons.afficherTour();
             int numAction = 0;
             int nbAction = 3;
-            while (numAction > nbAction || numAction < 1) {
-                System.out.println("Il reste " + this.m_actions + " action(s) \nQue fait "+m_monstre.getNom() +" ? :\n1-se déplacer \n2-attaquer un joueur\n3-passer le reste du tour");
-                try {
-                    numAction = Integer.parseInt(sc.nextLine());
-                    if (numAction > nbAction || numAction < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            numAction =Create.selectNombre("Il reste " + this.m_actions + " action(s) \nQue fait "+m_monstre.getNom() +" ? :\n1-se déplacer \n2-attaquer un joueur\n3-passer le reste du tour\n",1,nbAction);
             switch (numAction) {
                 case 1:
                     if (deplacerMonstre()) {
@@ -466,6 +483,7 @@ public class Tour {
                     }
                     break;
             }
+            interventionMJ();
         }
         return continuDonjon;
     }

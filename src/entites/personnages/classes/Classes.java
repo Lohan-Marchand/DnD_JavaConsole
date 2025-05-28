@@ -15,7 +15,6 @@ public class Classes {
         m_nom = "Classe sans nom";
         m_PVMax = 10;
         m_inventaire = new ArrayList<>();
-        m_sortsConnus = new ArrayList<>();
     }
     public Classes(String nom){
         m_nom = nom;

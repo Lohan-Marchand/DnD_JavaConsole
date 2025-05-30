@@ -398,14 +398,13 @@ public final class Create {
         }
         return -1;
     }
-    public static void creerObstacle(Donjons donjon){
+    public static boolean creerObstacle(Donjons donjon){
         int hauteurDonjon= donjon.getHauteur();
         int largeurDonjon= donjon.getLargeur();
         Scanner sc = new Scanner(System.in);
-        boolean Valide=false;
-        while (!Valide) {
+        while (true) {
             int hauteur = -1;
-            hauteur=selectNombre("Quel est la ligne de l'obstacle ? : ",1,hauteur);
+            hauteur=selectNombre("Quel est la ligne de l'obstacle ? : ",1,hauteurDonjon);
             int largeur = -1;
             while (largeur > largeurDonjon-1 || largeur < 0) {
                 System.out.print("Quel est la colonne de l'obstacle ? : ");
@@ -420,10 +419,12 @@ public final class Create {
             } else {
                 donjon.addObstacle(new Positions(largeur,hauteur));
                 if (yesNoQuestion("Vous allez ajouter un obstacle tel que :\n" + donjon.getMap() + "\n\n ____Correct ?(y/n)____")) {
-                    Valide = true;
+                    return true;
                 } else {
                     donjon.removeObstacle(new Positions(largeur,hauteur));
-                    Valide = !yesNoQuestion("Voulez vous le recréer ?(y/n)");
+                    if(!yesNoQuestion("Voulez vous le recréer ?(y/n)")){
+                        return false;
+                    }
                 }
             }
         }
@@ -435,7 +436,7 @@ public final class Create {
         boolean Valide=false;
         while (!Valide) {
             int hauteur = -1;
-            hauteur=selectNombre("Quel est la ligne de "+ monstre.getNom()+" ? : ",1,hauteur);
+            hauteur=selectNombre("Quel est la ligne de "+ monstre.getNom()+" ? : ",1,hauteurDonjon);
 
             int largeur = -1;
             while (largeur > largeurDonjon-1 || largeur < 0) {
@@ -465,7 +466,7 @@ public final class Create {
         boolean Valide=false;
         while (!Valide) {
             int hauteur = -1;
-            hauteur=selectNombre("Quel est la ligne de "+ personnage.getNom()+" ? : ",1,hauteur);
+            hauteur=selectNombre("Quel est la ligne de "+ personnage.getNom()+" ? : ",1,hauteurDonjon);
 
             int largeur = -1;
             while (largeur > largeurDonjon-1 || largeur < 0) {
@@ -499,7 +500,7 @@ public final class Create {
             Equipements build = selectEquipement();
             while (!Valide) {
                 int hauteur = -1;
-                hauteur=selectNombre("Quel est la ligne du loot ? : ",1,hauteur);
+                hauteur=selectNombre("Quel est la ligne du loot ? : ",1,hauteurDonjon);
 
                 int largeur = -1;
                 while (largeur > largeurDonjon-1 || largeur < 0) {

@@ -1,3 +1,4 @@
+import dice.Dice;
 import donjons.Donjons;
 import donjons.Positions;
 import entites.Entites;
@@ -154,17 +155,7 @@ public class Tour {
         Scanner sc=new Scanner(System.in);
         while(true){
             int numType = 0;
-            while (numType > 2 || numType < 1) {
-                System.out.println("\tVous voulez équiper :\n\t1-une arme \n\t2-une armure");
-                try {
-                    numType = Integer.parseInt(sc.nextLine());
-                    if (numType > 2 || numType < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            numType=Create.selectNombre("\tVous voulez équiper :\n\t1-une arme \n\t2-une armure\n",1,2);
             switch (numType) {
                 case 1:
                     Armes oldArme = m_joueur.getArme();
@@ -212,17 +203,7 @@ public class Tour {
         Scanner sc=new Scanner(System.in);
         while(true){
             int hauteur = -1;
-            while (hauteur > hauteurDonjon || hauteur < 1) {
-                System.out.print("À quelle ligne déplacer "+ m_joueur.getNom() +" ? : ");
-                try {
-                    hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon || hauteur < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            hauteur=Create.selectNombre("À quelle ligne déplacer "+ m_joueur.getNom() +" ? : ",1,hauteurDonjon);
             int largeur = -1;
             while (largeur > largeurDonjon-1 || largeur < 0) {
                 System.out.print("À quelle colonne déplacer " + m_joueur.getNom() + " ? : ");
@@ -278,17 +259,7 @@ public class Tour {
         Scanner sc=new Scanner(System.in);
         while(true){
             int hauteur = -1;
-            while (hauteur > hauteurDonjon || hauteur < 1) {
-                System.out.print("À quelle ligne déplacer "+ m_monstre.getNom() +" ? : ");
-                try {
-                    hauteur = Integer.parseInt(sc.nextLine());
-                    if (hauteur > hauteurDonjon || hauteur < 1) {
-                        System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                } catch (Exception e) {
-                    System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
-                }
-            }
+            hauteur=Create.selectNombre("À quelle ligne déplacer "+ m_monstre.getNom() +" ? : ",1,hauteurDonjon);
             int largeur = -1;
             while (largeur > largeurDonjon-1 || largeur < 0) {
                 System.out.print("À quelle colonne déplacer " + m_monstre.getNom() + " ? : ");
@@ -336,41 +307,150 @@ public class Tour {
         }
     }
 
-    private void interventionMJ(){
-        /*int numAction = 0;
-        int nbAction = 3;
-        numAction =Create.selectNombre("Il reste " + this.m_actions + " action(s) \nQue fait "+m_monstre.getNom() +" ? :\n1-se déplacer \n2-attaquer un joueur\n3-passer le reste du tour",1,nbAction);
-        switch (numAction) {
-            case 1:
-                if (deplacerMonstre()) {
-                    m_actions--;
-                    Create.commentaire(m_joueur);
+    private boolean deplacerEntite(){
+        String choix="Qui voulez-vous déplacer ?\n";
+        Entites entiteSelectionne=null;
+        int i=1;
+        HashMap<Integer, Entites> entites = new HashMap<>();
+        for(Entites e : m_donjons.getOrdre()){
+            choix+=i+"-"+e.getMatricule()+"\n";
+            entites.put(i,e);
+            i++;
+        }
+        choix+=i+"-Ne déplacer personne\n";
+        int numchoix=Create.selectNombre(choix,1,i);
+        if(numchoix<i){
+            entiteSelectionne=entites.get(numchoix);
+        }
+        else if(numchoix==i){
+            return false;
+        }
+        if(entiteSelectionne == null){
+            System.out.println("Erreur l'entité est null");
+            return false;
+        }
+
+        int hauteurDonjon=m_donjons.getHauteur();
+        int largeurDonjon=m_donjons.getLargeur();
+        Scanner sc=new Scanner(System.in);
+        while(true){
+            int hauteur = -1;
+            hauteur=Create.selectNombre("À quelle ligne déplacer "+ entiteSelectionne.getMatricule() +" ? : ",1,hauteurDonjon);
+            int largeur = -1;
+            while (largeur > largeurDonjon-1 || largeur < 0) {
+                System.out.print("À quelle colonne déplacer " + entiteSelectionne.getMatricule() + " ? : ");
+                String alphaVal = sc.nextLine();
+                largeur = Create.column(alphaVal);
+                if (largeur > largeurDonjon-1 || largeur < -1) {
+                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
                 }
-                break;
-            case 2:
-                Personnages cible = choixCiblePersonnage();
-                if(cible!=null){
-                    ArrayList<Integer> attaque = m_monstre.attaquer(cible);
-                    lireAttaque(attaque, m_monstre, cible);
-                    if (cible.getPV() == 0) {
-                        System.out.println(cible.getNom() + " est mort");
-                        return echecDonjon;
+            }
+            if (!m_donjons.estLibre(new Positions(largeur,hauteur))) {
+                System.out.println("Cette case n'est pas disponible");
+            }
+            else {
+                if(entiteSelectionne.estJouable()){
+                    Positions oldPos = m_donjons.getPersonnagePosition((Personnages)entiteSelectionne);
+                    m_donjons.moveJoueur((Personnages) entiteSelectionne, new Positions(largeur, hauteur));
+                    if (Create.yesNoQuestion("Vous allez déplacer" + entiteSelectionne.getMatricule() + "tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")) {
+                        return true;
+                    } else {
+                        m_donjons.moveJoueur((Personnages) entiteSelectionne, oldPos);
+                        if (!(Create.yesNoQuestion("Voulez vous changer la position ?(y/n)"))) {
+                            return false;
+                        }
                     }
-                    m_actions--;
-                    Create.commentaire(m_joueur);
                 }
-                else{
-                    System.out.println("Il n'y as pas de joueurs à porté");
-                    System.out.print("____Appuyez sur entrer____\n");
-                    sc.nextLine();
+                else {
+                    Positions oldPos = m_donjons.getEnnemiPosition((Monstres)entiteSelectionne);
+                    m_donjons.moveEnnemi((Monstres)entiteSelectionne, new Positions(largeur, hauteur));
+                    if (Create.yesNoQuestion("Vous allez déplacer" + entiteSelectionne.getMatricule() + "tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")) {
+                        return true;
+                    } else {
+                        m_donjons.moveEnnemi((Monstres)entiteSelectionne, oldPos);
+                        if (!(Create.yesNoQuestion("Voulez vous changer la position ?(y/n)"))) {
+                            return false;
+                        }
+                    }
                 }
-                break;
-            case 3:
-                if (Create.yesNoQuestion("Voulez vous vraiment passer vos "+ m_actions +" actions restantes (y/n) : ")) {
-                    m_actions=0;
-                }
-                break;
-        }*/
+            }
+        }
+    }
+
+    private boolean infligeDegats(){
+        String choix="  À qui voulez-vous infliger des dégâts ?\n";
+        Entites entiteSelectionne=null;
+        int i=1;
+        HashMap<Integer, Entites> entites = new HashMap<>();
+        for(Entites e : m_donjons.getOrdre()){
+            choix+=i+"-"+e.getMatricule()+"\n";
+            entites.put(i,e);
+            i++;
+        }
+        choix+=i+"-Ne pas infliger de dégâts\n";
+        int numchoix=Create.selectNombre(choix,1,i);
+        if(numchoix<i){
+            entiteSelectionne=entites.get(numchoix);
+        }
+        else if(numchoix==i){
+            return false;
+        }
+        if(entiteSelectionne == null){
+            System.out.println("Erreur l'entité est null");
+            return false;
+        }
+
+        int nbDe=0;
+        int valDe=0;
+        valDe=Create.selectNombre("Quelle est la valeur du/des dé(s) à lancer ?",1,100);
+        nbDe=Create.selectNombre("Combien de dés à lancer ?",1,100);
+        Dice de= new Dice(valDe);
+        ArrayList<Integer> deroulement = new ArrayList<Integer>();
+        System.out.print("Lancez les "+nbDe+"d"+valDe+" (appuyez sur entrer):");
+        Scanner sc = new Scanner(System.in);
+        sc.nextLine();
+        int degats= de.rollDice(nbDe,deroulement);
+        System.out.print("Vous avez fait : ");
+        for(int d=0 ;d<nbDe;d++){
+            System.out.print("["+deroulement.get(d)+"]");
+        }
+        System.out.println("\n"+entiteSelectionne.getMatricule()+" subit donc "+degats+" dégâts.");
+        System.out.println("Il lui reste "+entiteSelectionne.getPV()+" PV.");
+        return true;
+    }
+
+    private void interventionMJ(){
+        while (true) {
+            int numAction = 0;
+            Scanner sc = new Scanner(System.in);
+            numAction = Create.selectNombre("Que faire ? \n1-déplacer un monstre ou un personnage \n2-infliger des dégâts à un joueur ou un monstre\n3-ajouter des obstacles dans le donjon\n4-fin des actions", 1, 4);
+            switch (numAction) {
+                case 1:
+                    if (deplacerEntite()) {
+                        Create.commentaire(null);
+                    } else {
+                        System.out.println("Déplacement annulé");
+                    }
+                    break;
+                case 2:
+                    if (infligeDegats()) {
+                        Create.commentaire(null);
+                    } else {
+                        System.out.println("Dégâts annulés");
+                    }
+                    break;
+                case 3:
+                    if(Create.creerObstacle(m_donjons)){
+                        Create.commentaire(null);
+                    }
+                    else{
+                        System.out.println("Création d'obstacle annulée");
+                    }
+                    break;
+                case 4:
+                    return;
+            }
+        }
     }
 
     private int tourJoueur(){

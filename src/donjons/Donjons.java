@@ -391,4 +391,3 @@ public class Donjons{
         return m_nom+"(\n Description= "+m_desc+"\n Hauteur= "+m_hauteur+"\n Largeur= "+m_largeur+"\n Joueurs= "+m_joueurs+"\n Ennemis= "+m_ennemis+"\n Loot= "+m_loot+"\n Obstacles= "+m_obstacles+"\n Initiatives= "+m_initiatives+"\n Ordre= "+m_ordre+")";
     }
 }
-

@@ -5,27 +5,17 @@ import java.util.Scanner;
 
 public class Dice {
     private int m_val;
-    private int m_bonusJet;
-
     public Dice() {
         this.m_val = 1;
-        this.m_bonusJet = 0;
     }
     public Dice(int val) {
         this.m_val = val;
-        this.m_bonusJet = 0;
     }
     public int getVal(){
         return m_val;
     }
-    public int getBonusJet() {
-        return m_bonusJet;
-    }
     public void setVal(int val) {
         this.m_val = val;
-    }
-    public void setBonusJet(int bonusJet) {
-        this.m_bonusJet = bonusJet;
     }
     @Override
     public String toString() {
@@ -43,7 +33,7 @@ public class Dice {
 //            System.out.println("Dé n°"+i+1+" : "+diceVal);
         }
 //        System.out.println("Vous avez fait "+diceSum);
-        return diceSum+this.m_bonusJet;
+        return diceSum;
     }
     public int rollDice() {
 //        System.out.println("Lancez le dé (appuyez sur entrer)");
@@ -52,7 +42,7 @@ public class Dice {
         Random rnd= new Random();
         int diceVal = rnd.nextInt(this.m_val)+1;
 //        System.out.println("Vous avez fait "+diceVal);
-        return diceVal+this.m_bonusJet;
+        return diceVal;
     }
     public int rollDice(int nRolls,ArrayList<Integer> deroulement) {
         Random rnd = new Random();

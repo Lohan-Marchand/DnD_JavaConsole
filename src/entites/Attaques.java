@@ -44,7 +44,6 @@ public class Attaques {
     }
     public int calculerDegats(int bonusJetAttaque, int bonusDegats){
         Dice de = new Dice(m_de.getVal());
-        de.setBonusJet(bonusJetAttaque);
         return de.rollDice(m_nbDe)+bonusDegats;
 
     }

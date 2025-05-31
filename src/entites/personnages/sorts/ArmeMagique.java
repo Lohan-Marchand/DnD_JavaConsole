@@ -15,7 +15,7 @@ public class ArmeMagique extends Sorts{
         if (inventaire.contains(arme)) {
             arme.setBonusAttaque(1);
             arme.setBonusDegats(1);
-            System.out.println("L'arme " + arme.getNom() + " a reçu un bonus de 1 aux jets d'attaques et de défense.");
+            System.out.println("L'arme " + arme.getNom() + " a reçu un bonus de 1 aux jets d'attaques et de dégats.");
         } else {
             System.out.println("L'arme " + arme.getNom() + " n'est pas dans l'inventaire.");
         }

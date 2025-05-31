@@ -40,10 +40,10 @@ public abstract class Armes extends Equipements {
         this.m_BonusForce = bonusForce;
     }
     public void setBonusAttaque(int bonusAttaque) {
-        this.m_bonusAttaque = bonusAttaque;
+        this.m_bonusAttaque += bonusAttaque;
     }
     public void setBonusDegats(int bonusDegats) {
-        this.m_bonusDegats = bonusDegats;
+        this.m_bonusDegats += bonusDegats;
     }
 
     @Override

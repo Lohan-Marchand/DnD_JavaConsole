@@ -290,7 +290,7 @@ public class Tour {
                 if(distance<=distanceMax){
                     Positions oldPos=m_donjons.getEnnemiPosition(m_monstre);
                     m_donjons.moveEnnemi(m_monstre,new Positions(largeur,hauteur));
-                    if(Create.yesNoQuestion("Vous allez déplacer"+ m_monstre.getNom() +"tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")){
+                    if(Create.yesNoQuestion("Vous allez déplacer "+ m_monstre.getNom() +" tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")){
                         return true;
                     }
                     else{
@@ -352,7 +352,7 @@ public class Tour {
                 if(entiteSelectionne.estJouable()){
                     Positions oldPos = m_donjons.getPersonnagePosition((Personnages)entiteSelectionne);
                     m_donjons.moveJoueur((Personnages) entiteSelectionne, new Positions(largeur, hauteur));
-                    if (Create.yesNoQuestion("Vous allez déplacer" + entiteSelectionne.getMatricule() + "tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")) {
+                    if (Create.yesNoQuestion("Vous allez déplacer " + entiteSelectionne.getMatricule() + " tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")) {
                         return true;
                     } else {
                         m_donjons.moveJoueur((Personnages) entiteSelectionne, oldPos);
@@ -364,7 +364,7 @@ public class Tour {
                 else {
                     Positions oldPos = m_donjons.getEnnemiPosition((Monstres)entiteSelectionne);
                     m_donjons.moveEnnemi((Monstres)entiteSelectionne, new Positions(largeur, hauteur));
-                    if (Create.yesNoQuestion("Vous allez déplacer" + entiteSelectionne.getMatricule() + "tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")) {
+                    if (Create.yesNoQuestion("Vous allez déplacer " + entiteSelectionne.getMatricule() + " tel que :\n" + m_donjons.getMap() + "\n\n ____Correct ?(y/n)____")) {
                         return true;
                     } else {
                         m_donjons.moveEnnemi((Monstres)entiteSelectionne, oldPos);
@@ -406,7 +406,7 @@ public class Tour {
         nbDe=Create.selectNombre("Combien de dés à lancer ?",1,100);
         Dice de= new Dice(valDe);
         ArrayList<Integer> deroulement = new ArrayList<Integer>();
-        System.out.print("Lancez les "+nbDe+"d"+valDe+" (appuyez sur entrer):");
+        System.out.print("Lancez "+nbDe+"d"+valDe+" (appuyez sur entrer):");
         Scanner sc = new Scanner(System.in);
         sc.nextLine();
         int degats= de.rollDice(nbDe,deroulement);
@@ -420,10 +420,13 @@ public class Tour {
     }
 
     private void interventionMJ(){
+        if(!Create.yesNoQuestion("Le MJ veut-il intervenir ? (y/n) :")){
+            return;
+        }
         while (true) {
             int numAction = 0;
             Scanner sc = new Scanner(System.in);
-            numAction = Create.selectNombre("Que faire ? \n1-déplacer un monstre ou un personnage \n2-infliger des dégâts à un joueur ou un monstre\n3-ajouter des obstacles dans le donjon\n4-fin des actions", 1, 4);
+            numAction = Create.selectNombre("Que faire ? \n1-déplacer un monstre ou un personnage \n2-infliger des dégâts à un joueur ou un monstre\n3-ajouter des obstacles dans le donjon\n4-fin des actions\n", 1, 4);
             switch (numAction) {
                 case 1:
                     if (deplacerEntite()) {
@@ -490,7 +493,6 @@ public class Tour {
                             System.out.println(cible.getNom() + " est mort");
                             m_donjons.removeEnnemi(m_donjons.getEnnemiPosition(cible));
                             if (m_donjons.getEnnemis().isEmpty()) {
-                                ;
                                 return reussiDonjon;
                             }
                         }

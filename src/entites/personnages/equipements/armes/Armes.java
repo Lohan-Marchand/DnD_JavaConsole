@@ -42,10 +42,15 @@ public abstract class Armes extends Equipements {
     public void setBonusAttaque(int bonusAttaque) {
         this.m_bonusAttaque += bonusAttaque;
     }
+    public int getBonusAttaque() {
+        return this.m_bonusAttaque;
+    }
     public void setBonusDegats(int bonusDegats) {
         this.m_bonusDegats += bonusDegats;
     }
-
+    public int getBonusDegats() {
+        return this.m_bonusDegats;
+    }
     @Override
     public boolean equals(Object object){
         if(object instanceof Armes){

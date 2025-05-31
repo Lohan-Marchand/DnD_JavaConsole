@@ -1,3 +1,4 @@
+import dice.D20;
 import dice.Dice;
 import donjons.Donjons;
 import donjons.Positions;
@@ -33,29 +34,53 @@ public class Tour {
         }
     }
 
-
-    public static void lireAttaque(ArrayList<Integer> attaque, Entites attaquant,Entites cible){
+    public static void Attaquer(Entites attaquant,Entites cible) {
         System.out.println("Lancez le dé 20 (appuyez sur entrer)");
         Scanner sc = new Scanner(System.in);
         sc.nextLine();
-        System.out.println("Vous avez fait "+attaque.get(0));
-        if (attaque.get(1)==0){
-            System.out.println(cible.getCA()+"(CA) >"+attaque.get(0)+" : l'attaque ne touche pas");
+        D20 dice = new D20();
+        int resultDe = dice.rollDice();
+        System.out.print("Vous avez fait " + resultDe);
+        if (attaquant.estJouable() && ((Personnages) attaquant).getArme().getBonusAttaque() > 0) {
+            resultDe += ((Personnages) attaquant).getArme().getBonusAttaque();
+            System.out.print("+ " + ((Personnages) attaquant).getArme().getBonusAttaque() + "(bonus d'Attaque) = " + resultDe);
         }
-        else {
-            System.out.println(cible.getCA()+"(CA) <"+attaque.get(0)+" : l'attaque touche");
-            System.out.println("Lancez le(s) "+attaque.get(2) +" dé(s) "+attaque.get(3)+" de dégâts (appuyez sur entrer)");
-            sc.nextLine();
-            if(attaque.get(2)>1){
-                for (int i = 0; i < attaque.get(2); i++){
-                    System.out.print("["+attaque.get(i+4)+"]");
-                }
-                System.out.println();
-            }
-            System.out.println("Vous avez fait "+attaque.get(attaque.get(2)+5));
-            System.out.println( attaquant.getMatricule()+" inflige "+attaque.get(attaque.get(2)+5)+" dégats à "+cible.getMatricule());
-            System.out.println("Il lui reste "+cible.getPV()+" PV.");
+        System.out.println();
+        if (resultDe < cible.getCA()) {
+            System.out.println(cible.getCA() + "(CA) >" + resultDe + " : l'attaque ne touche pas");
+            return;
         }
+        System.out.println(cible.getCA() + "(CA) <" + resultDe + " : l'attaque touche");
+
+        Dice deAttaque = attaquant.getAttaque().getDe();
+        int nbLances = attaquant.getAttaque().getNbDe();
+
+        System.out.println("Lancez le(s) " + nbLances + " dé(s) " + deAttaque.getVal() + " de dégâts (appuyez sur entrer)");
+        sc.nextLine();
+
+        ArrayList<Integer> deroulement = new ArrayList<Integer>();
+        int resultDegats=deAttaque.rollDice(nbLances,deroulement);
+        for (int i = 0; i < nbLances; i++) {
+            System.out.print("[" + deroulement.get(i) + "]");
+        }
+        System.out.println();
+        System.out.print("Vous avez fait " + resultDegats);
+        if (attaquant.estJouable() && ((Personnages) attaquant).getArme().getBonusDegats() > 0) {
+            resultDegats += ((Personnages) attaquant).getArme().getBonusDegats();
+            System.out.print("+ " + ((Personnages) attaquant).getArme().getBonusDegats() + "(bonus de dégâts) = " + resultDegats);
+        }
+        System.out.println();
+
+        if(resultDegats >= cible.getPV()){
+            cible.setPV(0);
+        }
+        else{
+            cible.setPV(cible.getPV() - resultDegats);
+        }
+
+        System.out.println(attaquant.getMatricule() + " inflige " + resultDegats + " dégats à " + cible.getMatricule());
+        System.out.println("Il lui reste " + cible.getPV() + " PV.");
+
     }
 
     public Monstres choixCibleMonstre(){
@@ -476,19 +501,20 @@ public class Tour {
                     if (changeEquipement()) {
                         m_actions--;
                         Create.commentaire(m_joueur);
+                        interventionMJ();
                     }
                     break;
                 case 2:
                     if (deplacerJoueur()) {
                         m_actions--;
                         Create.commentaire(m_joueur);
+                        interventionMJ();
                     }
                     break;
                 case 3:
                     Monstres cible = choixCibleMonstre();
                     if(cible!=null){
-                        ArrayList<Integer> attaque = m_joueur.attaquer(cible);
-                        lireAttaque(attaque, m_joueur, cible);
+                        Attaquer(m_joueur, cible);
                         if (cible.getPV() == 0) {
                             System.out.println(cible.getNom() + " est mort");
                             m_donjons.removeEnnemi(m_donjons.getEnnemiPosition(cible));
@@ -498,6 +524,7 @@ public class Tour {
                         }
                         m_actions--;
                         Create.commentaire(m_joueur);
+                        interventionMJ();
                     }
                     else{
                         System.out.println("Il n'y as pas de monstres à porté");
@@ -513,16 +540,17 @@ public class Tour {
                             m_donjons.removeLoot(m_donjons.getPersonnagePosition(m_joueur));
                             m_actions--;
                             Create.commentaire(m_joueur);
+                            interventionMJ();
                             break;
                         }
                     }
                 case 5:
                     if (Create.yesNoQuestion("Voulez vous vraiment passer vos "+ m_actions +" actions restantes (y/n) : ")) {
                         m_actions=0;
+                        interventionMJ();
                     }
                     break;
             }
-            interventionMJ();
         }
         return continuDonjon;
     }
@@ -539,19 +567,20 @@ public class Tour {
                     if (deplacerMonstre()) {
                         m_actions--;
                         Create.commentaire(m_joueur);
+                        interventionMJ();
                     }
                     break;
                 case 2:
                     Personnages cible = choixCiblePersonnage();
                     if(cible!=null){
-                        ArrayList<Integer> attaque = m_monstre.attaquer(cible);
-                        lireAttaque(attaque, m_monstre, cible);
+                        Attaquer(m_monstre, cible);
                         if (cible.getPV() == 0) {
                             System.out.println(cible.getNom() + " est mort");
                             return echecDonjon;
                         }
                         m_actions--;
                         Create.commentaire(m_joueur);
+                        interventionMJ();
                     }
                     else{
                         System.out.println("Il n'y as pas de joueurs à porté");
@@ -562,10 +591,10 @@ public class Tour {
                 case 3:
                     if (Create.yesNoQuestion("Voulez vous vraiment passer vos "+ m_actions +" actions restantes (y/n) : ")) {
                         m_actions=0;
+                        interventionMJ();
                     }
                     break;
             }
-            interventionMJ();
         }
         return continuDonjon;
     }

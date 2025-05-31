@@ -8,10 +8,12 @@ import entites.personnages.Personnages;
 import entites.personnages.equipements.Equipements;
 import entites.personnages.equipements.armes.Armes;
 import entites.personnages.equipements.armures.Armures;
+import entites.personnages.sorts.Sorts;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Tour {
@@ -174,6 +176,42 @@ public class Tour {
             fin =tourMonstre();
         }
         return fin;
+    }
+
+    private boolean selectionSort(){
+        Scanner sc=new Scanner(System.in);
+        int numSort = 0;
+        int i=1;
+        HashMap<Integer, Sorts> choixSorts = new HashMap<>();
+        while (numSort > i || numSort < 1) {
+            System.out.println("Quel sort voulez vous lancer ?");
+            i=1;
+            choixSorts =new HashMap<>();
+            for(Sorts s : m_joueur.getSorts() ) {
+                System.out.println(i + "-" + s.getNom()+"("+s.getDescription()+")");
+                choixSorts.put(i,s);
+                i++;
+            }
+            if(i==1){
+                System.out.println("Vous n'avez pas de sorts");
+                return false;
+            }
+            System.out.println(i + "-retour");
+            try {
+                numSort = Integer.parseInt(sc.nextLine());
+                if (numSort > i || numSort < 1) {
+                    System.out.println("/!\\Le numéro selectionné n'est pas l'une des possibilités/!\\");
+                }
+                else if (numSort == i) {
+                    return false;
+                }
+
+            } catch (Exception e) {
+                System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+            }
+        }
+        choixSorts.get(numSort).lancerSort();
+        return true;
     }
 
     private boolean changeEquipement(){
@@ -486,17 +524,27 @@ public class Tour {
 
         while(m_actions!=0) {
             m_donjons.afficherTour();
-
+            Map<Integer,Integer> equivalence=new HashMap<>();
+            equivalence.put(1,1);
+            equivalence.put(2,2);
+            equivalence.put(3,3);
             int numAction = 0;
             int nbAction = 4;
             String actionPlus="";
             if (m_donjons.getLoot().containsKey(m_donjons.getPersonnagePosition(m_joueur))) {
-                actionPlus=("\n4-ramasser " + m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur)).getNom());
-                nbAction = 5;
+                actionPlus=("\n"+nbAction+"-ramasser " + m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur)).getNom());
+                equivalence.put(nbAction,4);
+                nbAction ++;
+            }
+            if (m_joueur.getSorts()!=null) {
+                actionPlus=("\n"+nbAction+"-utiliser un sort ");
+                equivalence.put(nbAction,5);
+                nbAction ++;
             }
             actionPlus +="\n"+nbAction +"-passer le reste du tour";
+            equivalence.put(nbAction,6);
             numAction =Create.selectNombre("Il vous reste " + this.m_actions + " action(s) \nQue voulez vous faire ? :\n1-changer l'équipement \n2-se déplacer \n3-attaquer un monstre"+actionPlus+"\n",1,nbAction);
-            switch (numAction) {
+            switch (equivalence.get(numAction)) {
                 case 1:
                     if (changeEquipement()) {
                         m_actions--;
@@ -533,7 +581,6 @@ public class Tour {
                     }
                     break;
                 case 4:
-                    if(nbAction==5) {
                         Equipements item = m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur));
                         if (Create.yesNoQuestion("Voulez vous ramasser " + item + " (y/n) : ")) {
                             m_joueur.getInventaire().add(item);
@@ -541,10 +588,16 @@ public class Tour {
                             m_actions--;
                             Create.commentaire(m_joueur);
                             interventionMJ();
-                            break;
                         }
-                    }
+                    break;
                 case 5:
+                    if(selectionSort()){
+                        m_actions--;
+                        Create.commentaire(m_joueur);
+                        interventionMJ();
+                    }
+                    break;
+                case 6:
                     if (Create.yesNoQuestion("Voulez vous vraiment passer vos "+ m_actions +" actions restantes (y/n) : ")) {
                         m_actions=0;
                         interventionMJ();

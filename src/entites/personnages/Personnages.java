@@ -13,6 +13,7 @@ import entites.personnages.equipements.armures.*;
 import entites.personnages.equipements.armes.*;
 import entites.personnages.equipements.armures.legeres.Legeres;
 import entites.personnages.races.Races;
+import entites.personnages.sorts.Sorts;
 
 public class Personnages extends Entites {
     private final String m_nom;
@@ -21,6 +22,7 @@ public class Personnages extends Entites {
     private final ArrayList<Equipements> m_inventaire;
     private Armes m_arme;
     private Armures m_armure;
+    private ArrayList<Sorts> m_sorts;
 
     public Personnages(){
         super();
@@ -30,6 +32,7 @@ public class Personnages extends Entites {
         m_arme = new Poing();
         m_armure = new PasArmure();
         m_inventaire = m_classe.getInventaire();
+        m_sorts = m_classe.getSortsConnus();
         this.setPseudo(m_nom.substring(0,3));
     }
     public Personnages(String nom, Races race, Classes classe, int force4d4, int dexterite4d4, int initiative4d4, ArrayList<Equipements> inventaire, Armes arme, Armures armure, int vitesse4d4){
@@ -40,6 +43,7 @@ public class Personnages extends Entites {
         m_arme = arme;
         m_armure = armure;
         m_inventaire = inventaire;
+        m_sorts = classe.getSortsConnus();
         if(m_nom.length()>3){
             this.setPseudo(m_nom.substring(0,3));
         }
@@ -55,6 +59,7 @@ public class Personnages extends Entites {
         m_arme = new Poing();
         m_armure = new PasArmure();
         m_inventaire = classe.getInventaire();
+        m_sorts = classe.getSortsConnus();
         if(m_nom.length()>3){
             this.setPseudo(m_nom.substring(0,3));
         }
@@ -139,6 +144,9 @@ public class Personnages extends Entites {
 
     public ArrayList<Equipements> getInventaire(){
         return m_inventaire;
+    }
+    public ArrayList<Sorts> getSorts() {
+        return m_sorts;
     }
     public Armes getArme(){
         return m_arme;

@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class Dice {
     private int m_val;
-
     public Dice() {
         this.m_val = 1;
     }
@@ -14,6 +13,9 @@ public class Dice {
     }
     public int getVal(){
         return m_val;
+    }
+    public void setVal(int val) {
+        this.m_val = val;
     }
     @Override
     public String toString() {

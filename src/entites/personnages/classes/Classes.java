@@ -1,6 +1,7 @@
 package entites.personnages.classes;
 
 import entites.personnages.equipements.Equipements;
+import entites.personnages.sorts.Sorts;
 
 import java.util.ArrayList;
 
@@ -8,6 +9,7 @@ public class Classes {
     private final String m_nom;
     private int m_PVMax;
     private ArrayList<Equipements> m_inventaire;
+    private ArrayList<Sorts> m_sortsConnus;
 
     public Classes(){
         m_nom = "Classe sans nom";
@@ -16,12 +18,15 @@ public class Classes {
     }
     public Classes(String nom){
         m_nom = nom;
+        m_PVMax = 10;
         m_inventaire = new ArrayList<>();
+        m_sortsConnus = new ArrayList<>();
     }
     public Classes(String nom, int pvmax){
         m_nom = nom;
         m_PVMax = pvmax;
         m_inventaire = new ArrayList<>();
+        m_sortsConnus = new ArrayList<>();
     }
 
     public String getStats(){
@@ -43,8 +48,14 @@ public class Classes {
     public ArrayList<Equipements> getInventaire(){
         return m_inventaire;
     }
+    public ArrayList<Sorts> getSortsConnus() {
+        return m_sortsConnus;
+    }
     public void setInventaire(Equipements equipement){
         m_inventaire.add(equipement);
+    }
+    public void setSortsConnus(Sorts sort) {
+        m_sortsConnus.add(sort);
     }
     @Override
     public String toString(){

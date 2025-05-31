@@ -35,47 +35,7 @@ public abstract class Entites {
         m_CA = CA;
         m_vitesse = vitesse;
     }
-    public int degatsAttaque(ArrayList<Integer> deroulement){
-        Dice deAttaque = this.getAttaque().getDe();
-        int nbLances = this.getAttaque().getNbDe();
-        deroulement.add(nbLances);
-        deroulement.add(deAttaque.getVal());
-        return deAttaque.rollDice(nbLances,deroulement);
-    }
-    public Boolean attaqueTouche(int CA,ArrayList<Integer> deroulement){
-        D20 dice = new D20();
-        int resultDe =dice.rollDice();
-        deroulement.add(resultDe);
-        if(resultDe<CA){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
 
-    public ArrayList<Integer> attaquer(Entites cible){
-        ArrayList<Integer> deroulement = new ArrayList<Integer>();
-        if(this.attaqueTouche(cible.getCA(),deroulement)){
-            deroulement.add(1);
-            int degatInflige = this.degatsAttaque(deroulement);
-            deroulement.add(degatInflige);
-            cible.estBlesse(degatInflige);
-            return deroulement;
-        }
-        else {
-            deroulement.add(0);
-            return deroulement;
-        }
-    }
-    public void estBlesse(int degats){
-        if(degats >= m_PV){
-            m_PV = 0;
-        }
-        else{
-            m_PV = m_PV - degats;
-        }
-    }
     public abstract String getMatricule();
     public int getPVMax(){
         return m_PVMax;
@@ -116,6 +76,15 @@ public abstract class Entites {
     public String getPseudo() {
         return m_pseudo;
     }
+    public void setPV(int pv) {
+        if (pv > m_PVMax) {
+            m_PV = m_PVMax;
+        } else if (pv < 0) {
+            m_PV = 0;
+        } else {
+            m_PV = pv;
+        }
+    }
     public boolean estJouable(){
         return false;
     }
@@ -131,4 +100,6 @@ public abstract class Entites {
         }
         return false;
     }
+
+
 }

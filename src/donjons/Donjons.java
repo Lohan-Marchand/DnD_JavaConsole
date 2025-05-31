@@ -229,31 +229,34 @@ public class Donjons{
         Positions pos1 = null;
         Positions pos2 = null;
 
-        for(Map.Entry<Positions, Personnages> entry : m_joueurs.entrySet()){
-            if(entry.getValue().equals(cible1)){
-                pos1 = entry.getKey();
-            }
-            if(entry.getValue().equals(cible2)){
-                pos2 = entry.getKey();
-            }
+        if(cible1.estJouable()){
+            pos1=this.getPersonnagePosition((Personnages)cible1);
         }
-        for(Map.Entry<Positions, Monstres> entry : m_ennemis.entrySet()){
-            if(entry.getValue().equals(cible1)){
-                pos1 = entry.getKey();
-            }
-            if(entry.getValue().equals(cible2)){
-                pos2 = entry.getKey();
-            }
+        else{
+            pos1=this.getEnnemiPosition((Monstres)cible1);
         }
 
+        if(cible2.estJouable()){
+            pos2=this.getPersonnagePosition((Personnages)cible2);
+        }
+        else{
+            pos2=this.getEnnemiPosition((Monstres)cible2);
+        }
+
+
         if(pos1 != null && pos2 != null){
-            if(m_joueurs.containsKey(pos1) && m_joueurs.containsKey(pos2)){
-                m_joueurs.put(pos1, (Personnages) cible2);
-                m_joueurs.put(pos2, (Personnages) cible1);
+            if(cible1.estJouable()){
+                this.moveJoueur((Personnages)cible1,pos2);
             }
-            else if(m_ennemis.containsKey(pos1) && m_ennemis.containsKey(pos2)){
-                m_ennemis.put(pos1, (Monstres) cible2);
-                m_ennemis.put(pos2, (Monstres) cible1);
+            else{
+                this.moveEnnemi((Monstres)cible1,pos2);
+            }
+
+            if(cible2.estJouable()){
+                this.moveJoueur((Personnages)cible2,pos1);
+            }
+            else{
+                this.moveEnnemi((Monstres)cible2,pos1);
             }
             updateMap();
         }

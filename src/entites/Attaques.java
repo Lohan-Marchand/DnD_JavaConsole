@@ -42,9 +42,10 @@ public class Attaques {
         this.m_de = de;
         this.m_nbDe = nbDe;
     }
-    public int calculerDegats(){
+    public int calculerDegats(int bonusJetAttaque, int bonusDegats){
         Dice de = new Dice(m_de.getVal());
-        return de.rollDice(m_nbDe);
+        de.setBonusJet(bonusJetAttaque);
+        return de.rollDice(m_nbDe)+bonusDegats;
 
     }
     public String getNom(){
@@ -58,6 +59,18 @@ public class Attaques {
     }
     public int getNbDe(){
         return m_nbDe;
+    }
+    public void setNom(String nom){
+        this.m_nom = nom;
+    }
+    public void setPortee(int portee){
+        this.m_portee = portee;
+    }
+    public void setDe(Dice de){
+        this.m_de = de;
+    }
+    public void setNbDe(int nbDe){
+        this.m_nbDe = nbDe;
     }
 
     @Override

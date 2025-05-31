@@ -116,6 +116,15 @@ public abstract class Entites {
     public String getPseudo() {
         return m_pseudo;
     }
+    public void setPV(int pv) {
+        if (pv > m_PVMax) {
+            m_PV = m_PVMax;
+        } else if (pv < 0) {
+            m_PV = 0;
+        } else {
+            m_PV = pv;
+        }
+    }
     public boolean estJouable(){
         return false;
     }
@@ -131,4 +140,6 @@ public abstract class Entites {
         }
         return false;
     }
+
+
 }

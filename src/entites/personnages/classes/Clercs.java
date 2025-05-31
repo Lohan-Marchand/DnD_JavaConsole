@@ -3,6 +3,7 @@ package entites.personnages.classes;
 import entites.personnages.equipements.armes.courantes.MasseArme;
 import entites.personnages.equipements.armes.distance.ArbaleteLegere;
 import entites.personnages.equipements.armures.legeres.ArmureEcaille;
+import entites.personnages.sorts.Guerison;
 
 public class Clercs extends Classes{
     public Clercs(){
@@ -10,5 +11,8 @@ public class Clercs extends Classes{
         setInventaire(new MasseArme());
         setInventaire(new ArbaleteLegere());
         setInventaire(new ArmureEcaille());
+        setSortsConnus(new Guerison());
     }
+
+
 }

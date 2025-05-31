@@ -150,6 +150,9 @@ public class Personnages extends Entites {
     public String getStats(){
         return (this.getPseudo()+" "+ this.m_nom+" ["+this.m_race.getNom()+" | "+this.m_classe.getNom() +"] (For= +"+this.getForce()+" | Dex= +"+this.getDexterite()+" | Vit= +"+this.getVitesse()+" | Initiative= +"+this.getInitiative()+")");
     }
+    public void setPV(int PV){
+        super.setPV(PV);
+    }
 
     @Override
     public String toString(){

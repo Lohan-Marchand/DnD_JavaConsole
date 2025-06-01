@@ -305,11 +305,11 @@ public class Donjon2 extends Donjons {
         addObstacle(new Positions(2, 4)); addObstacle(new Positions(3, 4)); addObstacle(new Positions(4, 4));
         addObstacle(new Positions(2, 5)); addObstacle(new Positions(3, 5)); addObstacle(new Positions(4, 5));
 
-        addEnnemi(new Positions(1, 6), new Monstres("Serpent de feu", 1,"~2~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(11, 12), new Monstres("Serpent de feu", 2,"~3~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(19, 20), new Monstres("Serpent de feu", 3,"~4~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(19, 2), new Monstres("Serpent de feu", 4,"~5~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(23, 24), new Monstres("Serpent de feu", 5,"~6~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(1, 6), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(6, 22), new Monstres("Serpent de feu", 2,"~2~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(19, 20), new Monstres("Serpent de feu", 3,"~3~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(19, 2), new Monstres("Serpent de feu", 4,"~4~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+        addEnnemi(new Positions(23, 24), new Monstres("Serpent de feu", 5,"~5~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
 
 
         ArrayList<Positions> posJoueurs= new ArrayList<>();

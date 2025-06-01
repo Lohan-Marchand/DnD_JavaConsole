@@ -55,9 +55,11 @@ public class ArmeMagique extends Sorts{
         HashMap<Integer, Armes> armes = new HashMap<>();
         for (Equipements e : joueurSelectionne.getInventaire()) {
             if (e.getCategorie().substring(0, 4).equals(new Courante().getCategorie().substring(0, 4))) {
-                choix2 += j + "-" + e.getNom() + "\n";
-                armes.put(j, (Armes) e);
-                j++;
+                if(e.getNom() != "Poing"){
+                    choix2 += j + "-" + e.getNom() + "\n";
+                    armes.put(j, (Armes) e);
+                    j++;
+                }
             }
         }
         choix2 += j + "-retour\n";
@@ -71,7 +73,9 @@ public class ArmeMagique extends Sorts{
             System.out.println("Erreur l'arme est null");
             return false;
         }
-        //écrire validation
+        if(!Create.yesNoQuestion("Voulez-vous vraiment enchanter " + armeSelectionne.getNom() + " de " + joueurSelectionne.getNom() + " ? (y/n)")){
+            return false;
+        }
         armeSelectionne.setBonusAttaque(1);
         armeSelectionne.setBonusDegats(1);
         System.out.println("L'arme " + armeSelectionne.getNom() + " a reçu un bonus de 1 aux jets d'attaques et de dégats.");

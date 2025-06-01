@@ -61,8 +61,15 @@ public class BoogieWoogie extends Sorts{
         else if(numchoix2 == j){
             return lancerSort(donjons);
         }
+        if(entiteSelectionne1 == entiteSelectionne2){
+            System.out.println("Erreur les deux entités sont identiques");
+            return false;
+        }
         if(entiteSelectionne2 == null){
             System.out.println("Erreur l'entité2 est null");
+            return false;
+        }
+        if(!Create.yesNoQuestion("Voulez-vous vraiment échanger de place " + entiteSelectionne1.getMatricule() + " de " + entiteSelectionne2.getMatricule() + " ? (y/n)")){
             return false;
         }
         donjons.echangerPositionsEntites(entiteSelectionne1, entiteSelectionne2);

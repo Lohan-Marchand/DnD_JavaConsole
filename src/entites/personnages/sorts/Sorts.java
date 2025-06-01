@@ -1,5 +1,7 @@
 package entites.personnages.sorts;
 
+import donjons.Donjons;
+import utilities.*;
 import entites.personnages.Personnages;
 
 import java.util.Objects;
@@ -25,8 +27,9 @@ public class Sorts {
     }
 
     //Je sais pas trop comment faire pour celle-ci dcp chaque sort la surcharge
-    public void lancerSort(){
+    public boolean lancerSort(Donjons donjons){
         System.out.println("lancerSort n'est pas implémenté pour ce sort.");
+        return false;
     }
     @Override
     public String toString() {

@@ -1,3 +1,5 @@
+package utilities;
+
 import dice.D20;
 import dice.Dice;
 import donjons.Donjons;
@@ -210,8 +212,7 @@ public class Tour {
                 System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
             }
         }
-        choixSorts.get(numSort).lancerSort();
-        return true;
+        return choixSorts.get(numSort).lancerSort(m_donjons);
     }
 
     private boolean changeEquipement(){

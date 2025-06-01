@@ -1,8 +1,6 @@
-import donjons.Donjon1;
-import donjons.Donjon2;
-import donjons.Donjon3;
 import donjons.Donjons;
 import entites.personnages.Personnages;
+import utilities.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;

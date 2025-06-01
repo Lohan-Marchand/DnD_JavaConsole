@@ -1,9 +1,12 @@
 package entites.personnages.sorts;
 
 import dice.D10;
+import donjons.Donjons;
 import entites.personnages.Personnages;
+import utilities.Create;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Guerison extends Sorts{
@@ -11,7 +14,7 @@ public class Guerison extends Sorts{
         super("Guérison", "Soigne un personnage de 1d10 PVs.");
     }
 
-    public void lancerSort(Personnages personnage) {
+    public void soins(Personnages personnage) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Lancez 1d10 pour le nombre de PV à guérir  (appuyez sur entrer)");
         sc.nextLine();
@@ -22,7 +25,30 @@ public class Guerison extends Sorts{
         System.out.println(personnage.getPseudo()+" a été soigné de "+soins+" PVs. ("+personnage.getPV() +"/"+personnage.getPVMax()+")");
     }
     @Override
-    public void lancerSort(){
-        System.out.println("Donner une entité à guérir en paramètre.");
+    public boolean lancerSort(Donjons donjons){
+        //choix personnage
+        String choix = "Qui voulez-vous soigner ?\n";
+        Personnages joueurSelectionne = null;
+        int i = 1;
+        HashMap<Integer, Personnages> joueurs = new HashMap<>();
+        for (Personnages p : donjons.getJoueurs().values()) {
+            choix += i + "-" + p.getMatricule() + "\n";
+            joueurs.put(i, p);
+            i++;
+        }
+        choix += i + "-retour\n";
+        int numchoix = Create.selectNombre(choix, 1, i);
+        if (numchoix < i) {
+            joueurSelectionne = joueurs.get(numchoix);
+        } else if (numchoix == i) {
+            return false;
+        }
+        if (joueurSelectionne == null) {
+            System.out.println("Erreur le personnage est null");
+            return false;
+        }
+        //Soins
+        this.soins(joueurSelectionne);
+        return true;
     }
 }

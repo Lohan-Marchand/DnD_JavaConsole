@@ -1,3 +1,5 @@
+package utilities;
+
 import dice.D20;
 import dice.D4;
 import dice.Dice;

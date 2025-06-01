@@ -532,12 +532,12 @@ public class Tour {
             int nbAction = 4;
             String actionPlus="";
             if (m_donjons.getLoot().containsKey(m_donjons.getPersonnagePosition(m_joueur))) {
-                actionPlus=("\n"+nbAction+"-ramasser " + m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur)).getNom());
+                actionPlus+=("\n"+nbAction+"-ramasser " + m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur)).getNom());
                 equivalence.put(nbAction,4);
                 nbAction ++;
             }
-            if (m_joueur.getSorts()!=null) {
-                actionPlus=("\n"+nbAction+"-utiliser un sort ");
+            if (!m_joueur.getSorts().isEmpty()) {
+                actionPlus+=("\n"+nbAction+"-utiliser un sort ");
                 equivalence.put(nbAction,5);
                 nbAction ++;
             }

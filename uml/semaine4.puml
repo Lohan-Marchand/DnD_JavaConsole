@@ -210,7 +210,7 @@ package entites.personnages.sorts {
         + Sorts(String nom, String description)
         + String getNom()
         + String getDescription()
-        + void lancerSort()
+        + boolean lancerSort(Donjon donjon)
         + String toString()
     }
 

@@ -19,10 +19,10 @@ public class Guerison extends Sorts{
         System.out.println("Lancez 1d10 pour le nombre de PV à guérir  (appuyez sur entrer)");
         sc.nextLine();
         int soins = new D10().rollDice();
-        System.out.print("Vous avez fait " + soins);
+        System.out.println("Vous avez fait " + soins);
 
         personnage.setPV(personnage.getPV() + soins);
-        System.out.println(personnage.getPseudo()+" a été soigné de "+soins+" PVs. ("+personnage.getPV() +"/"+personnage.getPVMax()+")");
+        System.out.println(personnage.getMatricule()+" a été soigné de "+soins+" PVs. ("+personnage.getPV() +"/"+personnage.getPVMax()+")");
     }
     @Override
     public boolean lancerSort(Donjons donjons){
@@ -39,7 +39,7 @@ public class Guerison extends Sorts{
             }
         }
         choix += i + "-retour\n";
-        if(i >= 1){
+        if(i <= 1){
             System.out.println("Il n'y a personne à soigner (appuyer sur entrer)");
             Scanner sc = new Scanner(System.in);
             sc.nextLine();

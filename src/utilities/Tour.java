@@ -47,7 +47,7 @@ public class Tour {
         System.out.print("Vous avez fait " + resultDe);
         if (attaquant.estJouable() && ((Personnages) attaquant).getArme().getBonusAttaque() > 0) {
             resultDe += ((Personnages) attaquant).getArme().getBonusAttaque();
-            System.out.print("+ " + ((Personnages) attaquant).getArme().getBonusAttaque() + "(bonus d'Attaque) = " + resultDe);
+            System.out.print(" +" + ((Personnages) attaquant).getArme().getBonusAttaque() + "(bonus d'Attaque) = " + resultDe);
         }
         System.out.println();
         if (resultDe < cible.getCA()) {
@@ -71,7 +71,7 @@ public class Tour {
         System.out.print("Vous avez fait " + resultDegats);
         if (attaquant.estJouable() && ((Personnages) attaquant).getArme().getBonusDegats() > 0) {
             resultDegats += ((Personnages) attaquant).getArme().getBonusDegats();
-            System.out.print("+ " + ((Personnages) attaquant).getArme().getBonusDegats() + "(bonus de dégâts) = " + resultDegats);
+            System.out.print(" +" + ((Personnages) attaquant).getArme().getBonusDegats() + "(bonus de dégâts) = " + resultDegats);
         }
         System.out.println();
 
@@ -112,10 +112,14 @@ public class Tour {
                     i++;
                 }
             }
-            i--;
-            if(i==0){
+            if(i==1){
+                System.out.println("Il n'y as pas de monstres à porté");
+                System.out.print("____Appuyez sur entrer____\n");
+                sc.nextLine();
                 return null;
             }
+            System.out.println(i+"-retour");
+            choixCible.put(i,null);
             try {
                 numCible = Integer.parseInt(sc.nextLine());
                 if (numCible > i || numCible < 1) {
@@ -153,10 +157,14 @@ public class Tour {
                     i++;
                 }
             }
-            i--;
-            if(i==0){
+            if(i==1){
+                System.out.println("Il n'y as pas de joueur à porté");
+                System.out.print("____Appuyez sur entrer____\n");
+                sc.nextLine();
                 return null;
             }
+            System.out.println(i+"-retour");
+            choixCible.put(i,null);
             try {
                 numCible = Integer.parseInt(sc.nextLine());
                 if (numCible > i || numCible < 1) {
@@ -479,6 +487,7 @@ public class Tour {
             System.out.print("["+deroulement.get(d)+"]");
         }
         System.out.println("\n"+entiteSelectionne.getMatricule()+" subit donc "+degats+" dégâts.");
+        entiteSelectionne.setPV(entiteSelectionne.getPV()-degats);
         System.out.println("Il lui reste "+entiteSelectionne.getPV()+" PV.");
         return true;
     }
@@ -575,11 +584,6 @@ public class Tour {
                         Create.commentaire(m_joueur);
                         interventionMJ();
                     }
-                    else{
-                        System.out.println("Il n'y as pas de monstres à porté");
-                        System.out.print("____Appuyez sur entrer____\n");
-                        sc.nextLine();
-                    }
                     break;
                 case 4:
                         Equipements item = m_donjons.getLoot().get(m_donjons.getPersonnagePosition(m_joueur));
@@ -635,11 +639,6 @@ public class Tour {
                         m_actions--;
                         Create.commentaire(m_joueur);
                         interventionMJ();
-                    }
-                    else{
-                        System.out.println("Il n'y as pas de joueurs à porté");
-                        System.out.print("____Appuyez sur entrer____\n");
-                        sc.nextLine();
                     }
                     break;
                 case 3:

@@ -5,6 +5,7 @@ import entites.personnages.Personnages;
 import entites.personnages.equipements.Equipements;
 import entites.personnages.equipements.armes.Armes;
 import entites.personnages.equipements.armes.courantes.Courante;
+import entites.personnages.equipements.armes.courantes.Poing;
 import utilities.*;
 
 import java.util.ArrayList;
@@ -53,9 +54,14 @@ public class ArmeMagique extends Sorts{
         Armes armeSelectionne = null;
         int j = 1;
         HashMap<Integer, Armes> armes = new HashMap<>();
+        if(!joueurSelectionne.getArme().equals(new Poing())){
+            choix2 += j + "-" + joueurSelectionne.getArme().getNom() + "\n";
+            armes.put(j, joueurSelectionne.getArme());
+            j++;
+        }
         for (Equipements e : joueurSelectionne.getInventaire()) {
             if (e.getCategorie().substring(0, 4).equals(new Courante().getCategorie().substring(0, 4))) {
-                if(e.getNom() != "Poing"){
+                if(!e.equals(new Poing())){
                     choix2 += j + "-" + e.getNom() + "\n";
                     armes.put(j, (Armes) e);
                     j++;

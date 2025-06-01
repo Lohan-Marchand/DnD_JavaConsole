@@ -48,9 +48,11 @@ public class BoogieWoogie extends Sorts{
         int j =1;
         HashMap<Integer, Entites> entites2 = new HashMap<>();
         for(Entites e : donjons.getOrdre()){
-            choix2 += j +"-"+e.getMatricule()+"\n";
-            entites2.put(j,e);
-            j++;
+            if(!e.equals(entiteSelectionne1)){
+                choix2 += j +"-"+e.getMatricule()+"\n";
+                entites2.put(j,e);
+                j++;
+            }
         }
         choix2 += j +"-retour\n";
 
@@ -69,11 +71,11 @@ public class BoogieWoogie extends Sorts{
             System.out.println("Erreur l'entité2 est null");
             return false;
         }
-        if(!Create.yesNoQuestion("Voulez-vous vraiment échanger de place " + entiteSelectionne1.getMatricule() + " de " + entiteSelectionne2.getMatricule() + " ? (y/n)")){
+        if(!Create.yesNoQuestion("Voulez-vous vraiment échanger de place " + entiteSelectionne1.getMatricule() + " et " + entiteSelectionne2.getMatricule() + " ? (y/n)")){
             return false;
         }
         donjons.echangerPositionsEntites(entiteSelectionne1, entiteSelectionne2);
-        System.out.println(entiteSelectionne1.getPseudo() + " a échangé sa position avec " + entiteSelectionne2.getPseudo() + ".");
+        System.out.println(entiteSelectionne1.getMatricule() + " a échangé sa position avec " + entiteSelectionne2.getMatricule() + ".");
         return true;
     }
 }

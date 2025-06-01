@@ -201,6 +201,42 @@ package entites.personnages.classes {
   Classes <|-- Magiciens
 }
 
+package entites.personnages.sorts {
+
+    class Sorts {
+        - String m_nom
+        - String m_description
+        + Sorts()
+        + Sorts(String nom, String description)
+        + String getNom()
+        + String getDescription()
+        + void lancerSort()
+        + String toString()
+    }
+
+    class Guerison {
+        + Guerison()
+        + void lancerSort(entites.personnages.Personnages personnage)
+        + void lancerSort()
+    }
+
+    class ArmeMagique {
+        + ArmeMagique()
+        + void lancerSort(java.util.ArrayList<entites.personnages.equipements.Equipements> inventaire, entites.personnages.equipements.armes.Armes arme)
+        + void lancerSort()
+    }
+
+    class BoogieWoogie {
+        + BoogieWoogie()
+        + void lancerSort(donjons.Donjons donjons, entites.personnages.Personnages cible1, entites.personnages.Personnages cible2)
+        + void lancerSort()
+    }
+
+    Sorts <|-- Guerison
+    Sorts <|-- ArmeMagique
+    Sorts <|-- BoogieWoogie
+}
+
 package entites.personnages.equipements {
   abstract class Equipements {
     - m_nom: String
@@ -349,5 +385,59 @@ package donjons {
     }
    Donjons <|-- Positions
 }
+package utilities {
 
+    class Create {
+        -Create()
+        +creerPartie() : ArrayList<Personnages>
+        +creerPersonnage(Partie : ArrayList<Personnages>) : Personnages
+        +creerAttaque() : Attaques
+        +creerMonstre(bestiaire : ArrayList<Monstres>, Partie : ArrayList<Personnages>) : Monstres
+        +creerBestiaire(Partie : ArrayList<Personnages>) : ArrayList<Monstres>
+        +selectEquipement() : Equipements
+        +column(alphaVal : String) : int
+        +creerObstacle(donjon : Donjons) : boolean
+        +PositionMonstre(donjon : Donjons, monstre : Monstres) : void
+        +PositionPersonnage(donjon : Donjons, personnage : Personnages) : void
+        +PositionEquipement(donjon : Donjons) : void
+        +yesNoQuestion(question : String) : boolean
+        +donjonParDefaut(build : Donjons, joueurs : ArrayList<Personnages>) : Donjons
+        +creerDonjon(joueurs : ArrayList<Personnages>, num : int) : Donjons
+        +choixArme(p : Personnages) : void
+        +choixArmure(p : Personnages) : void
+        +commentaire(p : Personnages) : void
+        +debutDonjon(build : Donjons) : void
+        +selectNombre(question : String, min : int, max : int) : int
+    }
+
+    class Tour {
+        class Tour {
+                -m_donjons : Donjons
+                -m_joueur : Personnages
+                -m_monstre : Monstres
+                -m_actions : int
+                -continuDonjon : int
+                -reussiDonjon : int
+                -echecDonjon : int
+
+                +Tour()
+                +Tour(e : Entites, d : Donjons)
+                +Attaquer(attaquant : Entites, cible : Entites) : void
+                +choixCibleMonstre() : Monstres
+                +choixCiblePersonnage() : Personnages
+                +joueTour() : int
+                -selectionSort() : boolean
+                -changeEquipement() : boolean
+                -deplacerJoueur() : boolean
+                -deplacerMonstre() : boolean
+                -deplacerEntite() : boolean
+                -infligeDegats() : boolean
+                -interventionMJ() : void
+                -tourJoueur() : int
+                +tourMonstre() : int
+
+
+            }
+    }
+}
 @enduml

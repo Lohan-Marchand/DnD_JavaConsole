@@ -11,6 +11,7 @@ import entites.personnages.equipements.armures.legeres.ArmureEcaille;
 import entites.personnages.equipements.armures.legeres.DemiPlate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Donjon1 extends Donjons {
 
@@ -344,10 +345,39 @@ public class Donjon1 extends Donjons {
         posJoueurs.add(new Positions(14, 23));
 
 
+        ArrayList<Positions> posEnnemis= new ArrayList<>();
+        posEnnemis.add(new Positions(21, 6));
+        posEnnemis.add(new Positions(1, 2));
+        posEnnemis.add(new Positions(2, 3));
+        posEnnemis.add(new Positions(21, 18));
+        posEnnemis.add(new Positions(16, 2));
+        posEnnemis.add(new Positions(1, 24));
+        posEnnemis.add(new Positions(21, 6));
+        posEnnemis.add(new Positions(12, 1));
+        posEnnemis.add(new Positions(17, 18));
+        posEnnemis.add(new Positions(18, 2));
+        posEnnemis.add(new Positions(14, 14));
+
+        ArrayList<Monstres> ennemis= new ArrayList<>();
+        ennemis.add(new Monstres("Rat", 1,"<O~", new Attaques("Ronger",1,new Dice(2),1), 5, 6, 0, 18, 0, 19));
+        ennemis.add(new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",3,new Dice(3),2), 12, 0, 12, 10, 3, 16));
+        ennemis.add(new Monstres("Ogre", 1,"Q-Q", new Attaques("Taper",1,new Dice(9),1), 16, 14, 0, 6, 8, 5));
+        ennemis.add(new Monstres("Serpent de feu", 2,"~2~", new Attaques("Brûlure",3,new Dice(2),3), 11, 0, 13, 12, 3, 17));
+        ennemis.add(new Monstres("Ogre", 2,"OnO", new Attaques("Taper",1,new Dice(9),1), 15, 16, 0, 5, 9, 5));
+        ennemis.add(new Monstres("Ogre", 3,"OuO", new Attaques("Taper",1,new Dice(9),1), 15, 15, 0, 6, 8, 6));
+        ennemis.add(new Monstres("Serpent de feu", 3,"~3~", new Attaques("Brûlure",3,new Dice(6),1), 12, 0, 12, 11, 3, 15));
+        ennemis.add(new Monstres("Ogre", 4,"O_O", new Attaques("Taper",1,new Dice(9),1), 16, 14, 0, 6, 8, 5));
+        ennemis.add(new Monstres("Ogre", 5,"°n°", new Attaques("Taper",1,new Dice(8),1), 16, 13, 0, 6, 9, 6));
+        ennemis.add(new Monstres("Serpent de feu", 4,"~4~", new Attaques("Brûlure",3,new Dice(2),3), 11, 0, 13, 12, 3, 17));
+        ennemis.add(new Monstres("Ogre", 6,"U-U", new Attaques("Taper",1,new Dice(8),1), 16, 13, 0, 6, 9, 6));
+
         int i=0;
         for (Personnages p:personnages) {
             addJoueur(posJoueurs.get(i), p);
             i++;
+        }
+        for(int j=0;j<=i;j++){
+            addEnnemi(posEnnemis.get(j),ennemis.get(j));
         }
 
         addLoot(new Positions(4, 3), new EpeeLongue());
@@ -355,11 +385,6 @@ public class Donjon1 extends Donjons {
         addLoot(new Positions(1, 23), new ArmureEcaille());
         addLoot(new Positions(12, 22), new DemiPlate());
 
-        addEnnemi(new Positions(1, 2), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(16, 2), new Monstres("Serpent de feu", 2,"~2~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(17, 18), new Monstres("Serpent de feu", 3,"~3~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(21, 18), new Monstres("Serpent de feu", 4,"~4~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(1, 24), new Monstres("Serpent de feu", 5,"~5~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
 
         updateMap();
     }

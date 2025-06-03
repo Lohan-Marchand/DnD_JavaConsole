@@ -105,6 +105,8 @@ public class Donjons{
         updateMap();
     }
     public void removeJoueur(Positions pos){
+        m_initiatives.remove(m_joueurs.get(pos));
+        m_ordre.removeIf(p -> p.equals(m_joueurs.get(pos)));
         m_joueurs.remove(pos, m_joueurs.get(pos));
         updateMap();
     }
@@ -123,6 +125,8 @@ public class Donjons{
         updateMap();
     }
     public void removeEnnemi(Positions pos){
+        m_initiatives.remove(m_ennemis.get(pos));
+        m_ordre.removeIf(e -> e.equals(m_ennemis.get(pos)));
         m_ennemis.remove(pos, m_ennemis.get(pos));
         updateMap();
     }

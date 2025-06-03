@@ -201,6 +201,42 @@ package entites.personnages.classes {
   Classes <|-- Magiciens
 }
 
+package entites.personnages.sorts {
+
+    class Sorts {
+        - String m_nom
+        - String m_description
+        + Sorts()
+        + Sorts(String nom, String description)
+        + String getNom()
+        + String getDescription()
+        + void lancerSort()
+        + String toString()
+    }
+
+    class Guerison {
+        + Guerison()
+        + void lancerSort(entites.personnages.Personnages personnage)
+        + void lancerSort()
+    }
+
+    class ArmeMagique {
+        + ArmeMagique()
+        + void lancerSort(java.util.ArrayList<entites.personnages.equipements.Equipements> inventaire, entites.personnages.equipements.armes.Armes arme)
+        + void lancerSort()
+    }
+
+    class BoogieWoogie {
+        + BoogieWoogie()
+        + void lancerSort(donjons.Donjons donjons, entites.personnages.Personnages cible1, entites.personnages.Personnages cible2)
+        + void lancerSort()
+    }
+
+    Sorts <|-- Guerison
+    Sorts <|-- ArmeMagique
+    Sorts <|-- BoogieWoogie
+}
+
 package entites.personnages.equipements {
   abstract class Equipements {
     - m_nom: String

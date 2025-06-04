@@ -276,7 +276,7 @@ public class Donjons{
             }
         }
         for(Map.Entry<Positions, Equipements> entry : m_loot.entrySet()){
-            m_map[entry.getKey().getY()-1] = m_map[entry.getKey().getY()-1].substring(0,(entry.getKey().getX())*3)+" * "+m_map[entry.getKey().getY()-1].substring((entry.getKey().getX())*3+3);
+            m_map[entry.getKey().getY()-1] = m_map[entry.getKey().getY()-1].substring(0,(entry.getKey().getX())*3)+"-✤➢"+m_map[entry.getKey().getY()-1].substring((entry.getKey().getX())*3+3);
         }
         for(Map.Entry<Positions, Personnages> entry : m_joueurs.entrySet()){
             String pseudo = "";
@@ -311,7 +311,7 @@ public class Donjons{
             m_map[entry.getKey().getY()-1] = m_map[entry.getKey().getY()-1].substring(0,(entry.getKey().getX())*3)+pseudo+m_map[entry.getKey().getY()-1].substring((entry.getKey().getX())*3+3);
         }
         for(Positions pos : m_obstacles){
-            m_map[pos.getY()-1] = m_map[pos.getY()-1].substring(0,(pos.getX())*3)+"[X]"+m_map[pos.getY()-1].substring((pos.getX())*3+3);
+            m_map[pos.getY()-1] = m_map[pos.getY()-1].substring(0,(pos.getX())*3)+"███"+m_map[pos.getY()-1].substring((pos.getX())*3+3);
         }
     }
     public String getNom(){
@@ -380,7 +380,7 @@ public class Donjons{
         for(int i = 0; i < displayedMap.length; i++){
             mapString +=(displayedMap[i] +"\n");
         }
-        mapString +=("Obstacles: [X], Loot: *");
+        mapString +=("Obstacles: ███, Loot: -✤➢ ");
         return mapString;
     }
     public Map<Entites, Integer> getInitiatives(){

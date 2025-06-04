@@ -5,6 +5,7 @@ import entites.Attaques;
 import entites.monstres.Monstres;
 import entites.personnages.Personnages;
 import entites.personnages.equipements.Equipements;
+import entites.personnages.equipements.armes.deGuerre.Epee2Main;
 import entites.personnages.equipements.armes.deGuerre.EpeeLongue;
 import entites.personnages.equipements.armes.distance.ArbaleteLegere;
 import entites.personnages.equipements.armures.legeres.ArmureEcaille;
@@ -305,11 +306,35 @@ public class Donjon2 extends Donjons {
         addObstacle(new Positions(2, 4)); addObstacle(new Positions(3, 4)); addObstacle(new Positions(4, 4));
         addObstacle(new Positions(2, 5)); addObstacle(new Positions(3, 5)); addObstacle(new Positions(4, 5));
 
-        addEnnemi(new Positions(1, 6), new Monstres("Serpent de feu", 1,"~1~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(6, 22), new Monstres("Serpent de feu", 2,"~2~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(19, 20), new Monstres("Serpent de feu", 3,"~3~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(19, 2), new Monstres("Serpent de feu", 4,"~4~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
-        addEnnemi(new Positions(23, 24), new Monstres("Serpent de feu", 5,"~5~", new Attaques("Brûlure",1,new Dice(8),1), 12, 12, 0, 10, 6, 16));
+
+        ArrayList<Positions> posEnnemis= new ArrayList<>();
+        posEnnemis.add(new Positions(12, 24));
+        posEnnemis.add(new Positions(6, 22));
+        posEnnemis.add(new Positions(19, 20));
+        posEnnemis.add(new Positions(19, 2));
+        posEnnemis.add(new Positions(23, 24));
+        posEnnemis.add(new Positions(6, 13));
+        posEnnemis.add(new Positions(3, 19));
+        posEnnemis.add(new Positions(1, 6));
+        posEnnemis.add(new Positions(16, 12));
+        posEnnemis.add(new Positions(3, 2));
+        posEnnemis.add(new Positions(22, 9));
+
+
+        ArrayList<Monstres> ennemis= new ArrayList<>();
+        ennemis.add(new Monstres("Larbin", 1,"╿1╿", new Attaques("Coup de plumeau",1,new Dice(6),1), 12, 10, 0, 15, 11, 20));
+        ennemis.add(new Monstres("Mage de feu", 1,"łƑΞ", new Attaques("Flammes",8,new Dice(10),1), 20, 0, 15, 12, 6, 15));
+        ennemis.add(new Monstres("Larbin", 2,"╿2╿", new Attaques("Coup de plumeau",1,new Dice(6),1), 12, 10, 0, 15, 11, 20));
+        ennemis.add(new Monstres("Larbin", 3,"╿3╿", new Attaques("Coup de plumeau",1,new Dice(6),1), 12, 10, 0, 15, 11, 20));
+        ennemis.add(new Monstres("Mage électrique", 1,"łẾϟ", new Attaques("Foudre",10,new Dice(4),3), 21, 0, 16, 14, 6, 19));
+        ennemis.add(new Monstres("Larbin", 4,"╿4╿", new Attaques("Coup de plumeau",1,new Dice(6),1), 12, 10, 0, 15, 11, 20));
+        ennemis.add(new Monstres("Larbin", 5,"╿5╿", new Attaques("Coup de plumeau",1,new Dice(6),1), 12, 10, 0, 15, 11, 20));
+        ennemis.add(new Monstres("Mage de glaçe", 1,"łǦ*", new Attaques("Pics de Glaçe",8,new Dice(6),2), 19, 0, 15, 13, 6, 16));
+        ennemis.add(new Monstres("Larbin", 6,"╿6╿", new Attaques("Coup de plumeau",1,new Dice(6),1), 12, 10, 0, 15, 11, 20));
+        ennemis.add(new Monstres("Larbin", 7,"╿7╿", new Attaques("Coup de plumeau",1,new Dice(6),1), 12, 10, 0, 15, 11, 20));
+        ennemis.add(new Monstres("Mage des plantes", 1,"łƤʬ", new Attaques("Lianes",10,new Dice(4),4), 21, 0, 16, 8, 8, 12));
+        ennemis.add(new Monstres("Larbin", 8,"╿8╿", new Attaques("Coup de plumeau",1,new Dice(6),1), 12, 10, 0, 15, 11, 20));
+
 
 
         ArrayList<Positions> posJoueurs= new ArrayList<>();
@@ -330,11 +355,15 @@ public class Donjon2 extends Donjons {
             addJoueur(posJoueurs.get(i), p);
             i++;
         }
+        for(int j=0;j<=i;j++){
+            addEnnemi(posEnnemis.get(j),ennemis.get(j));
+        }
 
-        addLoot(new Positions(2, 5), new EpeeLongue());
+        addLoot(new Positions(2, 6), new EpeeLongue());
         addLoot(new Positions(1, 24), new ArbaleteLegere());
         addLoot(new Positions(22, 2), new ArmureEcaille());
         addLoot(new Positions(21, 13), new DemiPlate());
+        addLoot(new Positions(0, 13), new Epee2Main());
 
         updateMap();
     }

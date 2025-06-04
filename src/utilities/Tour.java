@@ -488,13 +488,24 @@ public class Tour {
         }
         System.out.println("\n"+entiteSelectionne.getMatricule()+" subit donc "+degats+" dégâts.");
         entiteSelectionne.setPV(entiteSelectionne.getPV()-degats);
+        if(entiteSelectionne.getPV()==0){
+            System.out.println(entiteSelectionne.getMatricule() +" est mort(e)");
+            if(entiteSelectionne.estJouable()){
+                m_donjons.removeJoueur(m_donjons.getPersonnagePosition((Personnages) entiteSelectionne));
+            }
+            else{
+                m_donjons.removeEnnemi(m_donjons.getEnnemiPosition((Monstres) entiteSelectionne));
+            }
+            m_actions=3;
+            return true;
+        }
         System.out.println("Il lui reste "+entiteSelectionne.getPV()+" PV.");
         return true;
     }
 
-    private void interventionMJ(){
+    private int interventionMJ(){
         if(!Create.yesNoQuestion("Le MJ veut-il intervenir ? (y/n) :")){
-            return;
+            return continuDonjon;
         }
         while (true) {
             int numAction = 0;
@@ -511,6 +522,14 @@ public class Tour {
                 case 2:
                     if (infligeDegats()) {
                         Create.commentaire(null);
+                        if (m_donjons.getEnnemis().isEmpty()) {
+                            return reussiDonjon;
+                        }
+                        for (Personnages p :m_donjons.getJoueurs().values()) {
+                            if(p.getPV()==0){
+                                return echecDonjon;
+                            }
+                        }
                     } else {
                         System.out.println("Dégâts annulés");
                     }
@@ -524,7 +543,7 @@ public class Tour {
                     }
                     break;
                 case 4:
-                    return;
+                    return continuDonjon;
             }
         }
     }
@@ -559,14 +578,20 @@ public class Tour {
                     if (changeEquipement()) {
                         m_actions--;
                         Create.commentaire(m_joueur);
-                        interventionMJ();
+                        int result =interventionMJ();
+                        if (result !=continuDonjon){
+                            return result;
+                        }
                     }
                     break;
                 case 2:
                     if (deplacerJoueur()) {
                         m_actions--;
                         Create.commentaire(m_joueur);
-                        interventionMJ();
+                        int result =interventionMJ();
+                        if (result !=continuDonjon){
+                            return result;
+                        }
                     }
                     break;
                 case 3:
@@ -574,7 +599,7 @@ public class Tour {
                     if(cible!=null){
                         Attaquer(m_joueur, cible);
                         if (cible.getPV() == 0) {
-                            System.out.println(cible.getNom() + " est mort");
+                            System.out.println(cible.getNom() + " est mort(e)");
                             m_donjons.removeEnnemi(m_donjons.getEnnemiPosition(cible));
                             if (m_donjons.getEnnemis().isEmpty()) {
                                 return reussiDonjon;
@@ -582,7 +607,10 @@ public class Tour {
                         }
                         m_actions--;
                         Create.commentaire(m_joueur);
-                        interventionMJ();
+                        int result =interventionMJ();
+                        if (result !=continuDonjon){
+                            return result;
+                        }
                     }
                     break;
                 case 4:
@@ -592,20 +620,29 @@ public class Tour {
                             m_donjons.removeLoot(m_donjons.getPersonnagePosition(m_joueur));
                             m_actions--;
                             Create.commentaire(m_joueur);
-                            interventionMJ();
+                            int result =interventionMJ();
+                            if (result !=continuDonjon) {
+                                return result;
+                            }
                         }
                     break;
                 case 5:
                     if(selectionSort()){
                         m_actions--;
                         Create.commentaire(m_joueur);
-                        interventionMJ();
+                        int result =interventionMJ();
+                        if (result !=continuDonjon){
+                            return result;
+                        }
                     }
                     break;
                 case 6:
                     if (Create.yesNoQuestion("Voulez vous vraiment passer vos "+ m_actions +" actions restantes (y/n) : ")) {
                         m_actions=0;
-                        interventionMJ();
+                        int result =interventionMJ();
+                        if (result !=continuDonjon){
+                            return result;
+                        }
                     }
                     break;
             }
@@ -625,7 +662,10 @@ public class Tour {
                     if (deplacerMonstre()) {
                         m_actions--;
                         Create.commentaire(m_joueur);
-                        interventionMJ();
+                        int result =interventionMJ();
+                        if (result !=continuDonjon){
+                            return result;
+                        }
                     }
                     break;
                 case 2:
@@ -633,18 +673,24 @@ public class Tour {
                     if(cible!=null){
                         Attaquer(m_monstre, cible);
                         if (cible.getPV() == 0) {
-                            System.out.println(cible.getNom() + " est mort");
+                            System.out.println(cible.getNom() + " est mort(e)");
                             return echecDonjon;
                         }
                         m_actions--;
                         Create.commentaire(m_joueur);
-                        interventionMJ();
+                        int result =interventionMJ();
+                        if (result !=continuDonjon){
+                            return result;
+                        }
                     }
                     break;
                 case 3:
                     if (Create.yesNoQuestion("Voulez vous vraiment passer vos "+ m_actions +" actions restantes (y/n) : ")) {
                         m_actions=0;
-                        interventionMJ();
+                        int result =interventionMJ();
+                        if (result !=continuDonjon){
+                            return result;
+                        }
                     }
                     break;
             }

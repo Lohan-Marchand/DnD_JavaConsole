@@ -147,7 +147,7 @@ public final class Create {
             sc.nextLine();
             initiative = new D4().rollDice(4, deroulement);
             System.out.println("Vous avez fais " + deroulement.get(4) + "([" + deroulement.get(0) + "][" + deroulement.get(1) + "][" + deroulement.get(2) + "][" + deroulement.get(3) + "])");
-            System.out.println("Votre bonus d'initiative : " + (initiative + 3 + race.getM_bonusInitiative()));
+            System.out.println("Votre bonus d'initiative : " + (initiative + 3 + race.getBonusInitiative()));
 
             deroulement.clear();
             System.out.println("Vitesse (appuyez sur entrer):");

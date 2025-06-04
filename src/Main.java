@@ -171,8 +171,6 @@ public class Main {
                     System.out.println("____________________________________________________________________\n\t\tTous les monstres du donjon ont été éliminés\n\t\t\t\tVous atteignez le donjon suivant\n____________________________________________________________________");
                 }
             }
-
-
         }
     }
 }

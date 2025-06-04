@@ -21,7 +21,7 @@ public class Races {
     public int getBonusVitesse(){
         return 0;
     }
-    public int getM_bonusInitiative(){
+    public int getBonusInitiative(){
         return 0;
     }
     public int getBonusPVMax(){

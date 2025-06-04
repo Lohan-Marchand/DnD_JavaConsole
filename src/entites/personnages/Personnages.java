@@ -4,14 +4,11 @@ import java.util.ArrayList;
 
 import entites.Attaques;
 import entites.Entites;
-import entites.monstres.Monstres;
 import entites.personnages.classes.Classes;
 import entites.personnages.equipements.*;
-import entites.personnages.equipements.armes.courantes.Courante;
 import entites.personnages.equipements.armes.courantes.Poing;
 import entites.personnages.equipements.armures.*;
 import entites.personnages.equipements.armes.*;
-import entites.personnages.equipements.armures.legeres.Legeres;
 import entites.personnages.races.Races;
 import entites.personnages.sorts.Sorts;
 
@@ -36,7 +33,7 @@ public class Personnages extends Entites {
         this.setPseudo(m_nom.substring(0,3));
     }
     public Personnages(String nom, Races race, Classes classe, int force4d4, int dexterite4d4, int initiative4d4, ArrayList<Equipements> inventaire, Armes arme, Armures armure, int vitesse4d4){
-        super(arme.getAttaques(),classe.getPVMax() + race.getBonusPVMax(),force4d4 +3+ race.getBonusForce(),dexterite4d4 + 3+race.getBonusDexterite(),initiative4d4 +3+ race.getM_bonusInitiative(),0,vitesse4d4 +3+ race.getBonusVitesse());
+        super(arme.getAttaques(),classe.getPVMax() + race.getBonusPVMax(),force4d4 +3+ race.getBonusForce(),dexterite4d4 + 3+race.getBonusDexterite(),initiative4d4 +3+ race.getBonusInitiative(),0,vitesse4d4 +3+ race.getBonusVitesse());
         m_nom = nom;
         m_race = race;
         m_classe = classe;
@@ -52,7 +49,7 @@ public class Personnages extends Entites {
         }
     }
     public Personnages(String nom, Races race, Classes classe, int force4d4, int dexterite4d4, int initiative4d4, int vitesse4d4){
-        super(new Poing().getAttaques(),classe.getPVMax() + race.getBonusPVMax(),force4d4 +3+ race.getBonusForce(),dexterite4d4 + 3+race.getBonusDexterite(),initiative4d4 +3+ race.getM_bonusInitiative(),0,vitesse4d4 +3+ race.getBonusVitesse());
+        super(new Poing().getAttaques(),classe.getPVMax() + race.getBonusPVMax(),force4d4 +3+ race.getBonusForce(),dexterite4d4 + 3+race.getBonusDexterite(),initiative4d4 +3+ race.getBonusInitiative(),0,vitesse4d4 +3+ race.getBonusVitesse());
         m_nom = nom;
         m_race = race;
         m_classe = classe;

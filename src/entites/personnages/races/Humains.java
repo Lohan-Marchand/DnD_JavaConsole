@@ -22,7 +22,7 @@ public class Humains extends Races{
     public int getBonusVitesse(){
         return m_bonusVitesse;
     }
-    public int getM_bonusInitiative(){
+    public int getBonusInitiative(){
         return m_bonusInitiative;
     }
 

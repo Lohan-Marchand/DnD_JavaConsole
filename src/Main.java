@@ -141,7 +141,7 @@ public class Main {
         ArrayList<Personnages> Joueurs= Create.creerPartie();    //Création des personnages
         for(int i=1; i<4; i++){
             Donjons donjon= Create.creerDonjon(Joueurs,i);
-            System.out.println( donjon(i)+donjon.getDesc());
+            System.out.println( donjon(i)+"\n\t\t\t___________________"+donjon.getNom()+"___________________\n\t\t\t\t\t\t"+donjon.getDesc()+"\n");
             donjon.afficherMap();
             Create.debutDonjon(donjon);
             Scanner sc = new Scanner(System.in);

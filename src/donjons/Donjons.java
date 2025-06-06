@@ -357,7 +357,7 @@ public class Donjons{
     public ArrayList<Positions> getObstacles(){
         return m_obstacles;
     }
-    public String getMap(){//Lohan : j'ai modifié plein de trucs
+    public String getMap(){
 
 
         String[] displayedMap = new String[m_hauteur+4];

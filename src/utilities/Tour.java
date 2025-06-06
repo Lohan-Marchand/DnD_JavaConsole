@@ -275,16 +275,9 @@ public class Tour {
         Scanner sc=new Scanner(System.in);
         while(true){
             int hauteur = -1;
-            hauteur=Create.selectNombre("À quelle ligne déplacer "+ m_joueur.getNom() +" ? : ",1,hauteurDonjon);
+            hauteur=Create.selectNombre("À quelle ligne déplacer "+ m_joueur.getNom() +" ? \n ",1,hauteurDonjon);
             int largeur = -1;
-            while (largeur > largeurDonjon-1 || largeur < 0) {
-                System.out.print("À quelle colonne déplacer " + m_joueur.getNom() + " ? : ");
-                String alphaVal = sc.nextLine();
-                largeur = Create.column(alphaVal);
-                if (largeur > largeurDonjon-1 || largeur < -1) {
-                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
-                }
-            }
+            largeur=Create.selectLettre("À quelle colonne déplacer " + m_joueur.getNom() + " ?\n ",0,largeurDonjon-1);
             if (m_donjons.getPersonnagePosition(m_joueur).getX() == largeur && m_donjons.getPersonnagePosition(m_joueur).getY() == hauteur) {
                 if (Create.yesNoQuestion(m_joueur.getNom() + " restera à la même place (n'utilise pas une action)\n\n ____Correct ?(y/n)____")) {
                     return false;
@@ -331,16 +324,9 @@ public class Tour {
         Scanner sc=new Scanner(System.in);
         while(true){
             int hauteur = -1;
-            hauteur=Create.selectNombre("À quelle ligne déplacer "+ m_monstre.getNom() +" ? : ",1,hauteurDonjon);
+            hauteur=Create.selectNombre("À quelle ligne déplacer "+ m_monstre.getNom() +" ?\n ",1,hauteurDonjon);
             int largeur = -1;
-            while (largeur > largeurDonjon-1 || largeur < 0) {
-                System.out.print("À quelle colonne déplacer " + m_monstre.getNom() + " ? : ");
-                String alphaVal = sc.nextLine();
-                largeur = Create.column(alphaVal);
-                if (largeur > largeurDonjon-1 || largeur < -1) {
-                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
-                }
-            }
+            largeur=Create.selectLettre("À quelle colonne déplacer " + m_monstre.getNom() + " ?\n ",0,largeurDonjon-1);
             if (m_donjons.getEnnemiPosition(m_monstre).getX() == largeur && m_donjons.getEnnemiPosition(m_monstre).getY() == hauteur) {
                 if (Create.yesNoQuestion( m_monstre.getNom() + " restera à la même place (n'utilise pas une action) \n\n ____Correct ?(y/n)____")) {
                     return false;
@@ -407,16 +393,9 @@ public class Tour {
         Scanner sc=new Scanner(System.in);
         while(true){
             int hauteur = -1;
-            hauteur=Create.selectNombre("À quelle ligne déplacer "+ entiteSelectionne.getMatricule() +" ? : ",1,hauteurDonjon);
+            hauteur=Create.selectNombre("À quelle ligne déplacer "+ entiteSelectionne.getMatricule() +" ?\n ",1,hauteurDonjon);
             int largeur = -1;
-            while (largeur > largeurDonjon-1 || largeur < 0) {
-                System.out.print("À quelle colonne déplacer " + entiteSelectionne.getMatricule() + " ? : ");
-                String alphaVal = sc.nextLine();
-                largeur = Create.column(alphaVal);
-                if (largeur > largeurDonjon-1 || largeur < -1) {
-                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
-                }
-            }
+            largeur=Create.selectLettre("À quelle colonne déplacer " + entiteSelectionne.getMatricule() + " ?\n ",0,largeurDonjon-1);
             if (!m_donjons.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cette case n'est pas disponible");
             }

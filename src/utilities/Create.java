@@ -178,7 +178,7 @@ public final class Create {
 
         valDice=selectNombre("Veuillez choisir la valeur du/des dé(s) à lancer par attaque",1,100);
 
-        nbDice=selectNombre("Veuillez choisir le nombre de dé \"+valDice+\" à lancer par attaque",1,20);
+        nbDice=selectNombre("Veuillez choisir le nombre de dé "+valDice+" à lancer par attaque",1,20);
 
         return new Attaques(nom,portee, new Dice(valDice),nbDice);
     }
@@ -261,7 +261,7 @@ public final class Create {
             }
             initiative=selectNombre("Veuillez choisir le bonus d'initiative",1,20);
 
-            vitesse=selectNombre("Veuillez choisir la valeur de vitesse",1,20);
+            vitesse=selectNombre("Veuillez choisir la valeur de vitesse",3,20);
 
             CA=selectNombre("Veuillez choisir le classe d'armure",1,20);
 
@@ -291,17 +291,17 @@ public final class Create {
         while (true) {
             boolean type = false;
             int numType = 0;
-            numType=selectNombre("Voulez vous créer : \n1-une arme \n2-une armure",1,2);
+            numType=selectNombre("Voulez vous créer : \n1-une arme \n2-une armure\n",1,2);
             switch (numType) {
                 case 1:
                     type = true;
                     while (type) {
                         int numTypeArme = 0;
-                        numTypeArme=selectNombre("\tVoulez vous créer :\n\t1-une arme de guerre au corps à corps \n\t2-une arme courante au corps à corps \n\t3-une arme courante à distance \n\t4-Retour",1,4);
+                        numTypeArme=selectNombre("\tVoulez vous créer :\n\t1-une arme de guerre au corps à corps \n\t2-une arme courante au corps à corps \n\t3-une arme courante à distance \n\t4-Retour\n",1,4);
                         switch (numTypeArme) {
                             case 1:
                                 int numTypeArmeDeGuerre = 0;
-                                numTypeArmeDeGuerre=selectNombre("\t\tVoulez vous créer :\n\t\t1-une épée longue \n\t\t2-une rapière \n\t\t3-une épée à deux mains \n\t\t4-Retour",1,4);
+                                numTypeArmeDeGuerre=selectNombre("\t\tVoulez vous créer :\n\t\t1-une épée longue \n\t\t2-une rapière \n\t\t3-une épée à deux mains \n\t\t4-Retour\n",1,4);
                                 switch (numTypeArmeDeGuerre) {
                                     case 1:
                                         return new EpeeLongue();
@@ -315,7 +315,7 @@ public final class Create {
                                 break;
                             case 2:
                                 int numTypeArmeCourante = 0;
-                                numTypeArmeCourante=selectNombre("\t\tVoulez vous créer :\n\t\t1-un bâton \n\t\t2-une masse d'arme \n\t\t3-Retour",1,3);
+                                numTypeArmeCourante=selectNombre("\t\tVoulez vous créer :\n\t\t1-un bâton \n\t\t2-une masse d'arme \n\t\t3-Retour\n",1,3);
                                 switch (numTypeArmeCourante) {
                                     case 1:
                                         return new Baton();
@@ -327,7 +327,7 @@ public final class Create {
                                 break;
                             case 3:
                                 int numTypeArmeDistance = 0;
-                                numTypeArmeDistance=selectNombre("\t\tVoulez vous créer :\n\t\t1-une arbalète légère \n\t\t2-un arc court \n\t\t3-une fronde \n\t\t4-Retour",1,4);
+                                numTypeArmeDistance=selectNombre("\t\tVoulez vous créer :\n\t\t1-une arbalète légère \n\t\t2-un arc court \n\t\t3-une fronde \n\t\t4-Retour\n",1,4);
                                 switch (numTypeArmeDistance) {
                                     case 1:
                                         return new ArbaleteLegere();
@@ -349,11 +349,11 @@ public final class Create {
                     type = true;
                     while (type) {
                         int numTypeArmure = 0;
-                        numTypeArmure=selectNombre("\tVoulez vous créer :\n\t1-une armure légère \n\t2-une armure lourde \n\t3-Retour",1,3);
+                        numTypeArmure=selectNombre("\tVoulez vous créer :\n\t1-une armure légère \n\t2-une armure lourde \n\t3-Retour\n",1,3);
                         switch (numTypeArmure) {
                             case 1:
                                 int numTypeArmureLegere = 0;
-                                numTypeArmureLegere=selectNombre("\t\tVoulez vous créer :\n\t\t1-une armure d'écailles \n\t\t2-une demi-plate \n\t\t3-Retour",1,3);
+                                numTypeArmureLegere=selectNombre("\t\tVoulez vous créer :\n\t\t1-une armure d'écailles \n\t\t2-une demi-plate \n\t\t3-Retour\n",1,3);
                                 switch (numTypeArmureLegere) {
                                     case 1:
                                         return new ArmureEcaille();
@@ -365,7 +365,7 @@ public final class Create {
                                 break;
                             case 2:
                                 int numTypeArmureLourde = 0;
-                                numTypeArmureLourde=selectNombre("\t\tVoulez vous créer :\n\t\t1-une cote de maille \n\t\t2-un harnois \n\t\t3-Retour",1,3);
+                                numTypeArmureLourde=selectNombre("\t\tVoulez vous créer :\n\t\t1-une cote de maille \n\t\t2-un harnois \n\t\t3-Retour\n",1,3);
                                 switch (numTypeArmureLourde) {
                                     case 1:
                                         return new CoteMaille();
@@ -388,13 +388,16 @@ public final class Create {
     public static int column(String alphaVal){
         try {
             if(!(alphaVal.length()==1)){
-                System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
+                System.out.println("/!\\Vous ne devez entrez qu'une lettre /!\\");
                 return -1;
             }
             if(!(alphaVal.charAt(0)>90) && !(alphaVal.charAt(0)<65)){
-                return (alphaVal.charAt(0))-17-'0';
+                return (alphaVal.charAt(0))-'A';
             }
-            System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
+            if(!(alphaVal.charAt(0)>122) && !(alphaVal.charAt(0)<97)){
+                return (alphaVal.charAt(0))-'a';
+            }
+            System.out.println("/!\\La valeur entrée n'est pas une lettre /!\\");
         } catch (Exception e) {
             System.out.println("/!\\La valeur entrée n'est pas un correct /!\\");
         }
@@ -406,16 +409,9 @@ public final class Create {
         Scanner sc = new Scanner(System.in);
         while (true) {
             int hauteur = -1;
-            hauteur=selectNombre("Quel est la ligne de l'obstacle ? : ",1,hauteurDonjon);
+            hauteur=selectNombre("Quel est la ligne de l'obstacle ? \n",1,hauteurDonjon);
             int largeur = -1;
-            while (largeur > largeurDonjon-1 || largeur < 0) {
-                System.out.print("Quel est la colonne de l'obstacle ? : ");
-                String alphaVal=sc.nextLine();
-                largeur = column(alphaVal);
-                if (largeur > largeurDonjon-1 || largeur < -1) {
-                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
-                }
-            }
+            largeur=selectLettre("Quel est la colonne de l'obstacle ? \n",0,largeurDonjon-1);
             if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cet obstacle existe déjà");
             } else {
@@ -438,17 +434,10 @@ public final class Create {
         boolean Valide=false;
         while (!Valide) {
             int hauteur = -1;
-            hauteur=selectNombre("Quel est la ligne de "+ monstre.getNom()+" ? : ",1,hauteurDonjon);
+            hauteur=selectNombre("Quel est la ligne de "+ monstre.getNom()+" ? \n ",1,hauteurDonjon);
 
             int largeur = -1;
-            while (largeur > largeurDonjon-1 || largeur < 0) {
-                System.out.print("Quel est la colonne de "+ monstre.getNom() +" ? : ");
-                String alphaVal=sc.nextLine();
-                largeur = column(alphaVal);
-                if (largeur > largeurDonjon-1 || largeur < -1) {
-                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
-                }
-            }
+            largeur=selectLettre("Quel est la colonne de "+ monstre.getNom() +" ? \n ",0,largeurDonjon-1);
             if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cette case n'est pas disponible");
             }
@@ -468,17 +457,10 @@ public final class Create {
         boolean Valide=false;
         while (!Valide) {
             int hauteur = -1;
-            hauteur=selectNombre("Quel est la ligne de "+ personnage.getNom()+" ? : ",1,hauteurDonjon);
+            hauteur=selectNombre("Quel est la ligne de "+ personnage.getNom()+" ? \n ",1,hauteurDonjon);
 
             int largeur = -1;
-            while (largeur > largeurDonjon-1 || largeur < 0) {
-                System.out.print("Quel est la colonne de " + personnage.getNom() + " ? : ");
-                String alphaVal = sc.nextLine();
-                largeur = column(alphaVal);
-                if (largeur > largeurDonjon-1 || largeur < -1) {
-                    System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
-                }
-            }
+            largeur=selectLettre("Quel est la colonne de " + personnage.getNom() + " ? \n ",0,largeurDonjon-1);
             if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                 System.out.println("Cette case n'est pas disponible");
             }
@@ -505,14 +487,7 @@ public final class Create {
                 hauteur=selectNombre("Quel est la ligne du loot ? : ",1,hauteurDonjon);
 
                 int largeur = -1;
-                while (largeur > largeurDonjon-1 || largeur < 0) {
-                    System.out.print("Quel est la colonne du loot ? : ");
-                    String alphaVal=sc.nextLine();
-                    largeur = column(alphaVal);
-                    if (largeur > largeurDonjon-1 || largeur < -1) {
-                        System.out.println("/!\\La colonne selectionné n'est pas l'une des possibilités/!\\");
-                    }
-                }
+                largeur=selectLettre("Quel est la colonne du loot ? : ",0,largeurDonjon-1);
                 if (!donjon.estLibre(new Positions(largeur,hauteur))) {
                     System.out.println("Cette case n'est pas disponible");
                 } else {
@@ -828,6 +803,28 @@ public final class Create {
             }
             catch(Exception e){
                 System.out.println("/!\\La valeur entrée n'est pas un numéro/!\\");
+            }
+        }
+        return choix;
+    }
+
+    public static char intEnLettre(int val){
+        if(val<26){
+            return (char)(val+'A');
+        }
+        else{
+            return 'Z';
+        }
+    }
+
+    public static int selectLettre(String question,int min,int max){
+        int choix=min-1;
+        Scanner sc=new Scanner(System.in);
+        while(choix<min || choix>max ){
+            System.out.print(question+" (entre "+intEnLettre(min)+" et "+intEnLettre(max)+"): ");
+            choix = column(sc.nextLine());
+            if(choix<min || choix>max){
+                System.out.println("/!\\La valeur entrée doit être comprises entre "+ intEnLettre(min) +" et "+ intEnLettre(max) +"/!\\");
             }
         }
         return choix;

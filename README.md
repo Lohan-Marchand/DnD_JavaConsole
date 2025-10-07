@@ -1,33 +1,9 @@
-# DOOnjon&Dragon Project
+# Doo&D - Donjon et Dragon
 
-On souhaite développer une application pour **un nouveau un jeu D&D**.
-C'est un jeu de rôle de Medieval Fantasy où les joueurs incarnent des personnages affrontant des monstres dans plusieurs donjons successifs.
+<img width="1166" height="523" alt="image" src="https://github.com/user-attachments/assets/8d41a342-c9b8-4e07-9cd5-1b0fef9ac19e" />
 
-## Organisation
-
-- Travail en **binôme** au sein d'un même groupe de TP
-- Le travail doit être réalisé sur un fork du projet dans le groupe <nom_etudiant_1>-<nom_etudiant_2> que vous aurez créé
-- Durée : 5 semaines
-- Nombre de séances :
-   - 8h encadrées en groupe de TD
-   - 12h encadrées, en groupe TP
-   - 10h tutorées, en promo complète
-   - travail non-encadré (SAé libre)
-- Sujet dévoilé en deux phases :
-  - Phase 1 dévoilée **Lundi 5 mai** sur les deux premières semaines
-  - Phase 2 dévoilée le **Lundi 19 mai**
-
-## Calendrier
-
-- Lundi **5 mai** : début du projet
-- Dimanche **18 mai** : rendu intermédiaire
-- Lundi 19 mai : début de la phase 2
-- Dimanche **8 Juin** à minuit : rendu final
-- De Mercredi **11** à Vendredi **13 juin** : soutenances
-
-De plus, il y aura un rendu hebdomadaire avant chaque **dimanche, minuit**.
-
-
+Un jeu de Donjon et Dragon en java avec affichage en console.
+C'est un jeu de rôle de Medieval Fantasy où les joueurs incarnent des personnages affrontant des monstres dans plusieurs(3) donjons successifs.
 
 ## Le jeu
 

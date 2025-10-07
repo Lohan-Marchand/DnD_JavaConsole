@@ -7,6 +7,13 @@
 Un jeu de Donjon et Dragon en java avec affichage en console.
 Il s'agit d'un jeu avec plusieurs joueurs face à des monstres contrôlés par le maître du jeu, qui se joue **au tour par tour**. Les joueurs incarnant les personnages doivent éliminer les monstres de trois donjons successifs. Un autre joueur est Maître du Jeu et a pour rôle de narrer l'histoire et expliquer le contexte aux joueurs. Si un seul joueur est éliminé par un monstre dans un des donjons, l'équipe a perdu.
 
+## Techniques utilisés
+Programmation en language Java / Développement orienté objet et affichage dans un terminal.
+
+## Installation
+Télécharger et lancer le main
+
+## Fonctionnalités
 
 ### Les personnages
 
@@ -142,7 +149,6 @@ Chaque joueur et chaque monstre lance 1d20 et ajoute leur caractéristique d'ini
 
 Avant de débuter le donjon, chaque joueur peut équiper l'armure et l'arme de son choix.
 
-
 #### Tour d'un personnage ou d'un monstre
 Les tours sont joués dans l'ordre déterminé par l'initiative lors de la mise en place du donjon. Après le dernier joueur ou monstre, c'est le premier joueur ou monstre qui continue.
 
@@ -173,129 +179,6 @@ Un donjon se termine lorsqu'un joueur est tué (défaite) ou lorsque tous les mo
 
 En cas de victoire, les personnages regagnent l'intégralité de leur vie et passent au donjon suivant.
 
-### Exemple d'affichage
-
-```console
-********************************************************************************
-Donjon 2:
-                                    Caelynn (Elfe magicienne)              
-
-********************************************************************************
-Tour 3:
-   And   Andry (Naine Clerc, 15/16)
-   X(    Demogorgon (25/45)
-   Dar   Darvin (Humain Guerrier, 13/20)
--> Cae   Caelynn (Elfe Magicienne, 10/12)
-   X^    Dragon bleu (35/50)
-   Alt   Alton (Halfelin Roublard, 14/16)
-
-      A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W
-   *-----------------------------------------------------------------------*
-1  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-2  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-3  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-4  |  .  .  .  .  X^ .  .  .  .  .  *  .  .  .  .  .  .  .  .  .  .  .  .  |
-5  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-6  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-7  |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  *  .  .  .  .  .  .  |
-8  |  .  .  .  .  .  .  .  .  . [ ] .  .  .  .  .  .  .  .  .  .  .  .  .  |
-9  |  .  .  .  .  .  .  .  .  . [ ][ ] .  .  .  .  .  .  .  .  .  .  .  .  |
-10 |  .  .  .  .  .  .  .  .  .  . [ ] . Alt .  .  .  .  .  .  .  .  .  .  |
-11 |  .  .  .  .  .  .  .  .  .  . [ ] .  .  .  .  .  .  .  .  .  .  .  .  |
-12 |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-13 |  .  .  .  .  .  .  .  .  .  .  . Cae .  .  .  .  .  .  .  .  .  .  .  |
-14 |  .  .  .  .  .  .  .  .  .  .  . And .  .  .  X( .  .  .  *  .  .  .  |
-15 |  .  .  .  .  *  .  .  .  .  *  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-16 |  .  .  .  .  .  .  .  .  .  .  .  .  . Dar .  .  .  .  .  .  .  .  .  |
-17 |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-18 |  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  |
-   *-----------------------------------------------------------------------*
-    * Equipement   |   [ ] Obstacle  |
-
-Caelynn
-  Vie : 10/12
-  Armure: aucune
-  Arme: fronde (degat: 1d4, portee: 6)
-  Inventaire: [1] baton
-  Force: 8
-  Dextérité: 16
-  Vitesse: 12
-
-Caelynn il vous reste 2 actions que souhaitez vous faire ?
-  - laisser le maître du jeu commenter l'action précédente (mj <texte>)
-  - commenter action précédente (com <texte>)
-  - attaquer (att <Case>)
-  - se déplacer (dep <Case>)
-  - s'équiper (equ <numero equipement>)
-```
-
-```
-  $ att P14
-  Lancer un dé de 20 (appuyer sur n'importe quelle touche)
-  $
-  Vous avez fait 13
-  Votre attaque est de 13+16(Dextérité)=29.
-  Votre attaque perce l'armure du Demogorgon (18).
-  Lancer un dé de 4 pour infliger des dégâts (appuyer sur n'importe quelle touche)
-  $
-  Le Demogorgon subit 3 dégâts!
-  Il lui reste 22 PV.
-```
-
-Il n'est pas nécessaire de reproduire le visuel tel quel mais toutes les informations doivent être présentes.
-
 ### Fin du jeu
 
 À la fin du jeu, un écran affiche "Vous avez perdu" ou "Vous avez gagné" et indique la cause de la défaite ou de la victoire.
-## Rendus hebdomadaires
-
-Votre projet doit être un fork de ce dépôt dans un groupe ayant pour nom `<nom_etudiant_1>-<nom_etudiant_2>`.
-Votre enseignant en TP et le responsable du module doivent être ajoutés comme Reporter à votre projet.
-
-Vous devez effectuer un rendu par semaine au plus tard le dimanche soir à minuit : la régularité des rendus sera prise en compte dans l'évaluation.
-Un rendu est une branche qui a pour nom `rendu<numéro-rendu>`.
-Le dernier rendu sera évalué en tant que rendu final.
-
-Chaque rendu doit contenir :
-
-- un programme qui compile dont les sources sont dans le répertoire `src/`,
-- un diagramme de classes à jour placé dans le répertoire `uml/` ayant pour nom `semaine<numero>.puml`,
-
-La structure du dépôt git doit être la suivante :
-```bash
-.
-├── README.md
-├── .gitignore
-├── src/
-    ├── Main.java
-    ├── ...
-├── uml/
-    ├── semaine1.puml
-    ├──...
-```
-
-## Rendus évalués
-
-#### 1er rendu : 18 mai
-
-Seront évalués :
-
-- Diagramme de classes complet de la phase 1
-  - respect des conventions UML
-- Code
-  - cohérence avec l'UML
-
-## Quelques consignes
-
-Veillez :
-
-- à respecter les [P21 Guidelines](https://git.unistra.fr/p21/p21/-/blob/main/guidelines.pdf?ref_type=heads)
-- à la bonne conception du code : il doit être lisible et facile à corriger, à réutiliser, à modifier et à étendre.
-
-## Quelques conseils
-
-- N'essayez pas d'implémenter toutes les fonctionnalités en une seule fois. Commencez par un programme simple mais fonctionnel et intégrez progressivement les fonctionnalités.
-- Il s'agit d'une version très simplifiée de Donjon et Dragon. Il peut être tentant d'améliorer le projet et d'intégrer beaucoup de fonctionnalités et règles du jeu originel. Cependant cela ne vous permettra pas d'augmenter votre note. Ne négligez pas le projet de base ni les projets des autres modules. Vous aurez tout le loisir d'améliorer le projet durant votre été.
-- Faites des commits réguliers sur vos branches de travail.
-- Concevez votre code de façon à ce qu'il soit facile à modifier et à étendre avec de nouvelles fonctionnalités, notamment en prévision de la phase 2.
-- La qualité de la conception et du code produit est plus importante que le nombre de fonctionnalités intégrées.

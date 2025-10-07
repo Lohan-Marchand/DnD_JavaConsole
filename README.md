@@ -1,16 +1,11 @@
 # Doo&D - Donjon et Dragon
 
-<img width="1166" height="523" alt="image" src="https://github.com/user-attachments/assets/8d41a342-c9b8-4e07-9cd5-1b0fef9ac19e" />
-
-Un jeu de Donjon et Dragon en java avec affichage en console.
-C'est un jeu de rôle de Medieval Fantasy où les joueurs incarnent des personnages affrontant des monstres dans plusieurs(3) donjons successifs.
+<img width="777" height="348" alt="image" src="https://github.com/user-attachments/assets/8d41a342-c9b8-4e07-9cd5-1b0fef9ac19e" />
 
 ## Le jeu
 
+Un jeu de Donjon et Dragon en java avec affichage en console.
 Il s'agit d'un jeu avec plusieurs joueurs face à des monstres contrôlés par le maître du jeu, qui se joue **au tour par tour**. Les joueurs incarnant les personnages doivent éliminer les monstres de trois donjons successifs. Un autre joueur est Maître du Jeu et a pour rôle de narrer l'histoire et expliquer le contexte aux joueurs. Si un seul joueur est éliminé par un monstre dans un des donjons, l'équipe a perdu.
-
- Le jeu se base sur des jets de dés désignés par <nombre de dés>d<nombre de faces des dés>.
- Par exemple, 3d4 désigne le jet de 3 dés à 4 faces.
 
 
 ### Les personnages
